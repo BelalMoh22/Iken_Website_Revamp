@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 const services = [
   {
@@ -43,33 +42,46 @@ const services = [
   },
 ];
 
-function ServiceCard({ s, containerRef }: { s: typeof services[0], containerRef: React.RefObject<HTMLDivElement | null> }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isActive, setIsActive] = useState(false);
+function ServiceCard({ s, containerRef }: { s: typeof services[0]; containerRef: RefObject<HTMLDivElement | null> }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
-    // Intersection Observer for scroll-based focus (soft highlight)
+    const media = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || !cardRef.current) {
+      setIsInView(false);
+      return;
+    }
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsActive(entry.isIntersecting);
+      ([entry]) => setIsInView(entry.isIntersecting),
+      {
+        root: containerRef.current,
+        rootMargin: "0px -30% 0px -30%",
+        threshold: 0.55,
       },
-      { 
-        root: containerRef.current, 
-        rootMargin: "0px -25% 0px -25%", 
-        threshold: 0.5 
-      }
     );
-    
-    if (ref.current) observer.observe(ref.current);
+
+    observer.observe(cardRef.current);
     return () => observer.disconnect();
-  }, [containerRef]);
+  }, [containerRef, isMobile]);
+
+  const active = isMobile && isInView;
 
   return (
     <div
-      ref={ref}
+      ref={cardRef}
       className={`group relative shrink-0 overflow-hidden rounded-[24px] transition-all duration-500 ease-out snap-start
         w-[280px] h-[380px] sm:h-[420px] cursor-pointer
-        ${isActive ? "opacity-100" : "opacity-85"}
+        ${active ? "opacity-100" : "opacity-85 hover:opacity-100"}
       `}
     >
       {/* Background Image with Hover/Focus Reveal */}
@@ -77,19 +89,18 @@ function ServiceCard({ s, containerRef }: { s: typeof services[0], containerRef:
         src={s.image} 
         alt={s.title} 
         fill 
-        className={`object-cover transition-all duration-500 ease-out 
-          filter group-hover:brightness-100 group-hover:scale-105
-          ${isActive ? "brightness-100" : "brightness-[0.75]"}
-        `} 
+        className={`object-cover transition-all duration-500 ease-out filter group-hover:scale-105 group-hover:brightness-100 ${
+          active ? "brightness-100" : "brightness-[0.75]"
+        }`}
       />
       
       {/* Subtle Overlay Gradient for readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-40" />
+      <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 ${active ? "opacity-40" : "group-hover:opacity-40"}`} />
       
       {/* Content Overlay */}
       <div className="absolute bottom-6 left-6 right-6 z-10">
         <div className="mb-2 flex items-center gap-2">
-          <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${isActive ? "bg-[var(--color-brand-blue)]" : "bg-white/40 group-hover:bg-[var(--color-brand-blue)]"}`} />
+          <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${active ? "bg-[var(--color-brand-blue)]" : "bg-white/40 group-hover:bg-[var(--color-brand-blue)]"}`} />
           <span className="text-[10px] font-bold uppercase tracking-wider text-white/60 group-hover:text-[var(--color-brand-blue)] transition-colors duration-500">
             {s.tag}
           </span>
@@ -97,7 +108,7 @@ function ServiceCard({ s, containerRef }: { s: typeof services[0], containerRef:
         <h3 className="text-xl font-bold leading-tight text-white mb-2">
           {s.title}
         </h3>
-        <p className={`text-sm leading-relaxed text-white/70 transition-all duration-500 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"}`}>
+        <p className={`text-sm leading-relaxed text-white/70 transition-all duration-500 ${active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"}`}>
           {s.desc}
         </p>
       </div>
@@ -113,7 +124,7 @@ export function ServicesSection() {
       id="services"
       className="relative bg-[var(--color-bg-main)] py-20 lg:py-24 overflow-hidden"
     >
-      <div className="container-custom">
+      <div className="mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-stretch gap-10 lg:gap-12">
           
           {/* Left Side: 40% Width Text Content */}
@@ -123,7 +134,7 @@ export function ServicesSection() {
                 <span className="inline-flex h-3 w-3 rounded-full bg-[var(--color-brand-blue)]" />
                 <span className="text-xs font-bold uppercase tracking-widest">Our Expertise</span>
               </div>
-              <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold leading-[1.2] tracking-tight text-[var(--color-text-primary)]">
+              <h2 className="text-4xl font-semibold leading-[1.2] tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
                 WE PROVIDE{" "}
                 <span className="text-[var(--color-brand-blue)]">
                   GREAT IT SOLUTIONS

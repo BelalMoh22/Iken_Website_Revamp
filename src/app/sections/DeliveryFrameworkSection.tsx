@@ -20,7 +20,7 @@ export function DeliveryFrameworkSection() {
       <div className="grid gap-6 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 shadow-2xl backdrop-blur-xl md:grid-cols-[0.95fr_1.05fr]">
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Delivery Framework</p>
-          <h2 className="text-3xl font-semibold tracking-tight text-[var(--color-text-primary)]">How IKEN Executes</h2>
+          <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">How IKEN Executes</h2>
           <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
             We run each engagement through three clear stages to ensure focus, velocity, and product quality from day
             one.

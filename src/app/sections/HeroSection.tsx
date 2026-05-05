@@ -17,6 +17,42 @@ const marqueeItems = [
   "Maintenance & Support",
 ];
 
+function useCountUp(target: number, durationMs = 900) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    let raf = 0;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(Math.round(target * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+
+    setValue(0);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, durationMs]);
+
+  return value;
+}
+
+function Stat({ value, label, suffix = "" }: { value: number; label: string; suffix?: string }) {
+  const n = useCountUp(value, 1500);
+
+  return (
+    <div className="text-center">
+      <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-3xl font-black text-transparent">
+        {n}
+        {suffix}
+      </p>
+      <p className="mt-0.5 text-xs text-[var(--color-text-muted)]">{label}</p>
+    </div>
+  );
+}
+
 export function HeroSection() {
   const [wordIndex, setWordIndex] = useState(0);
 
@@ -52,7 +88,7 @@ export function HeroSection() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="relative z-10 flex justify-center pt-28"
+        className="relative z-10 flex justify-center pt-6"
       >
         <div className="flex items-center gap-2.5 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
@@ -84,7 +120,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[clamp(3rem,8.5vw,7.5rem)] font-black leading-[1.0] tracking-tight"
+            className="text-[2.5rem] md:text-[3.25rem] lg:text-[4.25rem] font-black leading-[1.0] tracking-tight"
           >
             <span className="text-[var(--color-text-primary)]">We Build&nbsp;</span>
 
@@ -147,20 +183,15 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.62 }}
-          className="flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-[var(--color-border-light)] pt-8"
+          className="mb-10 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-[var(--color-border-light)] pt-5"
         >
           {[
-            { v: "7+", l: "Years" },
-            { v: "100+", l: "Projects" },
-            { v: "50+", l: "Clients" },
-            { v: "6", l: "Industries" },
-          ].map(({ v, l }) => (
-            <div key={l} className="text-center">
-              <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-3xl font-black text-transparent">
-                {v}
-              </p>
-              <p className="mt-0.5 text-xs text-[var(--color-text-muted)]">{l}</p>
-            </div>
+            { v: 7, s: "+", l: "Years" },
+            { v: 100, s: "+", l: "Projects" },
+            { v: 50, s: "+", l: "Clients" },
+            { v: 6, s: "", l: "Industries" },
+          ].map(({ v, s, l }) => (
+            <Stat key={l} value={v} suffix={s} label={l} />
           ))}
         </motion.div>
       </div>
