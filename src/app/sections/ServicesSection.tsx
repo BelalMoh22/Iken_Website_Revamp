@@ -4,156 +4,166 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-const INTRO_R = 0.28;
-const IMG_R = 0.46;
-
 const services = [
   {
     tag: "Product Discovery",
     title: "PRODUCT\nDISCOVERY",
     desc: "Turn business ideas into clear, validated product roadmaps with measurable milestones.",
     image: "/service/product-discovery.png",
-    num: "01",
   },
   {
     tag: "Custom Software",
     title: "CUSTOM\nSOFTWARE",
     desc: "Tailored software solutions built to solve your unique business challenges and requirements.",
     image: "/service/enterprise-integrations.png",
-    num: "02",
   },
   {
     tag: "Web & Mobile Apps",
     title: "WEB &\nMOBILE APPS",
     desc: "Cross-platform applications with seamless, high-performance experiences for customers and teams.",
     image: "/service/web-mobile-engineering.png",
-    num: "03",
   },
   {
     tag: "E-Commerce Solutions",
     title: "E-COMMERCE\nSOLUTIONS",
     desc: "Innovative e-commerce platforms that drive online business growth and increase conversions.",
     image: "/service/mobile-management.png",
-    num: "04",
   },
   {
     tag: "Maintenance & Support",
     title: "MAINTENANCE\n& SUPPORT",
     desc: "Ongoing assistance and monitoring to keep your products secure, stable, and performing optimally.",
     image: "/service/software-support.png",
-    num: "05",
   },
   {
     tag: "Team As A Service",
     title: "TEAM AS\nA SERVICE",
     desc: "Dedicated squads that plan, build, and continuously improve your product pipeline.",
     image: "/service/team-as-a-service.png",
-    num: "06",
   },
 ];
 
-export function ServicesSection() {
-  const containerRef = useRef<HTMLElement>(null);
-  const [winW, setWinW] = useState(0);
+function ServiceCard({ s, containerRef }: { s: typeof services[0], containerRef: React.RefObject<HTMLDivElement | null> }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    setWinW(window.innerWidth);
-    const onResize = () => setWinW(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+    // Intersection Observer for scroll-based focus (soft highlight)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsActive(entry.isIntersecting);
+      },
+      { 
+        root: containerRef.current, 
+        rootMargin: "0px -25% 0px -25%", 
+        threshold: 0.5 
+      }
+    );
+    
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [containerRef]);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  return (
+    <div
+      ref={ref}
+      className={`group relative shrink-0 overflow-hidden rounded-[24px] transition-all duration-500 ease-out snap-start
+        w-[280px] h-[380px] sm:h-[420px] cursor-pointer
+        ${isActive ? "opacity-100" : "opacity-85"}
+      `}
+    >
+      {/* Background Image with Hover/Focus Reveal */}
+      <Image 
+        src={s.image} 
+        alt={s.title} 
+        fill 
+        className={`object-cover transition-all duration-500 ease-out 
+          filter group-hover:brightness-100 group-hover:scale-105
+          ${isActive ? "brightness-100" : "brightness-[0.75]"}
+        `} 
+      />
+      
+      {/* Subtle Overlay Gradient for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-40" />
+      
+      {/* Content Overlay */}
+      <div className="absolute bottom-6 left-6 right-6 z-10">
+        <div className="mb-2 flex items-center gap-2">
+          <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${isActive ? "bg-[var(--color-brand-blue)]" : "bg-white/40 group-hover:bg-[var(--color-brand-blue)]"}`} />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-white/60 group-hover:text-[var(--color-brand-blue)] transition-colors duration-500">
+            {s.tag}
+          </span>
+        </div>
+        <h3 className="text-xl font-bold leading-tight text-white mb-2">
+          {s.title}
+        </h3>
+        <p className={`text-sm leading-relaxed text-white/70 transition-all duration-500 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"}`}>
+          {s.desc}
+        </p>
+      </div>
+    </div>
+  );
+}
 
-  const x = useTransform(scrollYProgress, (v) => {
-    if (!winW) return 0;
-    const introW = winW * INTRO_R;
-    const imgW = winW * IMG_R;
-    const totalTrack = introW + services.length * imgW + services.length * 20;
-    const maxX = totalTrack - winW;
-    return -(v * maxX);
-  });
+export function ServicesSection() {
+  const trackRef = useRef<HTMLDivElement>(null);
 
   return (
     <section
       id="services"
-      ref={containerRef}
-      className="relative bg-[var(--color-bg-main)]"
-      style={{ minHeight: `${(services.length + 1) * 100}vh` }}
+      className="relative bg-[var(--color-bg-main)] py-20 lg:py-24 overflow-hidden"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Top label */}
-        <div className="absolute left-0 top-8 z-10 flex items-center gap-6 px-8 lg:px-12">
-          <div className="inline-flex items-center gap-2 text-[var(--color-text-brand)]">
-            <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
-            <span className="text-xs font-semibold uppercase tracking-[0.18em]">Our Services</span>
-          </div>
-          <span className="text-xs text-[var(--color-text-muted)]">Scroll to explore →</span>
-        </div>
-
-        {/* Horizontal track */}
-        <motion.div
-          style={{ x }}
-          className="flex h-full will-change-transform"
-        >
-          {/* Intro card */}
-          <div
-            className="flex h-full shrink-0 flex-col justify-center overflow-hidden pb-16 pl-8 pt-16 lg:pl-12"
-            style={{ width: `${INTRO_R * 100}vw` }}
-          >
-            <h2 className="text-[clamp(1.8rem,3vw,4rem)] font-black leading-[1.1] tracking-tighter text-[var(--color-text-primary)]">
-              WE PROVIDE
-              <br />
-              <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
-                GREAT IT
-              </span>
-              <br />
-              &amp; BUSINESS
-              <br />
-              SOLUTIONS
-            </h2>
-          </div>
-
-          {/* Service image cards */}
-          {services.map((s) => (
-            <div
-              key={s.title}
-              className="group relative h-full shrink-0 overflow-hidden"
-              style={{ width: `${IMG_R * 100}vw` }}
-            >
-              <Image
-                src={s.image}
-                alt={s.title}
-                fill
-                className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-              <div className="absolute inset-0 bg-black/10" />
-
-
-              {/* Bottom content */}
-              <div className="absolute bottom-8 left-8 right-8">
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
-                    {s.tag}
-                  </span>
-                </div>
-                <h3 className="whitespace-pre-line text-5xl font-black leading-[0.88] text-white lg:text-6xl xl:text-7xl">
-                  {s.title}
-                </h3>
-                <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/80">{s.desc}</p>
+      <div className="container-custom">
+        <div className="flex flex-col lg:flex-row lg:items-stretch gap-10 lg:gap-12">
+          
+          {/* Left Side: 40% Width Text Content */}
+          <div className="flex flex-col justify-center lg:w-[40%] shrink-0">
+            <div className="max-w-[480px]">
+              <div className="inline-flex items-center gap-2 text-[var(--color-text-brand)] mb-4">
+                <span className="inline-flex h-3 w-3 rounded-full bg-[var(--color-brand-blue)]" />
+                <span className="text-xs font-bold uppercase tracking-widest">Our Expertise</span>
+              </div>
+              <h2 className="text-[clamp(32px,4vw,52px)] font-extrabold leading-[1.2] tracking-tight text-[var(--color-text-primary)]">
+                WE PROVIDE{" "}
+                <span className="text-[var(--color-brand-blue)]">
+                  GREAT IT SOLUTIONS
+                </span>
+              </h2>
+              <p className="mt-4 text-base leading-[1.6] text-[#6b7280]">
+                Scalable engineering teams and strategic product development to transform your business goals into digital reality. Built for modern performance and growth.
+              </p>
+              
+              {/* Scroll Indicator */}
+              <div className="hidden lg:flex items-center gap-3 mt-10 text-xs font-bold text-[var(--color-text-muted)] tracking-widest uppercase">
+                <span>Explore Services</span>
+                <span className="h-px w-10 bg-[var(--color-border-light)]" />
               </div>
             </div>
-          ))}
+          </div>
 
-          {/* Trailing spacer */}
-          <div className="h-full w-[4vw] shrink-0" />
-        </motion.div>
+          {/* Right Side: 60% Width Cards Track */}
+          <div className="lg:w-[60%] w-full">
+            <div 
+              ref={trackRef}
+              className="flex items-center overflow-x-auto overflow-y-hidden snap-x snap-proximity gap-6 pb-8 hide-scrollbar scroll-smooth w-full"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {services.map((s) => (
+                <ServiceCard key={s.title} s={s} containerRef={trackRef} />
+              ))}
+              {/* Trailing Spacer */}
+              <div className="w-[10vw] shrink-0" />
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      <style jsx global>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
