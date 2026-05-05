@@ -188,6 +188,20 @@ body {
   box-shadow: 0 0 0 4px var(--color-brand-blue-glow);
 }
 
+@media (max-width: 767px) {
+  .projects-carousel .slick-slide {
+    opacity: 1;
+  }
+
+  .projects-carousel .slick-slide .project-card {
+    filter: none;
+    transform: none;
+    background: var(--color-bg-card) !important;
+    border-color: var(--color-border-light) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
 @theme {
   --animate-waterfall-down: waterfall-down 20s linear infinite;
   --animate-waterfall-up: waterfall-up 15s linear infinite;

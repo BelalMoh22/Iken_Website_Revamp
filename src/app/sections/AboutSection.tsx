@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const pillars = [
@@ -55,6 +55,16 @@ function PillarGlyph({ kind }: { kind: string }) {
 
 export function AboutSection() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const imagePanelRef = useRef<HTMLDivElement>(null);
+
+  const handlePillarClick = (idx: number) => {
+    setActiveIndex(idx);
+
+    if (isMobileView && imagePanelRef.current) {
+      imagePanelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -63,8 +73,17 @@ export function AboutSection() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1023px)");
+    const updateMobileView = () => setIsMobileView(media.matches);
+
+    updateMobileView();
+    media.addEventListener("change", updateMobileView);
+    return () => media.removeEventListener("change", updateMobileView);
+  }, []);
+
   return (
-    <section id="about" className="relative w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] m-0 flex min-h-[100vh] items-center py-20 lg:py-24">
+    <section id="about" className="relative m-0 flex w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] py-12 sm:py-16 lg:min-h-[100vh] lg:items-center lg:py-24">
       {/* Background elements */}
       <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[var(--color-brand-blue)] opacity-[0.2] blur-3xl" />
       <div className="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[var(--color-brand-cyan)] opacity-[0.12] blur-3xl" />
@@ -106,7 +125,7 @@ export function AboutSection() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, amount: 0.2 }}
                       transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.15 }}
-                      onClick={() => setActiveIndex(idx)}
+                      onClick={() => handlePillarClick(idx)}
                       className={`flex items-start gap-4 cursor-pointer transition-all duration-300 ${isActive ? "opacity-100" : "opacity-40 hover:opacity-70"}`}
                     >
                       <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-colors duration-300 ${isActive ? "border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-brand-blue)]" : "border-transparent bg-transparent text-[var(--color-text-muted)]"}`}>
@@ -124,7 +143,7 @@ export function AboutSection() {
           </aside>
 
           {/* Right — image carousel */}
-          <div className="relative p-6 sm:p-10 lg:p-5 lg:h-full flex items-center">
+          <div ref={imagePanelRef} className="relative flex items-center px-4 pb-0 pt-4 sm:p-10 lg:h-full lg:p-5">
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
