@@ -15,7 +15,7 @@ const fade = {
 const products = [
   {
     title: "ELAbd Patisserie",
-    image: "/products/p-homecare.jpg",
+    image: "/clients/br-elabd.png",
     logo: "/clients/br-elabd.png",
     href: "/projects/elabd",
   },

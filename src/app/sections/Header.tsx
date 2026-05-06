@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useCallback } from "react";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -16,12 +17,41 @@ const navLinks = [
 
 import { ThemeToggle } from "../components/ThemeToggle";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export function Header() {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileMenuOpen]);
+
+  // Focus trap inside mobile menu
+  const handleMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== "Tab" || !mobileMenuRef.current) return;
+    const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +75,7 @@ export function Header() {
         </a>
 
         {/* Nav */}
-        <nav className="hidden items-center gap-4 md:flex xl:gap-6">
+        <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
           {navLinks.map(({ label, href }) => (
             <a
               key={label}
@@ -63,7 +93,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)] lg:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -77,7 +107,7 @@ export function Header() {
           </button>
           <Link
             href="/contact"
-            className="hidden whitespace-nowrap rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-4 py-2 text-sm font-semibold tracking-wide text-white shadow-[0_0_14px_rgba(59,130,246,0.3)] transition-all hover:-translate-y-px hover:shadow-[0_0_22px_rgba(59,130,246,0.5)] sm:px-6 sm:text-base md:inline-flex"
+            className="hidden whitespace-nowrap rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-4 py-2 text-sm font-semibold tracking-wide text-white shadow-[0_0_14px_rgba(59,130,246,0.3)] transition-all hover:-translate-y-px hover:shadow-[0_0_22px_rgba(59,130,246,0.5)] sm:px-6 sm:text-base lg:inline-flex"
           >
             Start a Project
           </Link>
@@ -86,7 +116,10 @@ export function Header() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="border-t border-[var(--color-border-light)] bg-[var(--color-bg-card)] px-4 py-4 md:hidden">
+        <div
+          ref={mobileMenuRef}
+          onKeyDown={handleMenuKeyDown}
+          className="border-t border-[var(--color-border-light)] bg-[var(--color-bg-card)] px-4 py-4 lg:hidden">
           <div className="mb-3">
             <Link
               href="/contact"

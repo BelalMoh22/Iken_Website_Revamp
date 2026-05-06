@@ -16,8 +16,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IKEN Technology",
-  description: "IKEN Technology landing page - digital products, engineering, and managed delivery.",
+  title: "IKEN Technology — Product Engineering Partner",
+  description:
+    "From product discovery to full-scale delivery — IKEN engineers software, apps, and technology partnerships that scale with your ambitions. Based in Cairo, Egypt.",
+  metadataBase: new URL("https://ikentech.netlify.app"),
+  openGraph: {
+    title: "IKEN Technology — Product Engineering Partner",
+    description:
+      "From product discovery to full-scale delivery — IKEN engineers software, apps, and technology partnerships that scale with your ambitions.",
+    url: "https://ikentech.netlify.app",
+    siteName: "IKEN Technology",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IKEN Technology — Product Engineering Partner",
+    description:
+      "From product discovery to full-scale delivery — IKEN engineers software, apps, and technology partnerships that scale with your ambitions.",
+  },
 };
 
 export default function RootLayout({

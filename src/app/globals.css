@@ -64,6 +64,25 @@ body {
   font-family: var(--font-manrope-sans), "Segoe UI", sans-serif;
 }
 
+/* Accessible focus-visible styles */
+:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none; /* handled by ring styles in Tailwind */
+}
+
 
 
 

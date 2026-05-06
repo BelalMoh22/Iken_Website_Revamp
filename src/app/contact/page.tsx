@@ -275,23 +275,23 @@ export default function ContactPage() {
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
+                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
                       Company
                     </label>
                     <input
                       type="text"
                       placeholder="Your Company"
-                      className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-blue-400/20"
+                      className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
+                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
                       Phone
                     </label>
                     <input
                       type="tel"
                       placeholder="+20 10 0000 0000"
-                      className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-blue-400/20"
+                      className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
                   </div>
                 </div>
@@ -301,7 +301,7 @@ export default function ContactPage() {
                     Service Interested In
                   </label>
                   <select
-                    className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-main)] px-4 py-3 text-sm text-[var(--color-text-secondary)] outline-none transition focus:border-[var(--color-border-brand)] focus:ring-1 focus:ring-blue-400/20"
+                    className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-main)] px-4 py-3 text-sm text-[var(--color-text-secondary)] outline-none transition focus:border-[var(--color-border-brand)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                   >
                     <option value="">Select a service…</option>
                     {services.map((s) => (
@@ -311,14 +311,14 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
-                    Message <span className="text-blue-400">*</span>
+                  <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
+                    Message <span className="text-[var(--color-brand-blue)]">*</span>
                   </label>
                   <textarea
                     required
                     rows={5}
                     placeholder="Tell us about your project — goals, timeline, budget…"
-                    className="w-full resize-none rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-blue-400/20"
+                    className="w-full resize-none rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                   />
                 </div>
 

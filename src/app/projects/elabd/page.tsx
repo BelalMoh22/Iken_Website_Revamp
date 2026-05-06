@@ -88,7 +88,7 @@ export default function ElAbdCaseStudy() {
                   </div>
                   <div className="text-2xl font-black text-[var(--color-text-muted)]">×</div>
                   <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl bg-white/10 p-2">
-                    <Image src="/clients/br-elabd.png" alt="ELAbd" width={80} height={80} className="h-16 w-16 object-contain" />
+                    <Image src="/clients/br-elabd.png" alt="ELAbd Patisserie brand logo" width={80} height={80} className="h-16 w-16 object-contain" />
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-3 w-full">
@@ -138,7 +138,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── KEY INITIATIVES ── */}
-        <section className="border-b border-white/6 py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -169,7 +169,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TAAS TEAM ── */}
-        <section className="border-b border-white/6 py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -208,7 +208,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── IMPACT & RESULTS ── */}
-        <section id="results" className="border-b border-white/6 py-16 lg:py-20">
+        <section id="results" className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -270,7 +270,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TECH STACK ── */}
-        <section className="border-b border-white/6 py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -309,7 +309,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TESTIMONIAL ── */}
-        <section className="border-b border-white/6 py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
           <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -324,7 +324,7 @@ export default function ElAbdCaseStudy() {
               </blockquote>
               <div className="mt-8 flex items-center justify-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white p-1">
-                  <Image src="/clients/br-elabd.png" alt="ELAbd" width={48} height={48} className="h-10 w-10 object-contain" />
+                  <Image src="/clients/br-elabd.png" alt="ELAbd Patisserie brand logo" width={48} height={48} className="h-10 w-10 object-contain" />
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-semibold text-[var(--color-text-primary)]">ELAbd Leadership</p>

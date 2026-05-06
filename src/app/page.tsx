@@ -1,5 +1,3 @@
-"use client";
-
 import { AboutSection } from "./sections/AboutSection";
 import { ContactSection } from "./sections/ContactSection";
 import { ClientsSection } from "./sections/ClientsSection";
