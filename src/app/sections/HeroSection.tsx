@@ -90,13 +90,13 @@ export function HeroSection() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="relative z-10 flex justify-center pt-6"
       >
-        <div className="flex items-center gap-2.5 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
+        <div className="flex items-center gap-2.5 rounded-full mb-2 border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent-blue)] opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-accent-blue)]" />
           </span>
           <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-            IT &amp; Business Solutions · Est. 2018  · Cairo, Egypt
+            Product Engineering Partner · Est. 2018 · Cairo, Egypt
           </span>
         </div>
       </motion.div>
@@ -111,7 +111,7 @@ export function HeroSection() {
           transition={{ duration: 0.55, delay: 0.2 }}
           className="mb-5 text-[13px] font-semibold uppercase tracking-[0.25em] text-[var(--color-text-brand)]"
         >
-          Empowering Businesses Since 2018
+          For startups and enterprises that need reliable product delivery
         </motion.p>
 
         {/* Big headline with cycling word */}
@@ -168,14 +168,30 @@ export function HeroSection() {
             href="/contact"
             className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-[0_0_22px_var(--color-brand-blue-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_36px_var(--color-brand-blue-glow)] flex items-center justify-center"
           >
-            Start a Project
+            Book a Discovery Call
           </Link>
           <a
             href="#projects"
             className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] flex items-center justify-center"
           >
-            View Our Work
+            See Case Studies
           </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.58 }}
+          className="mb-8 flex flex-wrap items-center justify-center gap-2"
+        >
+          {["Trusted by 50+ clients", "Weekly sprint demos", "Senior-led teams"].map((item) => (
+            <span
+              key={item}
+              className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]"
+            >
+              {item}
+            </span>
+          ))}
         </motion.div>
 
         {/* Stats row */}
@@ -187,7 +203,7 @@ export function HeroSection() {
         >
           {[
             { v: 7, s: "+", l: "Years" },
-            { v: 100, s: "+", l: "Projects" },
+            { v: 100, s: "+", l: "Delivered Products" },
             { v: 50, s: "+", l: "Clients" },
             { v: 6, s: "", l: "Industries" },
           ].map(({ v, s, l }) => (

@@ -136,9 +136,9 @@ export function ProjectsSection() {
 
       <div className="relative z-10">
         <div className="mb-12 space-y-3 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Some Top Projects</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Case Studies</p>
           <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-            Our Recent <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Projects</span>
+            Results We <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Delivered</span>
           </h2>
         </div>
 
@@ -175,7 +175,7 @@ export function ProjectsSection() {
                         onTouchEnd={(e) => handleCaseStudyNavigate(e, project.href)}
                         className="relative z-20 touch-manipulation rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 text-xs font-semibold text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
                       >
-                        Case Study →
+                        View Case Study
                       </Link>
                     )}
                   </div>
@@ -186,7 +186,7 @@ export function ProjectsSection() {
         </div>
 
         <p className="mx-auto mt-20 max-w-4xl text-center text-2xl font-medium leading-relaxed text-[var(--color-text-secondary)]">
-          We Have Done More Than 20 Projects in Last 4 Years, With 100% Satisfaction.
+          From B2B commerce to enterprise platforms, our team ships products that improve conversion, retention, and operational speed.
         </p>
       </div>
     </motion.section>
