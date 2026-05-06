@@ -63,13 +63,13 @@ export function ContactSection() {
             <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl text-[var(--color-text-primary)]">
               Ready to{" "}
               <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
-                Transform
+                launch
               </span>{" "}
-              Your Product?
+              your next product milestone?
             </h2>
           </div>
           <p className="text-base leading-relaxed text-[var(--color-text-secondary)] lg:text-right">
-            Let&apos;s start a conversation about your next big project. Reach us through any of the channels below.
+            Tell us your timeline, budget range, and product goals. We will reply with a realistic execution plan.
           </p>
         </div>
 

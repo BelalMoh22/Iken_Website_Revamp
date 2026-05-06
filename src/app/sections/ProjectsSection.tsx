@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, MouseEventHandler } from "react";
+import { useRouter } from "next/navigation";
+import type { CSSProperties, MouseEventHandler, MouseEvent, TouchEvent } from "react";
 import Slider, { type Settings } from "react-slick";
 
 const fade = {
@@ -65,6 +66,17 @@ function CarouselArrow({
 }
 
 export function ProjectsSection() {
+  const router = useRouter();
+
+  const handleCaseStudyNavigate = (
+    e: MouseEvent<HTMLAnchorElement> | TouchEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(href);
+  };
+
   const settings: Settings = {
     infinite: true,
     speed: 520,
@@ -124,9 +136,9 @@ export function ProjectsSection() {
 
       <div className="relative z-10">
         <div className="mb-12 space-y-3 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Some Top Projects</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Case Studies</p>
           <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-            Our Recent <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Projects</span>
+            Results We <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Delivered</span>
           </h2>
         </div>
 
@@ -137,11 +149,14 @@ export function ProjectsSection() {
                 <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_24px_52px_rgba(0,0,0,0.4)] backdrop-blur-sm">
                   <div className="relative h-64">
                     {project.logo ? (
-                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[var(--color-brand-deep)] to-[var(--color-bg-main)]">
-                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,var(--color-brand-blue-glow),transparent)]" />
-                        <div className="relative flex h-36 w-36 items-center justify-center rounded-2xl bg-white p-4 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_var(--color-brand-blue-glow)]">
-                          <Image src={project.logo} alt={project.title} width={120} height={120} className="h-28 w-28 object-contain" />
-                        </div>
+                      <div className="relative h-full w-full bg-white">
+                        <Image
+                          src={project.logo}
+                          alt={project.title}
+                          fill
+                          className="object-contain"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
                       </div>
                     ) : (
                       <>
@@ -154,9 +169,13 @@ export function ProjectsSection() {
                   <div className="flex items-center justify-between p-5">
                     <h3 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">{project.title}</h3>
                     {project.href && (
-                      <Link href={project.href}
-                        className="rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 text-xs font-semibold text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20">
-                        Case Study →
+                      <Link
+                        href={project.href}
+                        onClick={(e) => handleCaseStudyNavigate(e, project.href)}
+                        onTouchEnd={(e) => handleCaseStudyNavigate(e, project.href)}
+                        className="relative z-20 touch-manipulation rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 text-xs font-semibold text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
+                      >
+                        View Case Study
                       </Link>
                     )}
                   </div>
@@ -167,7 +186,7 @@ export function ProjectsSection() {
         </div>
 
         <p className="mx-auto mt-20 max-w-4xl text-center text-2xl font-medium leading-relaxed text-[var(--color-text-secondary)]">
-          We Have Done More Than 20 Projects in Last 4 Years, With 100% Satisfaction.
+          From B2B commerce to enterprise platforms, our team ships products that improve conversion, retention, and operational speed.
         </p>
       </div>
     </motion.section>

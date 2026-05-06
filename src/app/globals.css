@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+
+
 @theme inline {
   --font-sans: var(--font-manrope-sans);
   --font-mono: var(--font-geist-mono);
@@ -61,6 +63,9 @@ body {
   color: var(--color-text-secondary);
   font-family: var(--font-manrope-sans), "Segoe UI", sans-serif;
 }
+
+
+
 
 /* slick slider base styles */
 @import "slick-carousel/slick/slick.css";
@@ -186,6 +191,20 @@ body {
   border-color: var(--color-brand-blue);
   background: var(--color-brand-blue);
   box-shadow: 0 0 0 4px var(--color-brand-blue-glow);
+}
+
+@media (max-width: 767px) {
+  .projects-carousel .slick-slide {
+    opacity: 1;
+  }
+
+  .projects-carousel .slick-slide .project-card {
+    filter: none;
+    transform: none;
+    background: var(--color-bg-card) !important;
+    border-color: var(--color-border-light) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  }
 }
 
 @theme {

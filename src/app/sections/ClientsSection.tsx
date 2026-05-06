@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { GlowingOrbDashedClients } from "../GlowingOrbDashedClients";
 
@@ -6,15 +5,15 @@ export function ClientsSection() {
   return (
     <section 
       id="clients" 
-      className="relative py-24 bg-[var(--color-bg-main)] overflow-hidden"
+      className="relative overflow-hidden bg-[var(--color-bg-main)] py-18 sm:py-24"
     >
       {/* Dark Ambient Atmosphere */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-brand-cyan-glow),transparent_80%)]" />
       </div>
 
-      <div className="container relative mx-auto px-4 mb-20 text-center z-10">
-        <div className="space-y-4 px-4 text-center">
+      <div className="relative z-10 mx-auto mb-12 w-full max-w-[90rem] px-6 text-center sm:mb-20 sm:px-10 lg:px-12">
+        <div className="space-y-4 text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
             Partnership
           </p>
@@ -30,7 +29,7 @@ export function ClientsSection() {
       </div>
 
       {/* Finalized Constellation Display (Dark ONLY) */}
-      <div className="relative w-full z-10 min-h-[600px] md:min-h-[700px]">
+      <div className="relative z-10 w-full min-h-[460px] sm:min-h-[600px] md:min-h-[700px]">
         <div className="animate-in fade-in zoom-in-95 duration-1000">
           <GlowingOrbDashedClients />
         </div>

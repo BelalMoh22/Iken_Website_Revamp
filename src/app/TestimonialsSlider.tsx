@@ -128,7 +128,7 @@ export function TestimonialsSlider() {
             >
               
               {/* Left Side: Massive Photo */}
-              <div className="relative w-full h-[45%] min-h-[180px] lg:h-full lg:w-[45%] xl:w-[40%] overflow-hidden bg-[var(--color-bg-main)] shrink-0">
+              <div className="relative w-full h-[40%] min-h-[150px] lg:h-full lg:w-[45%] xl:w-[40%] overflow-hidden bg-[var(--color-bg-main)] shrink-0">
                 <motion.div
                   initial={{ scale: 1.08, x: directionRef.current * 20, filter: "brightness(0.75)" }}
                   animate={{ scale: 1, x: 0, filter: "brightness(1.05)" }}
@@ -148,7 +148,7 @@ export function TestimonialsSlider() {
               </div>
 
               {/* Right Side: Typography & Quote */}
-              <div className="relative w-full lg:w-[55%] xl:w-[60%] flex flex-col justify-between p-6 sm:p-8 lg:p-10 z-20 h-[55%] lg:h-full">
+              <div className="relative w-full lg:w-[55%] xl:w-[60%] flex flex-col justify-between p-5 sm:p-8 lg:p-10 z-20 h-[60%] lg:h-full">
                 
                 {/* Decorative Quote Mark */}
                 <motion.div 
@@ -166,7 +166,7 @@ export function TestimonialsSlider() {
                   transition={{ delay: 0.25, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                   className="flex-1 flex flex-col justify-center max-w-3xl"
                 >
-                  <p className="text-lg sm:text-xl lg:text-2xl lg:leading-[1.5] font-light text-[var(--color-text-secondary)] mb-4 lg:mb-6 text-pretty">
+                  <p className="text-base sm:text-xl lg:text-2xl lg:leading-[1.5] font-light text-[var(--color-text-secondary)] mb-3 lg:mb-6 text-pretty">
                     &ldquo;{TESTIMONIALS[currentIndex].quote}&rdquo;
                   </p>
                 </motion.div>
@@ -175,10 +175,10 @@ export function TestimonialsSlider() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.42, duration: 0.5, ease: "easeOut" }}
-                  className="mt-auto pt-6 border-t border-[var(--color-border-light)] flex items-center justify-between gap-4"
+                  className="mt-auto pt-4 border-t border-[var(--color-border-light)] flex items-center justify-between gap-4"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-medium tracking-wide text-[var(--color-text-primary)] mb-1">
+                    <h3 className="text-base sm:text-xl font-medium tracking-wide text-[var(--color-text-primary)] mb-1">
                       {TESTIMONIALS[currentIndex].name}
                     </h3>
                     <p className="text-[var(--color-text-brand)] font-medium text-sm sm:text-base">

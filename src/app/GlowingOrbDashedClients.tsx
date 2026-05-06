@@ -96,14 +96,14 @@ export function GlowingOrbDashedClients() {
   };
 
   if (!mounted) {
-    return <div className="relative w-full h-[600px] md:h-[700px] bg-transparent" />;
+    return <div className="relative h-[460px] w-full bg-transparent sm:h-[600px] md:h-[700px]" />;
   }
 
   return (
-    <div className="relative w-full h-[600px] md:h-[700px] bg-transparent overflow-hidden">
+    <div className="relative h-[460px] w-full overflow-hidden bg-transparent sm:h-[600px] md:h-[700px]">
       
       {/* Shared Coordinate Space for Lines and Orbs */}
-      <div className="relative w-full h-full max-w-[1200px] mx-auto">
+      <div className="relative mx-auto h-full w-full max-w-[1200px] origin-top scale-[0.8] sm:scale-95 md:scale-100">
         
         {/* SVG Lines - rendered client-side only to avoid hydration mismatch */}
         <div className="absolute inset-0 pointer-events-none">
