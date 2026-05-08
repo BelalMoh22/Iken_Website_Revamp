@@ -114,14 +114,44 @@ const socials = [
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    setErrorMsg("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      company: formData.get("company"),
+      phone: formData.get("phone"),
+      service: formData.get("service"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg(result.error || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      setErrorMsg("An unexpected error occurred. Please try again later.");
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-    }, 1200);
+    }
   };
 
   return (
@@ -256,6 +286,7 @@ export default function ContactPage() {
                     <input
                       required
                       type="text"
+                      name="name"
                       placeholder="Ahmed Mohamed"
                       className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
@@ -267,6 +298,7 @@ export default function ContactPage() {
                     <input
                       required
                       type="email"
+                      name="email"
                       placeholder="you@company.com"
                       className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
@@ -280,6 +312,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="text"
+                      name="company"
                       placeholder="Your Company"
                       className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
@@ -290,6 +323,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="tel"
+                      name="phone"
                       placeholder="+20 10 0000 0000"
                       className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
@@ -301,6 +335,7 @@ export default function ContactPage() {
                     Service Interested In
                   </label>
                   <select
+                    name="service"
                     className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-main)] px-4 py-3 text-sm text-[var(--color-text-secondary)] outline-none transition focus:border-[var(--color-border-brand)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                   >
                     <option value="">Select a service…</option>
@@ -316,11 +351,18 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     required
+                    name="message"
                     rows={5}
                     placeholder="Tell us about your project — goals, timeline, budget…"
                     className="w-full resize-none rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                   />
                 </div>
+
+                {errorMsg && (
+                  <div className="text-sm text-red-500 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                    {errorMsg}
+                  </div>
+                )}
 
                 <button
                   type="submit"
