@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# documentation & logs
+CHAT_TRANSCRIPT.md
+AUDIT_REPORT.md
+CONTACT_FORM_IMPLEMENTATION.md

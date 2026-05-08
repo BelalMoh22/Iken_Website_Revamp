@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { Header } from "../sections/Header";
+
 
 function GetThemedLogo({ className = "h-10 w-auto" }) {
   const { theme } = useTheme();
@@ -18,8 +20,8 @@ function GetThemedLogo({ className = "h-10 w-auto" }) {
 const contactInfo = [
   {
     label: "Address",
-    value: "22x, Tharwat Abu El Gouk St, New Maadi, Cairo, Egypt",
-    href: "https://maps.google.com/?q=Maadi,Cairo,Egypt",
+    value: "16B/3 Ramadan, Etisalat Club Rd, Ezbet Fahmy, El Basatin, Cairo",
+    href: "https://maps.google.com/?q=16B/3+Ramadan+Etisalat+Club+Rd+Ezbet+Fahmy+El+Basatin+Cairo+Governorate+4234302",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z" strokeLinecap="round" strokeLinejoin="round" />
@@ -40,8 +42,8 @@ const contactInfo = [
   },
   {
     label: "Phone",
-    value: "+20 10 5054 9994",
-    href: "tel:+201050549994",
+    value: "(+20) 105 0500017",
+    href: "https://wa.me/201050500017",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92Z" strokeLinecap="round" strokeLinejoin="round" />
@@ -163,22 +165,7 @@ export default function ContactPage() {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 border-b border-[var(--color-border-light)] bg-[var(--color-bg-glass)] backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          <Link href="/" className="group flex items-center">
-            <GetThemedLogo />
-          </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)]"
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 12H5m7-7-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Back to Home
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       {/* Page content */}
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">

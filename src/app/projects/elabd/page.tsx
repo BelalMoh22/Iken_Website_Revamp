@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Header } from "../../sections/Header";
+
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 24 },
@@ -32,19 +34,7 @@ export default function ElAbdCaseStudy() {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 border-b border-[var(--color-border-light)] bg-[var(--color-bg-glass)] backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-          <Link href="/" className="group flex items-center">
-            <GetThemedLogo />
-          </Link>
-          <Link href="/#projects" className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)]">
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 12H5m7-7-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Back to Projects
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       <main className="relative z-10">
 
@@ -360,9 +350,8 @@ export default function ElAbdCaseStudy() {
                 </Link>
               </div>
               <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-[var(--color-text-secondary)]">
-                <a href="mailto:mustafa@iken.tech" className="transition hover:text-[var(--color-text-primary)]">mustafa@iken.tech</a>
-                <a href="https://www.iken.tech" className="transition hover:text-[var(--color-text-primary)]">www.iken.tech</a>
-                <a href="tel:+201050549994" className="transition hover:text-[var(--color-text-primary)]">+20 10 5054 9994</a>
+                <a href="mailto:contact@iken.tech" className="transition hover:text-[var(--color-text-primary)]">contact@iken.tech</a>
+                <a href="https://wa.me/201050500017" className="transition hover:text-[var(--color-text-primary)]">(+20) 105 0500017</a>
               </div>
             </motion.div>
           </div>
