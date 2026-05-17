@@ -56,12 +56,40 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   background: var(--color-bg-main);
   color: var(--color-text-secondary);
   font-family: var(--font-manrope-sans), "Segoe UI", sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+@layer components {
+  .site-container {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .site-container {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .site-container {
+      padding-inline: 2rem;
+    }
+  }
+
+  .scroll-section {
+    scroll-margin-top: 5.5rem;
+  }
 }
 
 /* Accessible focus-visible styles */
@@ -95,6 +123,10 @@ select:focus-visible {
   align-items: center;
 }
 
+.projects-carousel .slick-list {
+  overflow: hidden;
+}
+
 .projects-carousel .slick-slide {
   transition: opacity 280ms ease, transform 320ms ease, filter 320ms ease;
   opacity: 0.66;
@@ -104,7 +136,7 @@ select:focus-visible {
   transform-origin: center center;
   transition: transform 320ms ease, filter 320ms ease, opacity 280ms ease;
   filter: blur(4px);
-  transform: scale(0.92);
+  transform: scale(0.88);
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
@@ -116,19 +148,19 @@ select:focus-visible {
 
 .projects-carousel .slick-slide.slick-center .project-card {
   filter: blur(0);
-  transform: scale(1);
+  transform: scale(0.96);
   background: var(--color-bg-card) !important;
   border-color: var(--color-border-light) !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28) !important;
 }
 
 @supports selector(.x:has(+ .y)) {
   .projects-carousel .slick-slide:has(+ .slick-center) .project-card {
-    transform: perspective(900px) rotateY(30deg) scale(0.92);
+    transform: perspective(900px) rotateY(24deg) scale(0.88);
   }
 
   .projects-carousel .slick-center+.slick-slide .project-card {
-    transform: perspective(900px) rotateY(-30deg) scale(0.92);
+    transform: perspective(900px) rotateY(-24deg) scale(0.88);
   }
 }
 
@@ -171,11 +203,31 @@ select:focus-visible {
 }
 
 .projects-carousel .slick-prev {
-  left: -88px;
+  left: 16px;
 }
 
 .projects-carousel .slick-next {
-  right: -88px;
+  right: 16px;
+}
+
+@media (min-width: 768px) {
+  .projects-carousel .slick-prev {
+    left: 24px;
+  }
+
+  .projects-carousel .slick-next {
+    right: 24px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .projects-carousel .slick-prev {
+    left: 40px;
+  }
+
+  .projects-carousel .slick-next {
+    right: 40px;
+  }
 }
 
 .projects-carousel .slick-prev.slick-disabled,
@@ -213,6 +265,10 @@ select:focus-visible {
 }
 
 @media (max-width: 767px) {
+  .projects-carousel .slick-list {
+    padding-inline: 0.75rem;
+  }
+
   .projects-carousel .slick-slide {
     opacity: 1;
   }
@@ -222,7 +278,40 @@ select:focus-visible {
     transform: none;
     background: var(--color-bg-card) !important;
     border-color: var(--color-border-light) !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  .projects-carousel .project-arrow,
+  .projects-carousel .slick-prev,
+  .projects-carousel .slick-next {
+    width: 42px;
+    height: 42px;
+  }
+
+  .projects-carousel .slick-prev {
+    left: 8px;
+  }
+
+  .projects-carousel .slick-next {
+    right: 8px;
+  }
+
+  .projects-carousel .slick-dots {
+    bottom: -44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .projects-carousel .slick-list {
+    padding-inline: 0.5rem;
+  }
+
+  .projects-carousel .slick-prev {
+    left: 6px;
+  }
+
+  .projects-carousel .slick-next {
+    right: 6px;
   }
 }
 

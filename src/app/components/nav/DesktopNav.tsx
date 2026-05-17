@@ -5,7 +5,7 @@ import { NavDropdown } from "./NavDropdown";
 
 export function DesktopNav() {
   return (
-    <nav className="hidden items-center gap-6 lg:flex xl:gap-10">
+    <nav className="hidden items-center lg:flex lg:gap-9">
       {navigationData.map((item) => (
         item.children ? (
           <NavDropdown key={item.label} label={item.label} items={item.children} />

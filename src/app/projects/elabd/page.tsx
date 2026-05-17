@@ -20,7 +20,8 @@ function GetThemedLogo({ className = "h-10 w-auto" }) {
   useEffect(() => setMounted(true), []);
   return (
     <Image src="/iken-logo-new.png" alt="IKEN" width={120} height={40}
-      className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`} />
+      className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`}
+      style={{ width: "auto" }} />
   );
 }
 
@@ -41,7 +42,7 @@ export default function ElAbdCaseStudy() {
         {/* ── HERO ── */}
         <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-20 lg:py-28">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,var(--color-brand-blue-glow),transparent)]" />
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="site-container">
             <div className="grid items-center gap-12 lg:grid-cols-2">
               <motion.div initial="hidden" animate="visible" variants={fadeUp(0)}>
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
@@ -72,16 +73,16 @@ export default function ElAbdCaseStudy() {
               {/* Logos + tags */}
               <motion.div initial="hidden" animate="visible" variants={fadeUp(0.12)}
                 className="flex flex-col items-center gap-6">
-                <div className="flex items-center gap-6 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] px-10 py-8">
+                <div className="flex w-full max-w-sm items-center justify-center gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] px-5 py-6 sm:gap-6 sm:px-10 sm:py-8">
                   <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-[var(--color-brand-blue-glow)] p-3">
                     <GetThemedLogo className="h-10 w-auto" />
                   </div>
                   <div className="text-2xl font-black text-[var(--color-text-muted)]">×</div>
-                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl bg-white/10 p-2">
-                    <Image src="/clients/br-elabd.png" alt="ELAbd Patisserie brand logo" width={80} height={80} className="h-16 w-16 object-contain" />
+                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl">
+                    <Image src="/clients/elabd-logo-square.svg" alt="ELAbd Patisserie brand logo" width={80} height={80} className="h-full w-full object-contain" />
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-3 w-full">
+                <div className="grid w-full grid-cols-1 gap-3 min-[390px]:grid-cols-3">
                   {[["E-Commerce","Platform"],["TaaS","Model"],["Full-Stack","Delivery"]].map(([t,s]) => (
                     <div key={t} className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-3 text-center">
                       <p className="text-sm font-bold text-[var(--color-text-primary)]">{t}</p>
@@ -96,7 +97,7 @@ export default function ElAbdCaseStudy() {
 
         {/* ── IKEN'S ROLE ── */}
         <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="site-container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}
               className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -129,7 +130,7 @@ export default function ElAbdCaseStudy() {
 
         {/* ── KEY INITIATIVES ── */}
         <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="site-container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -146,7 +147,7 @@ export default function ElAbdCaseStudy() {
               ].map((item, i) => (
                 <motion.div key={item.n} initial="hidden" whileInView="visible" viewport={{ once: true }}
                   variants={fadeUp(i * 0.06)}
-                  className="flex gap-5 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-border-brand)]">
+                  className="flex gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all hover:border-[var(--color-border-brand)] sm:gap-5 sm:p-6">
                   <span className="mt-0.5 text-2xl font-black text-[var(--color-brand-blue)]/30 tabular-nums">{item.n}</span>
                   <div>
                     <h3 className="mb-1.5 text-base font-bold text-[var(--color-text-primary)]">{item.title}</h3>
@@ -160,7 +161,7 @@ export default function ElAbdCaseStudy() {
 
         {/* ── TAAS TEAM ── */}
         <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="site-container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -198,8 +199,8 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── IMPACT & RESULTS ── */}
-        <section id="results" className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <section id="results" className="scroll-section border-b border-[var(--color-border-light)] py-16 lg:py-20">
+          <div className="site-container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -220,7 +221,7 @@ export default function ElAbdCaseStudy() {
                 <motion.div key={item.l} initial="hidden" whileInView="visible" viewport={{ once: true }}
                   variants={fadeUp(i * 0.07)}
                   className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 text-center">
-                  <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-5xl font-black text-transparent">
+                  <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-4xl font-black text-transparent sm:text-5xl">
                     {item.v}
                   </p>
                   <p className="mt-2 text-sm font-semibold text-[var(--color-text-primary)]">{item.l}</p>
@@ -261,7 +262,7 @@ export default function ElAbdCaseStudy() {
 
         {/* ── TECH STACK ── */}
         <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="site-container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -300,7 +301,7 @@ export default function ElAbdCaseStudy() {
 
         {/* ── TESTIMONIAL ── */}
         <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
+          <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -327,10 +328,10 @@ export default function ElAbdCaseStudy() {
 
         {/* ── CTA ── */}
         <section className="py-20 lg:py-28">
-          <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
+          <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
               <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-blue)]">Ready?</p>
-              <h2 className="mb-5 text-4xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+              <h2 className="mb-5 text-3xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
                 Let's Create Your{" "}
                 <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
                   Digital Future

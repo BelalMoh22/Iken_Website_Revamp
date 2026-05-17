@@ -13,7 +13,8 @@ function GetThemedLogo({ className = "h-10 w-auto" }) {
   useEffect(() => setMounted(true), []);
   return (
     <Image src="/iken-logo-new.png" alt="IKEN" width={120} height={40}
-      className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`} />
+      className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`}
+      style={{ width: "auto" }} />
   );
 }
 
@@ -168,14 +169,14 @@ export default function ContactPage() {
       <Header />
 
       {/* Page content */}
-      <main className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
+      <main className="site-container relative z-10 py-16 lg:py-24">
         {/* Page title */}
         <div className="mb-14 max-w-2xl">
           <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
             <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
             <span className="text-xs font-semibold uppercase tracking-[0.18em]">Get In Touch</span>
           </div>
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-[var(--color-text-primary)]">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl text-[var(--color-text-primary)]">
             Let&apos;s Build{" "}
             <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
               Something Great
@@ -201,9 +202,9 @@ export default function ContactPage() {
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-blue-glow)]">
                     {item.icon}
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{item.label}</p>
-                    <p className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)]">{item.value}</p>
+                    <p className="break-words text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)]">{item.value}</p>
                   </div>
                 </a>
               ) : (
@@ -214,9 +215,9 @@ export default function ContactPage() {
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]">
                     {item.icon}
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{item.label}</p>
-                    <p className="text-sm font-medium text-[var(--color-text-secondary)]">{item.value}</p>
+                    <p className="break-words text-sm font-medium text-[var(--color-text-secondary)]">{item.value}</p>
                   </div>
                 </div>
               )
@@ -243,7 +244,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right — Form */}
-          <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-8">
+          <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 sm:p-8">
             {submitted ? (
               <div className="flex h-full flex-col items-center justify-center py-16 text-center">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]">

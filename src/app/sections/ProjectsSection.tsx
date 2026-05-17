@@ -15,8 +15,8 @@ const fade = {
 const products = [
   {
     title: "ELAbd Patisserie",
-    image: "/clients/br-elabd.png",
-    logo: "/clients/br-elabd.png",
+    image: "/clients/elabd-logo-square.svg",
+    logo: "/clients/elabd-logo-square.svg",
     href: "/projects/elabd",
   },
   {
@@ -135,18 +135,18 @@ export function ProjectsSection() {
       </div>
 
       <div className="relative z-10">
-        <div className="mb-12 space-y-3 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Case Studies</p>
+        <div className="mb-12 space-y-3 px-4 text-center sm:px-6 lg:px-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Projects</p>
           <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
             Results We <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Delivered</span>
           </h2>
         </div>
 
-        <div className="projects-carousel mx-auto max-w-7xl px-0 sm:px-2">
+        <div className="projects-carousel mx-auto w-full max-w-7xl px-0 sm:px-2">
           <Slider {...settings}>
-            {products.map((project, idx) => (
+            {products.map((project) => (
               <div key={project.title} className="px-3 py-2" style={{ width: 420 }}>
-                <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_24px_52px_rgba(0,0,0,0.4)] backdrop-blur-sm">
+                <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_18px_38px_rgba(0,0,0,0.24)] backdrop-blur-sm">
                   <div className="relative h-64">
                     {project.logo ? (
                       <div className="relative h-full w-full bg-white">
@@ -154,14 +154,14 @@ export function ProjectsSection() {
                           src={project.logo}
                           alt={project.title}
                           fill
-                          className="object-contain"
+                          className="object-contain p-8"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(248,250,252,0.08)_100%)]" />
                       </div>
                     ) : (
                       <>
                         <Image src={project.image} alt={project.title} fill className="object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.18)_100%)]" />
                       </>
                     )}
 
@@ -173,7 +173,7 @@ export function ProjectsSection() {
                         href={project.href}
                         onClick={(e) => handleCaseStudyNavigate(e, project.href)}
                         onTouchEnd={(e) => handleCaseStudyNavigate(e, project.href)}
-                        className="relative z-20 touch-manipulation rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 text-xs font-semibold text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
+                        className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
                       >
                         View Case Study
                       </Link>
@@ -185,8 +185,8 @@ export function ProjectsSection() {
           </Slider>
         </div>
 
-        <p className="mx-auto mt-20 max-w-4xl text-center text-2xl font-medium leading-relaxed text-[var(--color-text-secondary)]">
-          From B2B commerce to enterprise platforms, our team ships products that improve conversion, retention, and operational speed.
+        <p className="mx-auto mt-20 max-w-4xl px-4 text-center text-2xl font-medium leading-relaxed text-[var(--color-text-secondary)] sm:px-6 lg:px-8">
+          We engineer high-performance digital products and scalable platforms that deliver measurable business impact—from rapid-growth startups to global enterprises.
         </p>
       </div>
     </motion.section>

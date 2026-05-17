@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
 interface NavLinkProps {
@@ -10,19 +11,35 @@ interface NavLinkProps {
 }
 
 export function NavLink({ href, children, className = "", onClick }: NavLinkProps) {
+  const pathname = usePathname();
   const isExternal = href.startsWith("http");
   const isAnchor = href.startsWith("#");
+  
+  // Logic for homepage "Home" link
+  const isHome = href === "/";
+  const isCurrentPage = pathname === "/" && isHome;
 
-  const baseStyles = "relative text-base font-semibold text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-primary)] after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-[var(--color-brand-blue)] after:transition-all after:duration-300 hover:after:w-full";
+  const baseStyles = "relative text-base font-semibold transition-colors duration-200";
+  const activeStyles = isCurrentPage 
+    ? "text-[var(--color-text-primary)] cursor-default" 
+    : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]";
 
   // If it's an anchor link, ensure it points to the homepage section
   const finalHref = isAnchor ? `/${href}` : href;
+
+  if (isCurrentPage) {
+    return (
+      <span className={`${baseStyles} ${activeStyles} ${className}`}>
+        {children}
+      </span>
+    );
+  }
 
   return (
     <Link
       href={finalHref}
       onClick={onClick}
-      className={`${baseStyles} ${className}`}
+      className={`${baseStyles} ${activeStyles} ${className}`}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
     >

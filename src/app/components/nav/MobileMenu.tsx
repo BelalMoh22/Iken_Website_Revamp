@@ -28,6 +28,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   }, [isOpen]);
 
   const gridLinks = [
+    { label: "Home", href: "/" },
     { label: "About", href: "#about" },
     { label: "Why IKEN", href: "#why-iken" },
     { label: "Models", href: "#models" },
@@ -97,7 +98,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     key={item.label}
                     href={item.href}
                     onClick={onClose}
-                    className="!after:hidden flex h-14 items-center justify-center rounded-xl bg-[var(--color-bg-glass-strong)] border border-[var(--color-border-light)] px-4 text-center text-[15px] font-semibold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-brand-blue-glow)] hover:text-[var(--color-text-brand)] hover:border-[var(--color-border-brand)]"
+                    className="flex h-14 items-center justify-center rounded-xl bg-[var(--color-bg-glass-strong)] border border-[var(--color-border-light)] px-4 text-center text-[15px] font-semibold text-[var(--color-text-secondary)] transition-all hover:bg-[var(--color-brand-blue-glow)] hover:text-[var(--color-text-brand)] hover:border-[var(--color-border-brand)]"
                   >
                     {item.label}
                   </NavLink>

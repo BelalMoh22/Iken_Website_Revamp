@@ -20,10 +20,10 @@ const differentiators = [
 
 export function DifferentiationSection() {
   return (
-    <section id="why-iken" className="relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-24">
+    <section id="why-iken" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-24">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,var(--color-brand-blue-glow),transparent_38%)]" />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="site-container relative">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

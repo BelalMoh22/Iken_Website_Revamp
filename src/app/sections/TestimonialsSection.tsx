@@ -17,9 +17,9 @@ export function TestimonialsSection() {
       viewport={{ once: true, amount: 0.15 }}
       variants={fade}
       transition={{ duration: 0.45 }}
+      className="scroll-section"
     >
       <TestimonialsSlider />
     </motion.section>
   );
 }
-

@@ -49,11 +49,11 @@ function ModelIcon({ kind }: { kind: string }) {
 
 export function ModelsSection() {
   return (
-    <section id="models" className="relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-28">
+    <section id="models" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-28">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,var(--color-brand-blue-glow),transparent_30%),radial-gradient(circle_at_85%_65%,var(--color-brand-cyan-glow),transparent_28%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent" />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="site-container relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

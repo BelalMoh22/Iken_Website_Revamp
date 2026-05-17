@@ -62,7 +62,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section id="home" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
+    <section id="home" className="scroll-section relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
 
       {/* ── Orb / glow field ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -88,39 +88,29 @@ export function HeroSection() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="relative z-10 flex justify-center pt-6"
+        className="site-container relative z-10 flex justify-center pt-8 md:pt-12 pb-4 md:pb-6"
       >
-        <div className="flex items-center gap-2.5 rounded-full mb-2 border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
+        <div className="flex max-w-full items-center gap-2.5 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent-blue)] opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-accent-blue)]" />
           </span>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+          <span className="min-w-0 text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.18em] sm:tracking-[0.2em] text-[var(--color-text-secondary)]">
             Product Engineering Partner · Est. 2018 · Cairo, Egypt
           </span>
         </div>
       </motion.div>
 
       {/* ── Main headline ── */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
-
-        {/* Pre-headline */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.2 }}
-          className="mb-5 text-[13px] font-semibold uppercase tracking-[0.25em] text-[var(--color-text-brand)]"
-        >
-          For startups and enterprises that need reliable product delivery
-        </motion.p>
+      <div className="site-container relative z-10 flex flex-1 flex-col items-center justify-center text-center">
 
         {/* Big headline with cycling word */}
-        <div className="mb-7 overflow-hidden">
+        <div className="mb-4 overflow-hidden">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[2.5rem] md:text-[3.25rem] lg:text-[4.25rem] font-black leading-[1.0] tracking-tight"
+            transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[2.35rem] min-[390px]:text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-black leading-[1.05] tracking-tight"
           >
             <span className="text-[var(--color-text-primary)]">We Build&nbsp;</span>
 
@@ -145,7 +135,16 @@ export function HeroSection() {
           </motion.h1>
         </div>
 
-        {/* Subtext */}
+        {/* Supporting Line / Eyebrow */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.32 }}
+          className="mb-8 max-w-2xl text-[10px] min-[390px]:text-[11px] md:text-[12px] font-bold uppercase tracking-[0.24em] sm:tracking-[0.35em] text-[var(--color-text-brand)] opacity-90"
+        >
+          For startups and enterprises that need reliable product delivery
+        </motion.p>
+
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -157,12 +156,11 @@ export function HeroSection() {
           ambitions.
         </motion.p>
 
-        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.52 }}
-          className="mb-16 flex flex-wrap justify-center gap-4"
+          className="mb-16 flex w-full flex-col justify-center gap-3 min-[430px]:w-auto min-[430px]:flex-row min-[430px]:gap-4"
         >
           <Link
             href="/contact"
@@ -174,14 +172,14 @@ export function HeroSection() {
             href="#projects"
             className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] flex items-center justify-center"
           >
-            See Case Studies
+            View Projects
           </a>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.58 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
           className="mb-8 flex flex-wrap items-center justify-center gap-2"
         >
           {["Trusted by 50+ clients", "Weekly sprint demos", "Senior-led teams"].map((item) => (
@@ -194,11 +192,10 @@ export function HeroSection() {
           ))}
         </motion.div>
 
-        {/* Stats row */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.62 }}
+          transition={{ duration: 0.5, delay: 0.68 }}
           className="mb-10 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-[var(--color-border-light)] pt-5"
         >
           {[
