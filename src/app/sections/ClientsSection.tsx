@@ -7,14 +7,29 @@ export function ClientsSection() {
   return (
     <section 
       id="clients" 
-      className="relative overflow-hidden bg-[var(--color-bg-main)] py-18 sm:py-24"
+      className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-16 sm:py-24"
     >
-      {/* Dark Ambient Atmosphere */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--color-brand-cyan-glow),transparent_80%)]" />
+      {/* Atmospheric Background Layers */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Primary Ambient Glow (Large & Soft) */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--color-brand-cyan-glow),transparent_70%)] opacity-60" />
+        
+        {/* Secondary Soft Depth Layer */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,var(--color-brand-blue-glow),transparent_100%)] opacity-40" />
+
+        {/* Cinematic Center Glow (Subtle highlight behind constellation) */}
+        <div className="absolute left-1/2 top-[60%] -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[var(--color-brand-blue)] opacity-[0.06] blur-[140px] rounded-full" />
+
+        {/* Top & Bottom Seamless Fades */}
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[var(--color-bg-main)] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--color-bg-main)] to-transparent" />
+        
+        {/* Subtle separator lines (atmospheric only) */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent opacity-30" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent opacity-30" />
       </div>
 
-      <div className="relative z-10 mx-auto mb-12 w-full max-w-[90rem] px-6 text-center sm:mb-20 sm:px-10 lg:px-12">
+      <div className="site-container relative z-10 mb-12 text-center sm:mb-20">
         <div className="space-y-4 text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
             Partnership
@@ -31,7 +46,7 @@ export function ClientsSection() {
       </div>
 
       {/* Finalized Constellation Display (Dark ONLY) */}
-      <div className="relative z-10 w-full min-h-[460px] sm:min-h-[600px] md:min-h-[700px]">
+      <div className="relative z-10 w-full min-h-[380px] min-[390px]:min-h-[430px] sm:min-h-[600px] md:min-h-[700px]">
         <div className="animate-in fade-in zoom-in-95 duration-1000">
           <GlowingOrbDashedClients />
         </div>

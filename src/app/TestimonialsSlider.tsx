@@ -33,13 +33,13 @@ const TESTIMONIALS = [
 
 export function TestimonialsSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const directionRef = useRef<1 | -1>(1);
 
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      directionRef.current = 1;
+      setSlideDirection(1);
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 6000);
   }, []);
@@ -51,13 +51,13 @@ export function TestimonialsSlider() {
   }, [startTimer]);
 
   const handleNext = () => {
-    directionRef.current = 1;
+    setSlideDirection(1);
     setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
     startTimer();
   };
 
   const handlePrev = () => {
-    directionRef.current = -1;
+    setSlideDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
     startTimer();
   };
@@ -71,7 +71,7 @@ export function TestimonialsSlider() {
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[var(--color-brand-blue-glow)] opacity-[0.5] rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
+      <div className="site-container relative z-10 h-full">
         
         {/* Section Header */}
         <div className="mb-8 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
@@ -79,7 +79,7 @@ export function TestimonialsSlider() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--color-text-primary)] mb-3">
               Trusted by <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]">Visionaries</span>
             </h2>
-            <p className="text-[var(--color-text-secondary)] font-light text-lg sm:text-xl leading-relaxed">
+            <p className="text-[var(--color-text-secondary)] font-light text-base sm:text-xl leading-relaxed">
               Discover how industry leaders leverage our solutions to transform their operations and accelerate growth across the region.
             </p>
           </div>
@@ -116,22 +116,22 @@ export function TestimonialsSlider() {
         </div>
 
         {/* Main Content Area */}
-        <div className="relative min-h-[420px] lg:h-[400px] w-full rounded-3xl lg:rounded-[2.5rem] bg-[var(--color-bg-card)] backdrop-blur-xl border border-[var(--color-border-light)] overflow-hidden shadow-2xl">
+        <div className="relative min-h-[380px] lg:h-[360px] w-full rounded-3xl lg:rounded-[2.5rem] bg-[var(--color-bg-card)] backdrop-blur-xl border border-[var(--color-border-light)] overflow-hidden shadow-xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
               className="absolute inset-0 flex flex-col lg:flex-row"
-              initial={{ opacity: 0, x: directionRef.current * 40 }}
+              initial={{ opacity: 0, x: slideDirection * 40 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: directionRef.current * -40, transition: { duration: 0.4, ease: [0.32, 0, 0.67, 0] } }}
+              exit={{ opacity: 0, x: slideDirection * -40, transition: { duration: 0.4, ease: [0.32, 0, 0.67, 0] } }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
               
-              {/* Left Side: Massive Photo */}
-              <div className="relative w-full h-[40%] min-h-[150px] lg:h-full lg:w-[45%] xl:w-[40%] overflow-hidden bg-[var(--color-bg-main)] shrink-0">
+              {/* Left Side: Photo */}
+              <div className="relative w-full h-[35%] min-h-[132px] lg:h-full lg:w-[40%] xl:w-[36%] overflow-hidden bg-[var(--color-bg-main)] shrink-0">
                 <motion.div
-                  initial={{ scale: 1.08, x: directionRef.current * 20, filter: "brightness(0.75)" }}
-                  animate={{ scale: 1, x: 0, filter: "brightness(1.05)" }}
+                  initial={{ scale: 1.04, x: slideDirection * 20, filter: "brightness(0.98)" }}
+                  animate={{ scale: 1, x: 0, filter: "brightness(1.04)" }}
                   transition={{ duration: 1.4, ease: "easeOut" }}
                   className="relative h-full w-full"
                 >
@@ -143,12 +143,12 @@ export function TestimonialsSlider() {
                     className="object-contain object-center"
                     priority
                   />
-                  <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[var(--color-bg-card)] to-transparent lg:hidden" />
+                  <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[var(--color-bg-card)]/80 to-transparent lg:hidden" />
                 </motion.div>
               </div>
 
               {/* Right Side: Typography & Quote */}
-              <div className="relative w-full lg:w-[55%] xl:w-[60%] flex flex-col justify-between p-5 sm:p-8 lg:p-10 z-20 h-[60%] lg:h-full">
+              <div className="relative w-full lg:w-[60%] xl:w-[64%] flex flex-col justify-between p-5 sm:p-8 lg:p-10 z-20 h-[65%] lg:h-full">
                 
                 {/* Decorative Quote Mark */}
                 <motion.div 

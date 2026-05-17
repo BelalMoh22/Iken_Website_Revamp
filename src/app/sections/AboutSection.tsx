@@ -83,17 +83,17 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="about" className="relative m-0 flex w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] py-12 sm:py-16 lg:min-h-[100vh] lg:items-center lg:py-24">
+    <section id="about" className="scroll-section relative m-0 flex w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] py-12 sm:py-16 lg:min-h-[100vh] lg:items-center lg:py-24">
       {/* Background elements */}
       <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[var(--color-brand-blue)] opacity-[0.2] blur-3xl" />
       <div className="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[var(--color-brand-cyan)] opacity-[0.12] blur-3xl" />
 
-      <div className="mx-auto w-full max-w-[90rem]">
-        <div className="relative flex flex-col lg:grid lg:grid-cols-[0.88fr_1.12fr] lg:gap-0 lg:items-center">
+      <div className="site-container">
+        <div className="relative flex flex-col gap-8 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:gap-8 lg:items-center">
 
           {/* Left — info + pillar list */}
-          <aside className="px-6 py-8 pb-6 sm:px-10 lg:px-12 lg:py-12 z-10 shrink-0">
-            <div className="w-full lg:mx-auto lg:max-w-[34rem]">
+          <aside className="py-8 pb-6 lg:py-12 z-10 shrink-0">
+            <div className="w-full lg:max-w-[34rem]">
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -143,13 +143,13 @@ export function AboutSection() {
           </aside>
 
           {/* Right — image carousel */}
-          <div ref={imagePanelRef} className="relative flex items-center px-4 pb-0 pt-4 sm:p-10 lg:h-full lg:p-5">
+          <div ref={imagePanelRef} className="relative flex items-center pb-0 pt-4 sm:pt-6 lg:h-full lg:p-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="relative w-full h-[400px] sm:h-[500px] lg:h-[650px] overflow-hidden rounded-2xl border border-[var(--color-border-light)] shadow-2xl"
+              className="relative mx-auto h-[320px] w-full overflow-hidden rounded-2xl border border-[var(--color-border-light)] shadow-xl min-[390px]:h-[350px] sm:h-[430px] lg:h-[min(560px,64vh)] lg:max-w-[92%]"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -164,13 +164,14 @@ export function AboutSection() {
                     src={pillars[activeIndex].image}
                     alt={pillars[activeIndex].title}
                     fill
-                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 52vw"
+                    className="object-cover brightness-[1.03]"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(3,10,24,0.12)_0%,rgba(3,10,24,0.4)_46%,rgba(3,10,24,0.85)_100%)] opacity-[0.95]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,var(--color-brand-blue-glow),transparent_30%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(3,10,24,0.01)_0%,rgba(3,10,24,0.04)_52%,rgba(3,10,24,0.08)_100%)]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,var(--color-brand-blue-glow),transparent_34%)] opacity-70" />
 
                   {/* Text overlay */}
-                  <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.85)_40%,var(--color-brand-deep)_100%)] px-6 pb-8 pt-20 lg:px-8 lg:pb-10">
+                  <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.2)_38%,rgba(6,12,24,0.54)_100%)] px-6 pb-7 pt-16 lg:px-8 lg:pb-9">
                     <div className="max-w-3xl">
                       <div className="border-t border-[var(--color-border-light)] pt-5">
                         <div className="mb-2 flex items-center gap-3">
@@ -192,7 +193,7 @@ export function AboutSection() {
               </AnimatePresence>
 
               {/* Progress/Counter */}
-              <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-black/30 px-2.5 py-1 font-mono text-xs tracking-widest backdrop-blur-sm border border-white/10">
+              <div className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full bg-[var(--color-bg-glass-strong)] px-2.5 py-1 font-mono text-xs tracking-widest backdrop-blur-sm border border-white/10">
                 <span className="inline-block text-white">
                   {String(activeIndex + 1).padStart(2, "0")}
                 </span>

@@ -65,7 +65,7 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="!after:hidden flex items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--color-bg-glass)] hover:text-[var(--color-text-primary)]"
+                  className="flex items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--color-bg-glass)] hover:text-[var(--color-text-primary)]"
                 >
                   {item.label}
                 </NavLink>

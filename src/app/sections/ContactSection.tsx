@@ -37,11 +37,11 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
+    <section id="contact" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       <div className="pointer-events-none absolute inset-0 border-t border-[var(--color-border-light)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,var(--color-brand-cyan-glow),transparent_35%),radial-gradient(circle_at_90%_18%,var(--color-brand-blue-glow),transparent_45%)]" />
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-12 pt-16 lg:px-8">
+      <div className="site-container relative pb-12 pt-16">
         {/* Header */}
         <div className="mb-12 grid gap-8 lg:grid-cols-2 lg:items-end">
           <div>
@@ -63,7 +63,7 @@ export function ContactSection() {
         </div>
 
         {/* Contact cards */}
-        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-12 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {contactItems.map((item) => (
             <a
               key={item.label}
@@ -72,12 +72,12 @@ export function ContactSection() {
               rel="noreferrer"
               className="group flex flex-col gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-5 transition-all duration-300 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-blue-glow)]/80">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-blue-glow)]/80">
                 {item.icon}
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{item.label}</p>
-                <p className="text-sm font-medium text-[var(--color-text-secondary)] transition-colors group-hover:text-[var(--color-text-primary)]">{item.value}</p>
+                <p className="text-sm font-medium text-[var(--color-text-secondary)] transition-colors group-hover:text-[var(--color-text-primary)] break-words">{item.value}</p>
               </div>
             </a>
           ))}

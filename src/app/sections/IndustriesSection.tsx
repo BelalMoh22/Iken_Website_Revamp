@@ -64,13 +64,13 @@ const fade = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
 export function IndustriesSection() {
   return (
-    <section id="industries" className="relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-24">
+    <section id="industries" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-24">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[var(--color-brand-blue-glow)] blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="site-container relative">
         {/* Header */}
         <motion.div
           initial="hidden"

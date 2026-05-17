@@ -6,6 +6,10 @@ export interface NavItem {
 
 export const navigationData: NavItem[] = [
   {
+    label: "Home",
+    href: "/",
+  },
+  {
     label: "Services",
     children: [
       { label: "Product Discovery", href: "#services" },
@@ -20,7 +24,6 @@ export const navigationData: NavItem[] = [
     label: "Work",
     children: [
       { label: "Projects", href: "#projects" },
-      { label: "Case Studies", href: "#projects" },
       { label: "Industries", href: "#industries" },
       { label: "Clients", href: "#clients" },
       { label: "Testimonials", href: "#testimonials" },

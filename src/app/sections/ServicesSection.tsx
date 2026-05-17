@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const services = [
   {
@@ -42,89 +42,75 @@ const services = [
   },
 ];
 
-function ServiceCard({ s, containerRef }: { s: typeof services[0]; containerRef: RefObject<HTMLDivElement | null> }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 767px)");
-    const onChange = () => setIsMobile(media.matches);
-    onChange();
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
-
-  useEffect(() => {
-    if (!isMobile || !cardRef.current) {
-      setIsInView(false);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      {
-        root: containerRef.current,
-        rootMargin: "0px -30% 0px -30%",
-        threshold: 0.55,
-      },
-    );
-
-    observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, [containerRef, isMobile]);
-
-  const active = isMobile && isInView;
-
+function ServiceCard({ s }: { s: typeof services[0] }) {
   return (
     <div
-      ref={cardRef}
-      className={`group relative shrink-0 overflow-hidden rounded-[24px] transition-all duration-500 ease-out snap-start
-        w-[280px] h-[380px] sm:h-[420px] cursor-pointer
-        ${active ? "opacity-100" : "opacity-85 hover:opacity-100"}
-      `}
+      tabIndex={0}
+      className="group relative h-[310px] w-[min(240px,72vw)] shrink-0 cursor-pointer overflow-hidden rounded-[24px] opacity-95 transition-all duration-500 ease-out focus-within:opacity-100 hover:opacity-100 min-[390px]:h-[330px] sm:h-[360px]"
     >
-      {/* Background Image with Hover/Focus Reveal */}
       <Image 
         src={s.image} 
         alt={s.title} 
         fill 
-        className={`object-cover transition-all duration-500 ease-out filter group-hover:scale-105 group-hover:brightness-100 ${
-          active ? "brightness-100" : "brightness-[0.75]"
-        }`}
+        sizes="(max-width: 768px) 72vw, 240px"
+        className="object-cover brightness-[1.02] transition-all duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
       />
-      
-      {/* Subtle Overlay Gradient for readability */}
-      <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-500 ${active ? "opacity-40" : "group-hover:opacity-40"}`} />
-      
-      {/* Content Overlay */}
-      <div className="absolute bottom-6 left-6 right-6 z-10">
-        <div className="mb-2 flex items-center gap-2">
-          <span className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${active ? "bg-[var(--color-brand-blue)]" : "bg-white/40 group-hover:bg-[var(--color-brand-blue)]"}`} />
-          <span className="text-[10px] font-bold uppercase tracking-wider text-white/60 group-hover:text-[var(--color-brand-blue)] transition-colors duration-500">
-            {s.tag}
-          </span>
-        </div>
-        <h3 className="text-xl font-bold leading-tight text-white mb-2">
+
+      <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.16)_52%,rgba(6,12,24,0.5)_100%)] transition-all duration-500 group-hover:h-48 group-hover:opacity-90 group-focus-within:h-48 group-focus-within:opacity-90" />
+
+      <div className="absolute inset-x-6 bottom-6 z-10 transition-transform duration-500 ease-out group-hover:-translate-y-24 group-focus-within:-translate-y-24">
+        <h3 className="mb-0 whitespace-pre-line text-xl font-bold leading-tight text-white drop-shadow-[0_1px_10px_rgba(6,12,24,0.22)]">
           {s.title}
         </h3>
-        <p className={`text-sm leading-relaxed text-white/70 transition-all duration-500 ${active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0"}`}>
-          {s.desc}
-        </p>
+        <div className="absolute left-0 top-full w-full pt-3 pointer-events-none">
+          <p className="text-sm leading-relaxed text-white/85 opacity-0 translate-y-4 drop-shadow-[0_1px_10px_rgba(6,12,24,0.22)] transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
+            {s.desc}
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 
 export function ServicesSection() {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(1);
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth >= 1536) {
+        setVisibleCount(3);
+      } else if (window.innerWidth >= 640) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(1);
+      }
+    };
+
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
+
+  const maxIndex = Math.max(0, services.length - visibleCount);
+  const currentIndex = Math.min(activeIndex, maxIndex);
+
+  useEffect(() => {
+    if (activeIndex > maxIndex) {
+      setActiveIndex(maxIndex);
+    }
+  }, [activeIndex, maxIndex]);
+
+  const moveServices = useCallback((direction: -1 | 1) => {
+    setActiveIndex((index) => Math.min(maxIndex, Math.max(0, index + direction)));
+  }, [maxIndex]);
 
   return (
     <section
       id="services"
-      className="relative bg-[var(--color-bg-main)] py-20 lg:py-24 overflow-hidden"
+      className="scroll-section relative bg-[var(--color-bg-main)] py-20 lg:py-24 overflow-hidden"
     >
-      <div className="mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-12">
+      <div className="site-container">
         <div className="flex flex-col lg:flex-row lg:items-stretch gap-10 lg:gap-12">
           
           {/* Left Side: 40% Width Text Content */}
@@ -153,28 +139,46 @@ export function ServicesSection() {
           </div>
 
           {/* Right Side: 60% Width Cards Track */}
-          <div className="lg:w-[60%] w-full">
-            <div 
-              ref={trackRef}
-              className="flex items-center overflow-x-auto overflow-y-hidden snap-x snap-proximity gap-6 pb-8 hide-scrollbar scroll-smooth w-full"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {services.map((s) => (
-                <ServiceCard key={s.title} s={s} containerRef={trackRef} />
-              ))}
-              {/* Trailing Spacer */}
-              <div className="w-[10vw] shrink-0" />
+          <div className="w-full lg:w-[60%]">
+            <div className="mx-auto mb-5 flex w-[min(240px,72vw)] items-center justify-end gap-2 sm:w-[504px] 2xl:w-[768px]">
+              <button
+                type="button"
+                onClick={() => moveServices(-1)}
+                disabled={currentIndex === 0}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] backdrop-blur-md transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:text-[var(--color-text-primary)] disabled:pointer-events-none disabled:opacity-40"
+                aria-label="Previous services"
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="m15 5-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => moveServices(1)}
+                disabled={currentIndex === maxIndex}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] backdrop-blur-md transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:text-[var(--color-text-primary)] disabled:pointer-events-none disabled:opacity-40"
+                aria-label="Next services"
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="m9 5 7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="mx-auto w-[min(240px,72vw)] overflow-hidden sm:w-[504px] 2xl:w-[768px]">
+              <div
+                className="flex gap-6 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{ transform: `translateX(calc(-${currentIndex} * (min(240px, 72vw) + 1.5rem)))` }}
+              >
+                {services.map((s) => (
+                  <ServiceCard key={s.title} s={s} />
+                ))}
+              </div>
             </div>
           </div>
 
         </div>
       </div>
-
-      <style jsx global>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }
