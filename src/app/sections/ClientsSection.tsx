@@ -46,7 +46,7 @@ export function ClientsSection() {
       </div>
 
       {/* Finalized Constellation Display (Dark ONLY) */}
-      <div className="relative z-10 w-full min-h-[380px] min-[390px]:min-h-[430px] sm:min-h-[600px] md:min-h-[700px]">
+      <div className="relative z-10 w-full min-h-[380px] min-[390px]:min-h-[420px] sm:min-h-[580px] md:min-h-[640px]">
         <div className="animate-in fade-in zoom-in-95 duration-1000">
           <GlowingOrbDashedClients />
         </div>

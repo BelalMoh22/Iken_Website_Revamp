@@ -80,7 +80,10 @@ export function GlowingOrbDashedClients() {
   // Clean mathematical generation executing only once on mount
   const networkData = useMemo(() => generateConstellationNetwork(INITIAL_BRANDS.length), []);
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   const handleSwap = (clickedIndex: number) => {
     if (clickedIndex === 0) return; // Already in center
@@ -96,14 +99,14 @@ export function GlowingOrbDashedClients() {
   };
 
   if (!mounted) {
-    return <div className="relative h-[380px] w-full bg-transparent min-[390px]:h-[430px] sm:h-[600px] md:h-[700px]" />;
+    return <div className="relative h-[380px] w-full bg-transparent min-[390px]:h-[420px] sm:h-[580px] md:h-[640px]" />;
   }
 
   return (
-    <div className="relative h-[380px] w-full overflow-hidden bg-transparent min-[390px]:h-[430px] sm:h-[600px] md:h-[700px]">
+    <div className="relative h-[380px] w-full overflow-hidden bg-transparent min-[390px]:h-[420px] sm:h-[580px] md:h-[640px]">
       
       {/* Shared Coordinate Space for Lines and Orbs */}
-      <div className="relative mx-auto h-full w-full max-w-[1200px] origin-top scale-[0.64] min-[390px]:scale-[0.72] sm:scale-95 md:scale-100">
+      <div className="relative mx-auto h-full w-full max-w-[1200px] origin-top scale-[0.72] min-[390px]:scale-[0.80] sm:scale-100">
         
         {/* SVG Lines - rendered client-side only to avoid hydration mismatch */}
         <div className="absolute inset-0 pointer-events-none">
@@ -155,14 +158,14 @@ export function GlowingOrbDashedClients() {
               />
               
               {/* The actual Orb containing the logo */}
-              <div className={`relative ${isCenter ? 'w-36 h-36 md:w-56 md:h-56 shadow-[0_0_80px_var(--color-brand-cyan-glow)]' : 'w-[4.5rem] h-[4.5rem] md:w-24 md:h-24 shadow-[0_0_30px_var(--color-brand-cyan-glow)]'} bg-[var(--color-bg-card)] backdrop-blur-md rounded-full border border-[var(--color-brand-cyan)]/30 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-[var(--color-bg-glass-strong)] hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_50px_var(--color-brand-cyan-glow)] z-10 ${!isCenter && 'hover:scale-110'}`}>
+              <div className={`relative ${isCenter ? 'w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 shadow-[0_0_80px_var(--color-brand-cyan-glow)]' : 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 shadow-[0_0_30px_var(--color-brand-cyan-glow)]'} bg-[var(--color-bg-card)] backdrop-blur-md rounded-full border border-[var(--color-brand-cyan)]/30 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-[var(--color-bg-glass-strong)] hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_50px_var(--color-brand-cyan-glow)] z-10 ${!isCenter && 'hover:scale-110'}`}>
                 <div className="w-[85%] h-[85%] bg-white rounded-full flex items-center justify-center p-2 md:p-3 shadow-inner">
                   <Image 
                     src={client.logo} 
                     alt={client.name} 
                     width={isCenter ? 180 : 80} 
                     height={isCenter ? 90 : 40} 
-                    className={`max-w-full object-contain mix-blend-multiply transition-opacity duration-300 ${isCenter ? 'max-h-24 opacity-95 group-hover:opacity-100' : 'max-h-12 opacity-70 group-hover:opacity-100'}`} 
+                    className={`max-w-full object-contain mix-blend-multiply transition-opacity duration-300 ${isCenter ? 'max-h-20 sm:max-h-24 md:max-h-24 opacity-95 group-hover:opacity-100' : 'max-h-10 sm:max-h-12 md:max-h-12 opacity-70 group-hover:opacity-100'}`} 
                   />
                 </div>
               </div>
