@@ -25,7 +25,7 @@ const products = [
     image: "/products/contactcars.svg",
   },
   {
-    title: "O&M",
+    title: "Orders & More",
     image: "/products/O&M.svg",
   },
   {
