@@ -37,7 +37,18 @@ export function Navbar() {
         
         {/* Logo */}
         <div className="flex shrink-0 justify-start">
-          <Link href="/" className="group flex items-center outline-none">
+          <Link 
+            href="/" 
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                // Also update the URL hash if needed, or remove it
+                window.history.pushState(null, "", "/");
+              }
+            }}
+            className="group flex items-center outline-none"
+          >
             <Image
               src="/iken-logo-new.png"
               alt="IKEN Technology"

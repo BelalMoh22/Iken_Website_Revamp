@@ -3,6 +3,7 @@ import { Geist_Mono, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { Providers } from "./providers";
+import { ScrollToTop } from "./components/ScrollToTop";
 import "./globals.css";
 
 const manropeSans = Manrope({
@@ -48,6 +49,7 @@ export default function RootLayout({
         className={`${manropeSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>{children}</Providers>
+        <ScrollToTop />
       </body>
     </html>
   );
