@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Header } from "../sections/Header";
+import { Breadcrumbs } from "../components/Breadcrumbs";
 
 
 function GetThemedLogo({ className = "h-10 w-auto" }) {
@@ -170,6 +171,7 @@ export default function ContactPage() {
 
       {/* Page content */}
       <main className="site-container relative z-10 py-16 lg:py-24">
+        <Breadcrumbs />
         {/* Page title */}
         <div className="mb-14 max-w-2xl">
           <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">

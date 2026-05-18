@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const faqs = [
   {
     question: "How long does a typical project take?",
-    answer: "Project timelines vary based on complexity and scope. A standard product discovery phase takes 2-4 weeks, while MVP development typically ranges from 3-6 months. We provide a detailed timeline during our initial proposal."
+    answer: "Project timelines vary based on complexity and scope. A standard product discovery phase takes 2-4 weeks, while MVP development typically ranges from 2-3 months. We provide a detailed timeline during our initial proposal."
   },
   {
     question: "Do you provide dedicated development teams?",
@@ -17,24 +17,12 @@ const faqs = [
     answer: "Absolutely. We often take over legacy systems, perform codebase audits, and execute modernization strategies to improve performance, scalability, and maintainability without disrupting current users."
   },
   {
-    question: "What industries do you specialize in?",
-    answer: "We have deep expertise across FinTech, E-Commerce, Healthcare, EdTech, and Enterprise SaaS. Our technical foundations allow us to adapt to the specific regulatory and compliance needs of various sectors."
-  },
-  {
-    question: "How do you handle communication and updates?",
-    answer: "We believe in total transparency. You'll receive weekly sprint demos, continuous access to our project management tools, and a dedicated delivery manager to ensure alignment at every stage of development."
-  },
-  {
     question: "Do you provide post-launch support?",
     answer: "Yes. Launching is just the beginning. We offer comprehensive maintenance, monitoring, and support packages to ensure your product remains secure, performant, and up-to-date with the latest OS and browser changes."
   },
   {
     question: "Can you scale teams as products grow?",
     answer: "Our enterprise scalability model is designed for this. As your user base and feature requirements grow, we can rapidly augment your dedicated team with specialized engineers, QA testers, and DevOps experts."
-  },
-  {
-    question: "Do you work with startups and enterprises?",
-    answer: "We partner with both. We help startups rapidly build and launch MVPs to secure funding or market fit, while assisting enterprises with digital transformation, system integrations, and scaling engineering output."
   }
 ];
 

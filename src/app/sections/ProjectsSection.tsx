@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { CSSProperties, MouseEventHandler, MouseEvent, TouchEvent } from "react";
+import { useRef, useState } from "react";
+import type { MouseEvent, TouchEvent } from "react";
 import Slider, { type Settings } from "react-slick";
 
 const fade = {
@@ -15,58 +16,30 @@ const fade = {
 const products = [
   {
     title: "ELAbd Patisserie",
-    image: "/clients/elabd-logo-square.svg",
+    image: "/products/Elabd.svg",
     logo: "/clients/elabd-logo-square.svg",
     href: "/projects/elabd",
   },
   {
     title: "Contact Cars",
-    image: "/products/p-contactcars.jpg",
+    image: "/products/contactcars.svg",
   },
   {
-    title: "Furn",
-    image: "/products/p-furn.jpg",
-  },
-  {
-    title: "Home Care",
-    image: "/products/p-homecare.jpg",
+    title: "Orders & More",
+    image: "/products/O&M.svg",
   },
   {
     title: "Moqawalat",
-    image: "/products/p-moqawalat.jpg",
+    image: "/products/moqawalat.svg",
   },
 ];
 
-function CarouselArrow({
-  className,
-  style,
-  onClick,
-  direction,
-}: {
-  className?: string;
-  style?: CSSProperties;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  direction: "prev" | "next";
-  currentSlide?: number;
-  slideCount?: number;
-}) {
-  return (
-    <button type="button" className={`${className ?? ""} project-arrow`} style={style} onClick={onClick}>
-      {direction === "prev" ? (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <path d="m15 5-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ) : (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.2">
-          <path d="m9 5 7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )}
-    </button>
-  );
-}
+
 
 export function ProjectsSection() {
   const router = useRouter();
+  const sliderRef = useRef<Slider | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleCaseStudyNavigate = (
     e: MouseEvent<HTMLAnchorElement> | TouchEvent<HTMLAnchorElement>,
@@ -81,7 +54,7 @@ export function ProjectsSection() {
     infinite: true,
     speed: 520,
     cssEase: "cubic-bezier(0.22, 1, 0.36, 1)",
-    arrows: true,
+    arrows: false,
     dots: true,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -90,9 +63,8 @@ export function ProjectsSection() {
     variableWidth: true,
     slidesToShow: 1,
     slidesToScroll: 1,
+    beforeChange: (current, next) => setCurrentSlide(next),
     customPaging: () => <span className="project-dot" />,
-    prevArrow: <CarouselArrow direction="prev" />,
-    nextArrow: <CarouselArrow direction="next" />,
     responsive: [
       {
         breakpoint: 1280,
@@ -135,15 +107,45 @@ export function ProjectsSection() {
       </div>
 
       <div className="relative z-10">
-        <div className="mb-12 space-y-3 px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Projects</p>
-          <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-            Results We <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Delivered</span>
-          </h2>
+        <div className="mb-12 flex flex-col md:flex-row items-center md:items-end justify-between gap-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="space-y-3 text-center md:text-left">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Projects</p>
+            <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+              Results We <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Delivered</span>
+            </h2>
+          </div>
+
+          <div className="flex gap-3 items-center shrink-0">
+            <button
+              onClick={() => sliderRef.current?.slickPrev()}
+              className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50"
+              aria-label="Previous project"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+            <div className="text-[var(--color-text-muted)] font-mono text-sm tracking-widest px-1 sm:px-2">
+              <span className="inline-block text-[var(--color-text-primary)]">
+                {String(currentSlide + 1).padStart(2, '0')}
+              </span>
+              <span className="mx-2 opacity-50">/</span>
+              <span className="opacity-70">{String(products.length).padStart(2, '0')}</span>
+            </div>
+            <button
+              onClick={() => sliderRef.current?.slickNext()}
+              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_0_20px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+              aria-label="Next project"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div className="projects-carousel mx-auto w-full max-w-7xl px-0 sm:px-2">
-          <Slider {...settings}>
+          <Slider ref={sliderRef} {...settings}>
             {products.map((project) => (
               <div key={project.title} className="px-3 py-2" style={{ width: 420 }}>
                 <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_18px_38px_rgba(0,0,0,0.24)] backdrop-blur-sm">
