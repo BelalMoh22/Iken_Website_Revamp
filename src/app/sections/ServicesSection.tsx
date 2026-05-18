@@ -56,6 +56,9 @@ function ServiceCard({ s }: { s: typeof services[0] }) {
         className="object-cover brightness-[1.02] transition-all duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
       />
 
+      <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(3,10,24,0.01)_0%,rgba(3,10,24,0.04)_52%,rgba(3,10,24,0.08)_100%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-within:opacity-100" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,var(--color-brand-blue-glow),transparent_45%)] opacity-0 transition-opacity duration-500 group-hover:opacity-90 group-focus-within:opacity-90" />
+
       <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.16)_52%,rgba(6,12,24,0.5)_100%)] transition-all duration-500 group-hover:h-48 group-hover:opacity-90 group-focus-within:h-48 group-focus-within:opacity-90" />
 
       <div className="absolute inset-x-6 bottom-6 z-10 transition-transform duration-500 ease-out group-hover:-translate-y-24 group-focus-within:-translate-y-24">
@@ -122,7 +125,7 @@ export function ServicesSection() {
               </div>
               <h2 className="text-4xl font-semibold leading-[1.2] tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
                 WE PROVIDE{" "}
-                <span className="text-[var(--color-brand-blue)]">
+                <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
                   GREAT IT SOLUTIONS
                 </span>
               </h2>
@@ -140,27 +143,34 @@ export function ServicesSection() {
 
           {/* Right Side: 60% Width Cards Track */}
           <div className="w-full lg:w-[60%]">
-            <div className="mx-auto mb-5 flex w-[min(240px,72vw)] items-center justify-end gap-2 sm:w-[504px] 2xl:w-[768px]">
+            <div className="mx-auto mb-5 flex w-[min(240px,72vw)] items-center justify-end gap-3 sm:w-[504px] 2xl:w-[768px]">
               <button
                 type="button"
                 onClick={() => moveServices(-1)}
                 disabled={currentIndex === 0}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] backdrop-blur-md transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:text-[var(--color-text-primary)] disabled:pointer-events-none disabled:opacity-40"
+                className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50 disabled:pointer-events-none disabled:opacity-40"
                 aria-label="Previous services"
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="m15 5-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1">
+                  <path d="m15 18-6-6 6-6"/>
                 </svg>
               </button>
+              <div className="text-[var(--color-text-muted)] font-mono text-sm tracking-widest px-1 sm:px-2">
+                <span className="inline-block text-[var(--color-text-primary)]">
+                  {String(currentIndex + 1).padStart(2, '0')}
+                </span>
+                <span className="mx-2 opacity-50">/</span>
+                <span className="opacity-70">{String(maxIndex + 1).padStart(2, '0')}</span>
+              </div>
               <button
                 type="button"
                 onClick={() => moveServices(1)}
                 disabled={currentIndex === maxIndex}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] backdrop-blur-md transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:text-[var(--color-text-primary)] disabled:pointer-events-none disabled:opacity-40"
+                className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_0_20px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50 disabled:pointer-events-none disabled:opacity-40"
                 aria-label="Next services"
               >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="m9 5 7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">
+                  <path d="m9 18 6-6-6-6"/>
                 </svg>
               </button>
             </div>

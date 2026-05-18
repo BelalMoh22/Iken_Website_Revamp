@@ -10,7 +10,6 @@ const models = [
     desc: "Access elite, cross-functional professionals across various tech disciplines to bolster your internal capacity instantly.",
     features: ["Dedicated Teams", "Agile Methodology", "Quality Solutions"],
     benefits: ["Scalability", "Flexibility", "Cost-Effective", "Reduced Time to Market"],
-    footer: "Ideal when you need reliable delivery capacity without expanding permanent headcount.",
   },
   {
     icon: "partner",
@@ -19,7 +18,6 @@ const models = [
     desc: "A dedicated software development ecosystem deeply embedded within your business to drive long-term innovation.",
     features: ["Strategic Partnership", "Innovative Solutions", "Measurable Success"],
     benefits: ["Technological Expertise", "Dedicated Resources", "Increased Productivity", "Long-term Partnership"],
-    footer: "Ideal when your product needs sustained ownership, context, and continuous improvement.",
   },
 ];
 
@@ -125,10 +123,6 @@ export function ModelsSection() {
                         </div>
                       ))}
                     </div>
-                  </div>
-
-                  <div className="mt-8 rounded-md border border-dashed border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] p-4">
-                    <p className="text-sm font-medium leading-relaxed text-[var(--color-text-secondary)]">{model.footer}</p>
                   </div>
                 </div>
               </motion.article>

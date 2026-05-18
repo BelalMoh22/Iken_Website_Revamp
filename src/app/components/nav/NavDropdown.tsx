@@ -57,7 +57,7 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute left-1/2 top-full mt-2 w-64 -translate-x-1/2 overflow-hidden rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-2 shadow-xl backdrop-blur-xl"
+            className="absolute left-1/2 top-full mt-2 w-64 -translate-x-1/2 overflow-hidden rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] dark:bg-[#0d1525] p-2 shadow-xl backdrop-blur-xl dark:backdrop-blur-none"
           >
             <div className="grid gap-1">
               {items.map((item) => (
