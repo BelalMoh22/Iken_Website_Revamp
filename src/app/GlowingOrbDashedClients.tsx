@@ -28,10 +28,10 @@ const LAYOUT_CONFIG = {
     { angle: 195, rx: 42, ry: 36 }, // Mid Left
     { angle: 345, rx: 42, ry: 36 }, // Mid Right
     { angle: 165, rx: 50, ry: 44 }, // Low Wing Left
-    { angle: 15,  rx: 50, ry: 44 }, // Low Wing Right
+    { angle: 15, rx: 50, ry: 44 }, // Low Wing Right
     { angle: 125, rx: 44, ry: 40 }, // Gravity Left
-    { angle: 55,  rx: 44, ry: 40 }, // Gravity Right
-    { angle: 90,  rx: 38, ry: 34 }, // Gravity Center
+    { angle: 55, rx: 44, ry: 40 }, // Gravity Right
+    { angle: 90, rx: 38, ry: 34 }, // Gravity Center
   ],
   // Visual tweaks
   ANIMATION: { stiffness: 200, damping: 20 },
@@ -54,7 +54,7 @@ function generateConstellationNetwork(totalBrands: number) {
   for (let i = 0; i < satellites; i++) {
     // If we have more brands than template slots, fallback to a basic ring for extras
     const template = LAYOUT_CONFIG.CONSTELLATION_TEMPLATE[i];
-    
+
     if (template) {
       const rad = (template.angle * Math.PI) / 180;
       positions.push({
@@ -70,13 +70,13 @@ function generateConstellationNetwork(totalBrands: number) {
       });
     }
   }
-  
+
   return { positions, connections };
 }
 
 export function GlowingOrbDashedClients() {
   const [brands, setBrands] = useState(INITIAL_BRANDS);
-  
+
   // Clean mathematical generation executing only once on mount
   const networkData = useMemo(() => generateConstellationNetwork(INITIAL_BRANDS.length), []);
   const [mounted, setMounted] = useState(false);
@@ -89,12 +89,12 @@ export function GlowingOrbDashedClients() {
     if (clickedIndex === 0) return; // Already in center
 
     const newBrands = [...brands];
-    
+
     // Swap the data at index 0 and clickedIndex
     const temp = newBrands[0];
     newBrands[0] = newBrands[clickedIndex];
     newBrands[clickedIndex] = temp;
-    
+
     setBrands(newBrands);
   };
 
@@ -104,10 +104,10 @@ export function GlowingOrbDashedClients() {
 
   return (
     <div className="relative h-[380px] w-full overflow-hidden bg-transparent min-[390px]:h-[420px] sm:h-[580px] md:h-[640px]">
-      
+
       {/* Shared Coordinate Space for Lines and Orbs */}
-      <div className="relative mx-auto h-full w-full max-w-[1200px] origin-top scale-[0.72] min-[390px]:scale-[0.80] sm:scale-100">
-        
+      <div className="relative mx-auto h-full w-full max-w-[1200px] origin-top scale-[0.76] min-[390px]:scale-[0.84] sm:scale-100">
+
         {/* SVG Lines - rendered client-side only to avoid hydration mismatch */}
         <div className="absolute inset-0 pointer-events-none">
           {mounted && (
@@ -136,7 +136,7 @@ export function GlowingOrbDashedClients() {
         {brands.map((client, i) => {
           const isCenter = i === 0;
           const pos = networkData.positions[i];
-          
+
           return (
             <motion.div
               onClick={() => handleSwap(i)}
@@ -144,8 +144,8 @@ export function GlowingOrbDashedClients() {
               className={`absolute group ${isCenter ? 'z-20 cursor-default' : 'z-10 cursor-pointer'}`}
               style={{ transform: "translate(-50%, -50%)" }}
               initial={false}
-              animate={{ 
-                left: `${pos.x}%`, 
+              animate={{
+                left: `${pos.x}%`,
                 top: `${pos.y}%`,
               }}
               transition={{ type: "spring", ...LAYOUT_CONFIG.ANIMATION }}
@@ -156,16 +156,16 @@ export function GlowingOrbDashedClients() {
                 animate={{ scale: [1, LAYOUT_CONFIG.PULSE_SCALE, 1], opacity: [isCenter ? 0.4 : 0.2, 0, isCenter ? 0.4 : 0.2] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
-              
+
               {/* The actual Orb containing the logo */}
               <div className={`relative ${isCenter ? 'w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 shadow-[0_0_80px_var(--color-brand-cyan-glow)]' : 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 shadow-[0_0_30px_var(--color-brand-cyan-glow)]'} bg-[var(--color-bg-card)] backdrop-blur-md rounded-full border border-[var(--color-brand-cyan)]/30 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-[var(--color-bg-glass-strong)] hover:border-[var(--color-brand-cyan)] hover:shadow-[0_0_50px_var(--color-brand-cyan-glow)] z-10 ${!isCenter && 'hover:scale-110'}`}>
                 <div className="w-[85%] h-[85%] bg-white rounded-full flex items-center justify-center p-2 md:p-3 shadow-inner">
-                  <Image 
-                    src={client.logo} 
-                    alt={client.name} 
-                    width={isCenter ? 180 : 80} 
-                    height={isCenter ? 90 : 40} 
-                    className={`max-w-full object-contain mix-blend-multiply transition-opacity duration-300 ${isCenter ? 'max-h-20 sm:max-h-24 md:max-h-24 opacity-95 group-hover:opacity-100' : 'max-h-10 sm:max-h-12 md:max-h-12 opacity-70 group-hover:opacity-100'}`} 
+                  <Image
+                    src={client.logo}
+                    alt={client.name}
+                    width={isCenter ? 180 : 80}
+                    height={isCenter ? 90 : 40}
+                    className={`max-w-full object-contain mix-blend-multiply transition-opacity duration-300 ${isCenter ? 'max-h-20 sm:max-h-24 md:max-h-24 opacity-95 group-hover:opacity-100' : 'max-h-10 sm:max-h-12 md:max-h-12 opacity-70 group-hover:opacity-100'}`}
                   />
                 </div>
               </div>
