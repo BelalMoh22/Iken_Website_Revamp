@@ -9,6 +9,7 @@ import { ModelsSection } from "./sections/ModelsSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { ServicesSection } from "./sections/ServicesSection";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
+import { FaqSection } from "./sections/FaqSection";
 
 export default function Home() {
   return (
@@ -33,6 +34,8 @@ export default function Home() {
         <ProjectsSection />
 
         <TestimonialsSection />
+
+        <FaqSection />
 
         <ContactSection />
       </main>

@@ -35,6 +35,7 @@ export const navigationData: NavItem[] = [
       { label: "About", href: "#about" },
       { label: "Why IKEN", href: "#why-iken" },
       { label: "Models", href: "#models" },
+      { label: "FAQ", href: "#faq" },
     ],
   }
 ];
