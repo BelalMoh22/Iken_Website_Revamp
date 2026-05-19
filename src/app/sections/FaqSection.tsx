@@ -9,7 +9,7 @@ const faqs = [
     answer: "Project timelines vary based on complexity and scope. A standard product discovery phase takes 2-4 weeks, while MVP development typically ranges from 2-3 months. We provide a detailed timeline during our initial proposal."
   },
   {
-    question: "Do you provide dedicated development teams?",
+    question: "Are we provide dedicated development teams?",
     answer: "Yes, we offer Team as a Service (TaaS) where we provide dedicated, cross-functional engineering teams that integrate seamlessly with your internal operations and scale as your product grows."
   },
   {
@@ -17,7 +17,7 @@ const faqs = [
     answer: "Absolutely. We often take over legacy systems, perform codebase audits, and execute modernization strategies to improve performance, scalability, and maintainability without disrupting current users."
   },
   {
-    question: "Do you provide post-launch support?",
+    question: "Are we provide post-launch support?",
     answer: "Yes. Launching is just the beginning. We offer comprehensive maintenance, monitoring, and support packages to ensure your product remains secure, performant, and up-to-date with the latest OS and browser changes."
   },
   {

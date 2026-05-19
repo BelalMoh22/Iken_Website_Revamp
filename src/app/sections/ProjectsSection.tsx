@@ -13,12 +13,17 @@ const fade = {
   visible: { opacity: 1, y: 0 },
 };
 
-const products = [
+interface Product {
+  title: string;
+  image: string;
+  logo?: string;
+  href?: string;
+}
+
+const products: Product[] = [
   {
     title: "ELAbd Patisserie",
     image: "/products/Elabd.svg",
-    logo: "/clients/elabd-logo-square.svg",
-    href: "/projects/elabd",
   },
   {
     title: "Contact Cars",
@@ -149,7 +154,7 @@ export function ProjectsSection() {
             {products.map((project) => (
               <div key={project.title} className="px-3 py-2" style={{ width: 420 }}>
                 <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_18px_38px_rgba(0,0,0,0.24)] backdrop-blur-sm">
-                  <div className="relative h-64">
+                  <div className="relative h-64 overflow-hidden">
                     {project.logo ? (
                       <div className="relative h-full w-full bg-white">
                         <Image
@@ -162,7 +167,7 @@ export function ProjectsSection() {
                       </div>
                     ) : (
                       <>
-                        <Image src={project.image} alt={project.title} fill className="object-cover" />
+                        <Image src={project.image} alt={project.title} fill className="object-cover scale-[1.08] origin-center" />
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.18)_100%)]" />
                       </>
                     )}
@@ -173,8 +178,8 @@ export function ProjectsSection() {
                     {project.href && (
                       <Link
                         href={project.href}
-                        onClick={(e) => handleCaseStudyNavigate(e, project.href)}
-                        onTouchEnd={(e) => handleCaseStudyNavigate(e, project.href)}
+                        onClick={(e) => handleCaseStudyNavigate(e, project.href!)}
+                        onTouchEnd={(e) => handleCaseStudyNavigate(e, project.href!)}
                         className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
                       >
                         View Case Study
