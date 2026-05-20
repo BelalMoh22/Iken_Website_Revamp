@@ -7,15 +7,15 @@ import { DesktopNav } from "./DesktopNav";
 import { MobileMenu } from "./MobileMenu";
 import { ThemeToggle } from "../ThemeToggle";
 import { CTAButton } from "./CTAButton";
+import { useMounted } from "../../hooks/useMounted";
 
 export function Navbar() {
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };

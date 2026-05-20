@@ -31,7 +31,6 @@ function useCountUp(target: number, durationMs = 900) {
       if (t < 1) raf = requestAnimationFrame(tick);
     };
 
-    setValue(0);
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [target, durationMs]);

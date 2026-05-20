@@ -97,13 +97,13 @@ export function ProjectsSection() {
 
   return (
     <motion.section
-      id="projects"
+      id="work"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.15 }}
       variants={fade}
       transition={{ duration: 0.45 }}
-      className="relative overflow-hidden bg-[var(--color-bg-main)] home-section-y"
+      className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] home-section-y"
     >
       {/* Background glow */}
       <div className="absolute inset-0 z-0 pointer-events-none">

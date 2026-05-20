@@ -17,8 +17,6 @@ export default function Home() {
       <main id="home" className="bg-[var(--color-bg-main)]">
         <HeroSection />
 
-        <ClientsSection />
-
         <AboutSection />
 
         <DifferentiationSection />
@@ -28,6 +26,8 @@ export default function Home() {
         <ModelsSection />
 
         <ProjectsSection />
+
+        <ClientsSection />
 
         <TestimonialsSection />
 

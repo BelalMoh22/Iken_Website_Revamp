@@ -1,13 +1,15 @@
 "use client";
 
+/* eslint-disable react/no-unescaped-entities */
+
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { Header } from "../../sections/Header";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
+import { useMounted } from "../../hooks/useMounted";
 
 
 const fadeUp = (delay = 0) => ({
@@ -17,8 +19,7 @@ const fadeUp = (delay = 0) => ({
 
 function GetThemedLogo({ className = "h-10 w-auto" }) {
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   return (
     <Image src="/iken-logo-new.png" alt="IKEN" width={120} height={40}
       className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`}
