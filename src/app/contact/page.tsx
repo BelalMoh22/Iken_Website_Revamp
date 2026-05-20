@@ -111,12 +111,30 @@ export default function ContactPage() {
     setErrorMsg("");
 
     const formData = new FormData(e.currentTarget);
+    const name = (formData.get("name") as string) || "";
+    const service = (formData.get("service") as string) || "";
+
+    // Client-side letters-only validation for Name (supports Unicode/Arabic/English letters)
+    const nameRegex = /^[\p{L}\s]+$/u;
+    if (!nameRegex.test(name.trim())) {
+      setErrorMsg("Full name must contain letters and spaces only.");
+      setLoading(false);
+      return;
+    }
+
+    // Client-side validation for Service
+    if (!service) {
+      setErrorMsg("Please select a service you are interested in.");
+      setLoading(false);
+      return;
+    }
+
     const data = {
-      name: formData.get("name"),
+      name,
       email: formData.get("email"),
       company: formData.get("company"),
       phone: formData.get("phone"),
-      service: formData.get("service"),
+      service,
       message: formData.get("message"),
     };
 
@@ -263,6 +281,9 @@ export default function ContactPage() {
                       type="text"
                       name="name"
                       placeholder="Ahmed Mohamed"
+                      onInput={(e) => {
+                        e.currentTarget.value = e.currentTarget.value.replace(/[^\p{L}\s]/gu, "");
+                      }}
                       className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition focus:border-[var(--color-border-brand)] focus:bg-[var(--color-bg-glass-strong)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                     />
                   </div>
@@ -307,9 +328,10 @@ export default function ContactPage() {
 
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
-                    Service Interested In
+                    Service Interested In <span className="text-[var(--color-brand-blue)]">*</span>
                   </label>
                   <select
+                    required
                     name="service"
                     className="w-full rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-main)] px-4 py-3 text-sm text-[var(--color-text-secondary)] outline-none transition focus:border-[var(--color-border-brand)] focus:ring-1 focus:ring-[var(--color-brand-blue)]/20"
                   >

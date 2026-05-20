@@ -10,9 +10,18 @@ export async function POST(request: Request) {
     const { name, email, company, phone, service, message } = body;
 
     // Validate required fields
-    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    if (!name?.trim() || !email?.trim() || !service?.trim() || !message?.trim()) {
       return NextResponse.json(
-        { error: 'Name, email, and message are required fields.' },
+        { error: 'Name, email, service, and message are required fields.' },
+        { status: 400 }
+      );
+    }
+
+    // Validate that name contains only letters and spaces (Unicode)
+    const nameRegex = /^[\p{L}\s]+$/u;
+    if (!nameRegex.test(name.trim())) {
+      return NextResponse.json(
+        { error: 'Full name must contain letters and spaces only.' },
         { status: 400 }
       );
     }
