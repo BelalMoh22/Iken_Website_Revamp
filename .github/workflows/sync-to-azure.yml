@@ -1,0 +1,37 @@
+name: Sync GitHub main to Azure master
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-to-azure:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Add Azure remote
+        env:
+          AZURE_PAT: ${{ secrets.AZURE_PAT }}
+        run: |
+          git remote remove azure 2>/dev/null || true
+
+          git remote add azure "https://ikentechnology:${AZURE_PAT}@dev.azure.com/ikentechnology/Iken%20Website/_git/Iken%20Website"
+
+      - name: Fetch Azure master
+        run: |
+          git fetch azure master || true
+
+      - name: Push GitHub main to Azure master
+        run: |
+          git push azure main:github/workflow --force-with-lease
