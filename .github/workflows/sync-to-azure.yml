@@ -20,14 +20,16 @@ jobs:
 
       - name: Push to Azure DevOps
         run: |
-          git remote add azure https://$AZURE_PAT@${AZURE_REPO_URL#https://}
+            git remote remove azure || true
           
-          # Push main -> master
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            git push azure HEAD:master --force
-          else
-            git push azure HEAD:${GITHUB_REF_NAME} --force
-          fi
+            git remote add azure "https://$AZURE_PAT@${AZURE_REPO_URL#https://}"
+          
+            # Push main -> master
+            if [ "${GITHUB_REF_NAME}" = "main" ]; then
+              git push azure HEAD:master --force
+            else
+              git push azure HEAD:${GITHUB_REF_NAME} --force
+            fi
         env:
           AZURE_PAT: ${{ secrets.AZURE_PAT }}
           AZURE_REPO_URL: ${{ secrets.AZURE_REPO_URL }}
