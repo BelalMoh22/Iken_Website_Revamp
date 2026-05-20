@@ -23,15 +23,26 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
     }, 150);
   };
 
+  const toggleOpen = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen((open) => !open);
+  };
+
   return (
     <div
       className="relative"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          setIsOpen(false);
+        }
+      }}
     >
       <button
         type="button"
-        className={`flex items-center gap-1 text-base font-semibold transition-colors focus:outline-none ${isOpen ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+        onClick={toggleOpen}
+        className={`flex items-center gap-1 rounded-md text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] ${isOpen ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           }`}
         aria-expanded={isOpen}
         aria-haspopup="true"

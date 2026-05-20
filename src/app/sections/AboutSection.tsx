@@ -83,16 +83,16 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="about" className="scroll-section home-section-y relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] pb-10 sm:pb-12 lg:pb-14">
+    <section id="about" className="scroll-section home-section-y relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)]">
       {/* Background elements */}
       <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[var(--color-brand-blue)] opacity-[0.2] blur-3xl" />
       <div className="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[var(--color-brand-cyan)] opacity-[0.12] blur-3xl" />
 
       <div className="site-container">
-        <div className="relative flex flex-col gap-6 sm:gap-8 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:gap-8 lg:items-start">
+        <div className="relative flex flex-col gap-8 sm:gap-10 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-12">
 
           {/* Left — info + pillar list */}
-          <aside className="z-10 shrink-0 py-6 pb-4 sm:py-8 lg:py-10">
+          <aside className="z-10 shrink-0">
             <div className="w-full lg:max-w-[34rem]">
 
               <motion.div
@@ -119,14 +119,15 @@ export function AboutSection() {
                 {pillars.map((pillar, idx) => {
                   const isActive = idx === activeIndex;
                   return (
-                    <motion.div
+                    <motion.button
                       key={pillar.title}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, amount: 0.2 }}
                       transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.15 }}
+                      type="button"
                       onClick={() => handlePillarClick(idx)}
-                      className={`flex items-start gap-4 cursor-pointer transition-all duration-300 ${isActive ? "opacity-100" : "opacity-40 hover:opacity-70"}`}
+                      className={`flex w-full items-start gap-4 rounded-xl text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] ${isActive ? "opacity-100" : "opacity-55 hover:opacity-80"}`}
                     >
                       <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-colors duration-300 ${isActive ? "border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-brand-blue)]" : "border-transparent bg-transparent text-[var(--color-text-muted)]"}`}>
                         <PillarGlyph kind={pillar.icon} />
@@ -135,7 +136,7 @@ export function AboutSection() {
                         <h3 className={`text-lg font-semibold transition-colors duration-300 ${isActive ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)]"}`}>{pillar.title}</h3>
                         <p className={`mt-1 text-sm leading-relaxed transition-colors duration-300 ${isActive ? "text-[var(--color-text-secondary)]" : "text-[var(--color-text-muted)]"}`}>{pillar.desc}</p>
                       </div>
-                    </motion.div>
+                    </motion.button>
                   );
                 })}
               </div>
@@ -143,7 +144,7 @@ export function AboutSection() {
           </aside>
 
           {/* Right — image carousel */}
-          <div ref={imagePanelRef} className="relative flex items-center pb-0 pt-2 sm:pt-4 lg:min-h-0 lg:self-stretch lg:p-0">
+          <div ref={imagePanelRef} className="relative flex items-center lg:min-h-0 lg:self-stretch">
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}

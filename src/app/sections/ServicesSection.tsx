@@ -44,9 +44,9 @@ const services = [
 
 function ServiceCard({ s }: { s: typeof services[0] }) {
   return (
-    <div
+    <article
       tabIndex={0}
-      className="group relative h-[310px] w-[min(240px,72vw)] shrink-0 cursor-pointer overflow-hidden rounded-[24px] opacity-95 transition-all duration-500 ease-out focus-within:opacity-100 hover:opacity-100 min-[390px]:h-[330px] sm:h-[360px]"
+      className="group relative h-[310px] w-[min(240px,72vw)] shrink-0 cursor-pointer overflow-hidden rounded-[24px] opacity-95 transition-all duration-500 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-within:opacity-100 hover:opacity-100 min-[390px]:h-[330px] sm:h-[360px]"
     >
       <Image 
         src={s.image} 
@@ -71,7 +71,7 @@ function ServiceCard({ s }: { s: typeof services[0] }) {
           </p>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -97,12 +97,6 @@ export function ServicesSection() {
 
   const maxIndex = Math.max(0, services.length - visibleCount);
   const currentIndex = Math.min(activeIndex, maxIndex);
-
-  useEffect(() => {
-    if (activeIndex > maxIndex) {
-      setActiveIndex(maxIndex);
-    }
-  }, [activeIndex, maxIndex]);
 
   const moveServices = useCallback((direction: -1 | 1) => {
     setActiveIndex((index) => Math.min(maxIndex, Math.max(0, index + direction)));

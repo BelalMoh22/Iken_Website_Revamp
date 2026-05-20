@@ -1,8 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useMounted } from "../hooks/useMounted";
 
 interface ThemeToggleProps {
   className?: string;
@@ -11,11 +11,7 @@ interface ThemeToggleProps {
 
 export function ThemeToggle({ className = "", compact = false }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
 
   if (!mounted) return null;
 

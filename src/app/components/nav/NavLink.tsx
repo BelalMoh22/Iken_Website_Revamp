@@ -27,21 +27,21 @@ export function NavLink({ href, children, className = "", onClick }: NavLinkProp
   // If it's an anchor link, ensure it points to the homepage section
   const finalHref = isAnchor ? `/${href}` : href;
 
-  if (isCurrentPage) {
-    return (
-      <span className={`${baseStyles} ${activeStyles} ${className}`}>
-        {children}
-      </span>
-    );
-  }
-
   return (
     <Link
       href={finalHref}
-      onClick={onClick}
+      onClick={(event) => {
+        if (isCurrentPage && typeof window !== "undefined") {
+          event.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.history.pushState(null, "", "/");
+        }
+        onClick?.();
+      }}
       className={`${baseStyles} ${activeStyles} ${className}`}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
+      aria-current={isCurrentPage ? "page" : undefined}
     >
       {children}
     </Link>

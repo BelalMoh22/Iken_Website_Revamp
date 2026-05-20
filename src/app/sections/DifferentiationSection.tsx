@@ -20,7 +20,7 @@ const differentiators = [
 
 export function DifferentiationSection() {
   return (
-    <section id="why-iken" className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)] pt-10 sm:pt-12 lg:pt-14">
+    <section id="why-iken" className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,var(--color-brand-blue-glow),transparent_38%)]" />
 
       <div className="site-container relative">
