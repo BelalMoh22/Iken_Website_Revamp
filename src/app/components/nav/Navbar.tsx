@@ -24,7 +24,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!mounted) return null;
+  const useDarkLogo = mounted && theme === "dark";
 
   return (
     <header
@@ -56,10 +56,10 @@ export function Navbar() {
               width={120}
               height={40}
               priority
-              className={`h-6 w-auto min-[360px]:h-8 sm:h-9 lg:h-10 object-contain transition-all group-hover:opacity-80 ${
-                theme === "dark" ? "brightness-0 invert" : ""
+              className={`h-auto w-[90px] min-[360px]:w-[105px] sm:w-[112px] lg:w-[120px] object-contain transition-all group-hover:opacity-80 ${
+                useDarkLogo ? "brightness-0 invert" : ""
               }`}
-              style={{ width: "auto" }}
+              style={{ height: "auto" }}
             />
           </Link>
         </div>

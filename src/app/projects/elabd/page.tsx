@@ -46,7 +46,7 @@ export default function ElAbdCaseStudy() {
           <div className="site-container">
             <Breadcrumbs />
             <div className="grid items-center gap-12 lg:grid-cols-2">
-              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)}>
+              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="min-w-0">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TaaS</span>
@@ -61,13 +61,13 @@ export default function ElAbdCaseStudy() {
                   ELAbd — Egypt's most celebrated pastry brand — partnered with IKEN Technology as their dedicated development arm, establishing a full TaaS model to accelerate digital transformation.
                 </p>
                     {/* Redesigned Text-Only Highlight Badges */}
-                <div className="grid grid-cols-3 gap-4 mb-8 border-l-2 border-[var(--color-brand-blue)] pl-4">
+                <div className="mb-8 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3">
                   {[
                     { label: "E-Commerce", value: "Platform" },
                     { label: "TaaS", value: "Model" },
                     { label: "Full-Stack", value: "Delivery" },
                   ].map((item) => (
-                    <div key={item.label} className="flex flex-col">
+                    <div key={item.label} className="flex min-w-0 flex-col">
                       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
                         {item.label}
                       </span>
@@ -93,18 +93,18 @@ export default function ElAbdCaseStudy() {
               {/* Logos card (Enlarged) */}
               <motion.div initial="hidden" animate="visible" variants={fadeUp(0.12)}
                 className="flex flex-col items-center justify-center">
-                <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-10 shadow-2xl relative overflow-hidden backdrop-blur-md group hover:border-[var(--color-border-brand)]/50 transition-all duration-500">
+                <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 shadow-2xl relative overflow-hidden backdrop-blur-md group hover:border-[var(--color-border-brand)]/50 transition-all duration-500 sm:p-10">
                   {/* Immersive ambient glowing circle in the center */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.08] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
                   
-                  <div className="flex items-center justify-center gap-6 sm:gap-8 relative z-10">
-                    <div className="flex h-32 w-32 items-center justify-center rounded-3xl border border-[var(--color-border-brand)]/30 bg-[var(--color-brand-blue-glow)] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,183,255,0.2)] transition-all duration-300">
+                  <div className="flex items-center justify-center gap-4 sm:gap-8 relative z-10">
+                    <div className="flex h-24 w-24 items-center justify-center rounded-3xl border border-[var(--color-border-brand)]/30 bg-[var(--color-brand-blue-glow)] p-5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,183,255,0.2)] transition-all duration-300 sm:h-32 sm:w-32 sm:p-6">
                       <GetThemedLogo className="h-14 w-auto" />
                     </div>
                     
                     <div className="text-4xl font-black text-[var(--color-text-muted)] animate-pulse select-none">×</div>
                     
-                    <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-3xl border border-rose-500/20 bg-rose-500/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(244,63,94,0.15)] transition-all duration-300">
+                    <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-3xl border border-rose-500/20 bg-rose-500/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(244,63,94,0.15)] transition-all duration-300 sm:h-32 sm:w-32">
                       <Image src="/clients/elabd-logo-square.svg" alt="ELAbd Patisserie brand logo" width={128} height={128} className="h-full w-full object-cover" />
                     </div>
                   </div>

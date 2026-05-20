@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export function ContactSection() {
   const contactItems = [
     {
@@ -41,9 +43,10 @@ export function ContactSection() {
       <div className="pointer-events-none absolute inset-0 border-t border-[var(--color-border-light)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,var(--color-brand-cyan-glow),transparent_35%),radial-gradient(circle_at_90%_18%,var(--color-brand-blue-glow),transparent_45%)]" />
 
-      <div className="site-container relative pb-12 pt-16">
-        {/* Header */}
-        <div className="mb-12 grid gap-8 lg:grid-cols-2 lg:items-end">
+      <div className="home-section-y">
+        <div className="site-container relative">
+          {/* Header */}
+        <div className="mb-10 grid gap-6 lg:grid-cols-2 lg:items-end lg:mb-12">
           <div>
             <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
               <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
@@ -63,7 +66,7 @@ export function ContactSection() {
         </div>
 
         {/* Contact cards */}
-        <div className="mb-12 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-10 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:mb-12 lg:grid-cols-3">
           {contactItems.map((item) => (
             <a
               key={item.label}
@@ -88,8 +91,14 @@ export function ContactSection() {
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Quick Links</p>
             <div className="flex flex-col gap-2 text-sm text-[var(--color-text-secondary)]">
-              {["Services", "Projects", "Clients", "Contact"].map((l) => (
-                <a key={l} href={`#${l.toLowerCase()}`} className="transition hover:text-[var(--color-text-primary)]">{l}</a>
+              {[
+                { label: "Services", href: "/#services" },
+                { label: "Results We Delivered", href: "/#work" },
+                { label: "Sectors", href: "/sectors" },
+                { label: "FAQ", href: "/faq" },
+                { label: "Contact", href: "/#contact" },
+              ].map((link) => (
+                <Link key={link.label} href={link.href} className="transition hover:text-[var(--color-text-primary)]">{link.label}</Link>
               ))}
             </div>
           </div>
@@ -114,6 +123,7 @@ export function ContactSection() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </div>
 

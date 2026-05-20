@@ -63,29 +63,29 @@ export function TestimonialsSlider() {
   };
 
   return (
-    <div className="relative overflow-hidden bg-[var(--color-bg-main)] py-10 sm:py-14 flex items-center">
+    <div className="relative flex min-h-0 items-center overflow-hidden bg-[var(--color-bg-main)] home-section-y">
       
       {/* Background Graphic elements */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[var(--color-brand-blue-glow)] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[var(--color-brand-blue-glow)] opacity-[0.5] rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
+        <div className="absolute right-0 top-0 h-[min(520px,85vw)] w-[min(520px,85vw)] translate-x-1/4 -translate-y-1/2 rounded-full bg-[var(--color-brand-blue-glow)] opacity-70 blur-[100px]" />
+        <div className="absolute bottom-0 left-0 h-[min(420px,75vw)] w-[min(420px,75vw)] -translate-x-1/4 translate-y-1/4 rounded-full bg-[var(--color-brand-blue-glow)] opacity-40 blur-[90px]" />
       </div>
 
       <div className="site-container relative z-10 h-full">
         
         {/* Section Header */}
-        <div className="mb-8 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+        <div className="mb-6 flex flex-col justify-between gap-5 sm:mb-8 md:flex-row md:items-end md:gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--color-text-primary)] mb-3">
+            <h2 className="mb-2 text-3xl font-light tracking-tight text-[var(--color-text-primary)] sm:mb-3 sm:text-4xl lg:text-5xl">
               Trusted by <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]">Visionaries</span>
             </h2>
-            <p className="text-[var(--color-text-secondary)] font-light text-base sm:text-xl leading-relaxed">
+            <p className="text-sm font-light leading-relaxed text-[var(--color-text-secondary)] sm:text-base lg:text-lg">
               Discover how industry leaders leverage our solutions to transform their operations and accelerate growth across the region.
             </p>
           </div>
           
           {/* Top Navigation */}
-          <div className="flex gap-4 items-center shrink-0">
+          <div className="flex shrink-0 items-center gap-3 sm:gap-4">
             <button
               onClick={handlePrev}
               className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -93,7 +93,7 @@ export function TestimonialsSlider() {
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1"><path d="m15 18-6-6 6-6"/></svg>
             </button>
-            <div className="text-[var(--color-text-muted)] font-mono text-sm tracking-widest px-2 hidden sm:block">
+            <div className="hidden px-2 font-mono text-sm tracking-widest text-[var(--color-text-muted)] sm:block">
               <motion.span 
                 key={currentIndex}
                 initial={{ y: 10, opacity: 0 }}
@@ -107,7 +107,7 @@ export function TestimonialsSlider() {
             </div>
             <button
               onClick={handleNext}
-              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_0_20px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
               aria-label="Next testimonial"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1"><path d="m9 18 6-6-6-6"/></svg>
@@ -116,72 +116,71 @@ export function TestimonialsSlider() {
         </div>
 
         {/* Main Content Area */}
-        <div className="relative min-h-[380px] lg:h-[360px] w-full rounded-3xl lg:rounded-[2.5rem] bg-[var(--color-bg-card)] backdrop-blur-xl border border-[var(--color-border-light)] overflow-hidden shadow-xl">
+        <div className="relative w-full min-h-[280px] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_28px_rgba(0,0,0,0.07)] backdrop-blur-xl sm:min-h-[300px] lg:h-[360px] lg:min-h-[360px] lg:rounded-3xl dark:shadow-[0_10px_36px_rgba(0,0,0,0.28)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
-              className="absolute inset-0 flex flex-col lg:flex-row"
+              className="flex min-h-[260px] w-full flex-col sm:min-h-[280px] lg:h-full lg:min-h-0 lg:flex-row"
               initial={{ opacity: 0, x: slideDirection * 40 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: slideDirection * -40, transition: { duration: 0.4, ease: [0.32, 0, 0.67, 0] } }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
               
-              {/* Left Side: Photo */}
-              <div className="relative w-full h-[35%] min-h-[132px] lg:h-full lg:w-[40%] xl:w-[36%] overflow-hidden bg-[var(--color-bg-main)] shrink-0">
+              {/* Photo — compact on small screens, editorial on desktop */}
+              <div className="relative flex h-[100px] w-full shrink-0 items-center justify-center overflow-hidden bg-[var(--color-bg-main)] sm:h-[120px] md:h-[140px] lg:h-full lg:w-[38%] xl:w-[36%]">
                 <motion.div
-                  initial={{ scale: 1.04, x: slideDirection * 20, filter: "brightness(0.98)" }}
-                  animate={{ scale: 1, x: 0, filter: "brightness(1.04)" }}
-                  transition={{ duration: 1.4, ease: "easeOut" }}
-                  className="relative h-full w-full"
+                  initial={{ scale: 1.03, x: slideDirection * 12, filter: "brightness(0.98)" }}
+                  animate={{ scale: 1, x: 0, filter: "brightness(1.02)" }}
+                  transition={{ duration: 1.1, ease: "easeOut" }}
+                  className="relative h-full w-full max-h-full px-3 py-2 sm:px-5 sm:py-3 lg:px-4 lg:py-6"
                 >
                   <Image
                     src={TESTIMONIALS[currentIndex].image}
                     alt={TESTIMONIALS[currentIndex].name}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    sizes="(max-width: 1024px) 100vw, 36vw"
                     className="object-contain object-center"
                     priority
                   />
-                  <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[var(--color-bg-card)]/80 to-transparent lg:hidden" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[var(--color-bg-card)]/70 to-transparent lg:hidden" />
                 </motion.div>
               </div>
 
-              {/* Right Side: Typography & Quote */}
-              <div className="relative w-full lg:w-[60%] xl:w-[64%] flex flex-col justify-between p-5 sm:p-8 lg:p-10 z-20 h-[65%] lg:h-full">
+              {/* Quote & attribution */}
+              <div className="relative z-20 flex min-h-0 w-full flex-1 flex-col justify-between p-4 sm:p-6 lg:w-[62%] lg:p-9 xl:w-[64%] xl:p-10">
                 
-                {/* Decorative Quote Mark */}
                 <motion.div 
-                  initial={{ opacity: 0, x: 16 }}
+                  initial={{ opacity: 0, x: 12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
-                  className="absolute top-8 right-12 text-8xl font-serif text-[var(--color-text-primary)] opacity-[0.05] leading-none select-none hidden sm:block"
+                  transition={{ delay: 0.08, duration: 0.45, ease: "easeOut" }}
+                  className="pointer-events-none absolute right-6 top-4 hidden text-5xl font-serif leading-none text-[var(--color-text-primary)] opacity-[0.06] select-none sm:block md:text-6xl lg:right-10 lg:top-8 lg:text-7xl xl:text-8xl"
                 >
                   &rdquo;
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 18 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex-1 flex flex-col justify-center max-w-3xl"
+                  transition={{ delay: 0.18, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex max-w-3xl flex-1 flex-col justify-center"
                 >
-                  <p className="text-base sm:text-xl lg:text-2xl lg:leading-[1.5] font-light text-[var(--color-text-secondary)] mb-3 lg:mb-6 text-pretty">
+                  <p className="text-pretty text-sm font-light leading-relaxed text-[var(--color-text-secondary)] sm:text-base sm:leading-relaxed md:text-lg lg:mb-2 lg:text-xl lg:leading-[1.55]">
                     &ldquo;{TESTIMONIALS[currentIndex].quote}&rdquo;
                   </p>
                 </motion.div>
                 
                 <motion.div 
-                  initial={{ opacity: 0, y: 14 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.42, duration: 0.5, ease: "easeOut" }}
-                  className="mt-auto pt-4 border-t border-[var(--color-border-light)] flex items-center justify-between gap-4"
+                  transition={{ delay: 0.32, duration: 0.45, ease: "easeOut" }}
+                  className="mt-4 flex items-center justify-between gap-3 border-t border-[var(--color-border-light)] pt-3 sm:mt-5 sm:gap-4 sm:pt-4 lg:mt-auto lg:pt-5"
                 >
-                  <div>
-                    <h3 className="text-base sm:text-xl font-medium tracking-wide text-[var(--color-text-primary)] mb-1">
+                  <div className="min-w-0">
+                    <h3 className="mb-0.5 text-sm font-medium tracking-wide text-[var(--color-text-primary)] sm:text-base md:text-lg">
                       {TESTIMONIALS[currentIndex].name}
                     </h3>
-                    <p className="text-[var(--color-text-brand)] font-medium text-sm sm:text-base">
+                    <p className="text-xs font-medium text-[var(--color-text-brand)] sm:text-sm">
                       {TESTIMONIALS[currentIndex].title}
                     </p>
                   </div>
@@ -194,13 +193,13 @@ export function TestimonialsSlider() {
         </div>
         
         {/* Bottom Pager Indicators */}
-        <div className="flex gap-3 justify-center mt-5">
+        <div className="mt-4 flex justify-center gap-2.5 sm:mt-5 sm:gap-3">
           {TESTIMONIALS.map((_, idx) => (
              <button
              key={idx}
              onClick={() => { setCurrentIndex(idx); startTimer(); }}
              className={`h-1.5 rounded-full transition-all duration-500 ${
-               idx === currentIndex ? "w-10 bg-[var(--color-brand-blue)]" : "w-4 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+               idx === currentIndex ? "w-9 bg-[var(--color-brand-blue)] sm:w-10" : "w-3.5 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)] sm:w-4"
              }`}
              aria-label={`Go to slide ${idx + 1}`}
            />

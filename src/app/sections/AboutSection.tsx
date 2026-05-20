@@ -83,16 +83,16 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="about" className="scroll-section relative m-0 flex w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] py-12 sm:py-16 lg:min-h-[100vh] lg:items-center lg:py-24">
+    <section id="about" className="scroll-section home-section-y relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] pb-10 sm:pb-12 lg:pb-14">
       {/* Background elements */}
       <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[var(--color-brand-blue)] opacity-[0.2] blur-3xl" />
       <div className="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[var(--color-brand-cyan)] opacity-[0.12] blur-3xl" />
 
       <div className="site-container">
-        <div className="relative flex flex-col gap-8 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:gap-8 lg:items-center">
+        <div className="relative flex flex-col gap-6 sm:gap-8 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:gap-8 lg:items-start">
 
           {/* Left — info + pillar list */}
-          <aside className="py-8 pb-6 lg:py-12 z-10 shrink-0">
+          <aside className="z-10 shrink-0 py-6 pb-4 sm:py-8 lg:py-10">
             <div className="w-full lg:max-w-[34rem]">
 
               <motion.div
@@ -115,7 +115,7 @@ export function AboutSection() {
               </motion.div>
 
               {/* Pillar list */}
-              <div className="mt-10 flex flex-col gap-6">
+              <div className="mt-8 flex flex-col gap-5 sm:mt-10 sm:gap-6">
                 {pillars.map((pillar, idx) => {
                   const isActive = idx === activeIndex;
                   return (
@@ -143,13 +143,13 @@ export function AboutSection() {
           </aside>
 
           {/* Right — image carousel */}
-          <div ref={imagePanelRef} className="relative flex items-center pb-0 pt-4 sm:pt-6 lg:h-full lg:p-0">
+          <div ref={imagePanelRef} className="relative flex items-center pb-0 pt-2 sm:pt-4 lg:min-h-0 lg:self-stretch lg:p-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="relative mx-auto h-[320px] w-full overflow-hidden rounded-2xl border border-[var(--color-border-light)] shadow-xl min-[390px]:h-[350px] sm:h-[430px] lg:h-[min(560px,64vh)] lg:max-w-[92%]"
+              className="relative mx-auto h-[220px] w-full max-w-[42rem] overflow-hidden rounded-2xl border border-[var(--color-border-light)] shadow-[0_8px_28px_rgba(0,0,0,0.08)] min-[390px]:h-[248px] sm:h-[300px] md:h-[340px] lg:h-[min(520px,58vh)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.35)]"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -171,20 +171,20 @@ export function AboutSection() {
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,var(--color-brand-blue-glow),transparent_34%)] opacity-70" />
 
                   {/* Text overlay */}
-                  <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.2)_38%,rgba(6,12,24,0.54)_100%)] px-6 pb-7 pt-16 lg:px-8 lg:pb-9">
+                  <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.2)_38%,rgba(6,12,24,0.54)_100%)] px-4 pb-5 pt-12 sm:px-6 sm:pb-6 sm:pt-14 lg:px-8 lg:pb-8">
                     <div className="max-w-3xl">
-                      <div className="border-t border-[var(--color-border-light)] pt-5">
-                        <div className="mb-2 flex items-center gap-3">
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[linear-gradient(145deg,var(--color-brand-blue),var(--color-brand-cyan))] text-[var(--color-text-primary)]">
+                      <div className="border-t border-[var(--color-border-light)] pt-4 sm:pt-5">
+                        <div className="mb-1.5 flex items-center gap-2.5 sm:mb-2 sm:gap-3">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border-brand)] bg-[linear-gradient(145deg,var(--color-brand-blue),var(--color-brand-cyan))] text-[var(--color-text-primary)] sm:h-9 sm:w-9 sm:rounded-xl">
                             <PillarGlyph kind={pillars[activeIndex].icon} />
                           </div>
-                          <h3 className="text-2xl font-semibold tracking-tight text-white sm:text-[1.85rem]">
+                          <h3 className="text-lg font-semibold tracking-tight text-white sm:text-2xl sm:leading-tight md:text-[1.75rem]">
                             {pillars[activeIndex].title}
                           </h3>
                         </div>
-                        <p className="text-sm leading-relaxed text-white/70">{pillars[activeIndex].desc}</p>
+                        <p className="text-xs leading-relaxed text-white/70 sm:text-sm">{pillars[activeIndex].desc}</p>
                       </div>
-                      <div className="mt-4 border-l-2 border-[var(--color-brand-blue)] pl-3">
+                      <div className="mt-3 border-l-2 border-[var(--color-brand-blue)] pl-2.5 sm:mt-4 sm:pl-3">
                         <p className="text-xs font-medium uppercase tracking-[0.13em] text-white/50">{pillars[activeIndex].short}</p>
                       </div>
                     </div>

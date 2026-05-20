@@ -1,23 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useState } from "react";
 import { Header } from "../sections/Header";
 import { Breadcrumbs } from "../components/Breadcrumbs";
-
-
-function GetThemedLogo({ className = "h-10 w-auto" }) {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return (
-    <Image src="/iken-logo-new.png" alt="IKEN" width={120} height={40}
-      className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`}
-      style={{ width: "auto" }} />
-  );
-}
 
 const contactInfo = [
   {
@@ -151,7 +136,7 @@ export default function ContactPage() {
       } else {
         setErrorMsg(result.error || "Failed to send message. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setErrorMsg("An unexpected error occurred. Please try again later.");
     } finally {
       setLoading(false);

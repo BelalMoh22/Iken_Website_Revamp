@@ -20,7 +20,7 @@ const differentiators = [
 
 export function DifferentiationSection() {
   return (
-    <section id="why-iken" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-24">
+    <section id="why-iken" className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)] pt-10 sm:pt-12 lg:pt-14">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,var(--color-brand-blue-glow),transparent_38%)]" />
 
       <div className="site-container relative">
@@ -29,7 +29,7 @@ export function DifferentiationSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.45 }}
-          className="mb-10 max-w-3xl"
+          className="mb-8 max-w-3xl sm:mb-10"
         >
           <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
             <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-cyan)]" />
@@ -52,7 +52,7 @@ export function DifferentiationSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.12 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-6 transition-colors hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+              className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-5 shadow-[0_2px_16px_rgba(0,0,0,0.04)] transition-colors hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:p-6 dark:shadow-[0_4px_24px_rgba(0,0,0,0.2)]"
             >
               <h3 className="text-xl font-semibold text-[var(--color-text-primary)]">{item.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
@@ -60,7 +60,7 @@ export function DifferentiationSection() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-10">
           <Link
             href="/contact"
             className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
@@ -68,10 +68,10 @@ export function DifferentiationSection() {
             Book a strategy call
           </Link>
           <a
-            href="#projects"
+            href="#work"
             className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-3 text-sm font-semibold text-[var(--color-text-primary)] transition-colors hover:border-[var(--color-border-brand)]"
           >
-            See proof in projects
+            See client proof
           </a>
         </div>
       </div>
