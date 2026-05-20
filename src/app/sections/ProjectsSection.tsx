@@ -24,6 +24,7 @@ const products: Product[] = [
   {
     title: "ELAbd Patisserie",
     image: "/products/Elabd.svg",
+    href: "/projects/elabd",
   },
   {
     title: "Contact Cars",
@@ -38,8 +39,6 @@ const products: Product[] = [
     image: "/products/moqawalat.svg",
   },
 ];
-
-
 
 export function ProjectsSection() {
   const router = useRouter();
@@ -104,7 +103,7 @@ export function ProjectsSection() {
       viewport={{ once: true, amount: 0.15 }}
       variants={fade}
       transition={{ duration: 0.45 }}
-      className="relative overflow-hidden bg-[var(--color-bg-main)] pb-24 pt-14 sm:pt-16"
+      className="relative overflow-hidden bg-[var(--color-bg-main)] home-section-y"
     >
       {/* Background glow */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -112,11 +111,16 @@ export function ProjectsSection() {
       </div>
 
       <div className="relative z-10">
-        <div className="mb-12 flex flex-col md:flex-row items-center md:items-end justify-between gap-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="mx-auto mb-8 flex max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:mb-10 sm:px-6 md:flex-row md:items-end lg:px-8">
           <div className="space-y-3 text-center md:text-left">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Selected Projects</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+              Selected Projects
+            </p>
             <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-              Results We <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Delivered</span>
+              Results We{" "}
+              <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
+                Delivered
+              </span>
             </h2>
           </div>
 
@@ -126,24 +130,46 @@ export function ProjectsSection() {
               className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50"
               aria-label="Previous project"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1">
-                <path d="m15 18-6-6 6-6"/>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-300 group-hover:-translate-x-1"
+              >
+                <path d="m15 18-6-6 6-6" />
               </svg>
             </button>
             <div className="text-[var(--color-text-muted)] font-mono text-sm tracking-widest px-1 sm:px-2">
               <span className="inline-block text-[var(--color-text-primary)]">
-                {String(currentSlide + 1).padStart(2, '0')}
+                {String(currentSlide + 1).padStart(2, "0")}
               </span>
               <span className="mx-2 opacity-50">/</span>
-              <span className="opacity-70">{String(products.length).padStart(2, '0')}</span>
+              <span className="opacity-70">
+                {String(products.length).padStart(2, "0")}
+              </span>
             </div>
             <button
               onClick={() => sliderRef.current?.slickNext()}
-              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_0_20px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
               aria-label="Next project"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">
-                <path d="m9 18 6-6-6-6"/>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                <path d="m9 18 6-6-6-6" />
               </svg>
             </button>
           </div>
@@ -152,8 +178,12 @@ export function ProjectsSection() {
         <div className="projects-carousel mx-auto w-full max-w-7xl px-0 sm:px-2">
           <Slider ref={sliderRef} {...settings}>
             {products.map((project) => (
-              <div key={project.title} className="px-3 py-2" style={{ width: 420 }}>
-                <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_18px_38px_rgba(0,0,0,0.24)] backdrop-blur-sm">
+              <div
+                key={project.title}
+                className="px-3 py-2"
+                style={{ width: 420 }}
+              >
+                <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)]">
                   <div className="relative h-64 overflow-hidden">
                     {project.logo ? (
                       <div className="relative h-full w-full bg-white">
@@ -167,19 +197,29 @@ export function ProjectsSection() {
                       </div>
                     ) : (
                       <>
-                        <Image src={project.image} alt={project.title} fill className="object-cover scale-[1.08] origin-center" />
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-cover scale-[1.08] origin-center"
+                        />
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.18)_100%)]" />
                       </>
                     )}
-
                   </div>
                   <div className="flex items-center justify-between p-5">
-                    <h3 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">{project.title}</h3>
+                    <h3 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">
+                      {project.title}
+                    </h3>
                     {project.href && (
                       <Link
                         href={project.href}
-                        onClick={(e) => handleCaseStudyNavigate(e, project.href!)}
-                        onTouchEnd={(e) => handleCaseStudyNavigate(e, project.href!)}
+                        onClick={(e) =>
+                          handleCaseStudyNavigate(e, project.href!)
+                        }
+                        onTouchEnd={(e) =>
+                          handleCaseStudyNavigate(e, project.href!)
+                        }
                         className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
                       >
                         View Case Study
@@ -192,8 +232,10 @@ export function ProjectsSection() {
           </Slider>
         </div>
 
-        <p className="mx-auto mt-20 max-w-4xl px-4 text-center text-2xl font-medium leading-relaxed text-[var(--color-text-secondary)] sm:px-6 lg:px-8">
-          We engineer high-performance digital products and scalable platforms that deliver measurable business impact—from rapid-growth startups to global enterprises.
+        <p className="mx-auto mt-12 max-w-4xl px-4 text-center text-lg font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-14 sm:px-6 sm:text-xl lg:mt-16 lg:px-8">
+          We engineer high-performance digital products and scalable platforms
+          that deliver measurable business impact—from rapid-growth startups to
+          global enterprises.
         </p>
       </div>
     </motion.section>

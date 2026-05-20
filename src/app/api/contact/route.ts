@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     `;
 
     // Send the email
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Contact Form <onboarding@resend.dev>', // Default testing domain provided by Resend
       to: process.env.CONTACT_EMAIL as string,
       replyTo: cleanEmail,

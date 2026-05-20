@@ -29,16 +29,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   const gridLinks = [
     { label: "Home", href: "/" },
-    { label: "About", href: "#about" },
-    { label: "Why IKEN", href: "#why-iken" },
-    { label: "Models", href: "#models" },
-    { label: "Services", href: "#services" },
-    { label: "Industries", href: "#industries" },
-    { label: "Projects", href: "#projects" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Clients", href: "#clients" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "/contact" },
+    { label: "About", href: "/#about" },
+    { label: "Why IKEN", href: "/#why-iken" },
+    { label: "Services", href: "/#services" },
+    { label: "Models", href: "/#models" },
+    { label: "Sectors", href: "/sectors" },
+    { label: "Work", href: "/#work" },
+    { label: "Testimonials", href: "/#testimonials" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -74,6 +73,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   className={`h-8 w-auto object-contain ${
                     theme === "dark" ? "brightness-0 invert" : ""
                   }`}
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <div className="flex items-center gap-3">
                   <ThemeToggle />
