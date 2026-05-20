@@ -15,13 +15,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Push main to Azure master
-        env:
-          AZURE_PAT: ${{ secrets.AZURE_PAT }}
+      - name: Configure Git
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git remote add azure https://anything:${AZURE_PAT}@dev.azure.com/ORG_NAME/PROJECT_NAME/_git/REPO_NAME
+      - name: Add Azure remote
+        env:
+          AZURE_PAT: ${{ secrets.AZURE_PAT }}
+        run: |
+          git remote remove azure 2>/dev/null || true
 
-          git push azure main:master
+          git remote add azure "https://ikentechnology:${AZURE_PAT}@dev.azure.com/ikentechnology/Iken%20Website/_git/Iken%20Website"
+
+      - name: Fetch Azure master
+        run: |
+          git fetch azure master || true
+
+      - name: Push GitHub main to Azure master
+        run: |
+          git push azure main:master --force-with-lease
