@@ -31,9 +31,9 @@ export function Breadcrumbs() {
   // Helper to generate correct URLs for navigation
   const getSegmentUrl = (index: number) => {
     const path = "/" + segments.slice(0, index + 1).join("/");
-    // If navigating to /projects, link back to the homepage section
+    // If navigating to /projects, link back to the homepage work section
     if (path === "/projects") {
-      return "/#projects";
+      return "/#work";
     }
     return path;
   };

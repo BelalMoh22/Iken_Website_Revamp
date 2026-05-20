@@ -62,11 +62,11 @@ function ServiceCard({ s }: { s: typeof services[0] }) {
       <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.16)_52%,rgba(6,12,24,0.5)_100%)] transition-all duration-500 group-hover:h-48 group-hover:opacity-90 group-focus-within:h-48 group-focus-within:opacity-90" />
 
       <div className="absolute inset-x-6 bottom-6 z-10 transition-transform duration-500 ease-out group-hover:-translate-y-24 group-focus-within:-translate-y-24">
-        <h3 className="mb-0 whitespace-pre-line text-xl font-bold leading-tight text-white drop-shadow-[0_1px_10px_rgba(6,12,24,0.22)]">
+        <h3 className="mb-0 whitespace-pre-line text-xl font-bold leading-tight text-white drop-shadow-[0_1px_6px_rgba(6,12,24,0.14)]">
           {s.title}
         </h3>
         <div className="absolute left-0 top-full w-full pt-3 pointer-events-none">
-          <p className="text-sm leading-relaxed text-white/85 opacity-0 translate-y-4 drop-shadow-[0_1px_10px_rgba(6,12,24,0.22)] transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
+          <p className="text-sm leading-relaxed text-white/85 opacity-0 translate-y-4 drop-shadow-[0_1px_6px_rgba(6,12,24,0.14)] transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
             {s.desc}
           </p>
         </div>
@@ -111,10 +111,10 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="scroll-section relative bg-[var(--color-bg-main)] py-20 lg:py-24 overflow-hidden"
+      className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)]"
     >
       <div className="site-container">
-        <div className="flex flex-col lg:flex-row lg:items-stretch gap-10 lg:gap-12">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
           
           {/* Left Side: 40% Width Text Content */}
           <div className="flex flex-col justify-center lg:w-[40%] shrink-0">
@@ -129,7 +129,7 @@ export function ServicesSection() {
                   GREAT IT SOLUTIONS
                 </span>
               </h2>
-              <p className="mt-4 text-base leading-[1.6] text-[#6b7280]">
+              <p className="mt-4 text-base leading-[1.6] text-[var(--color-text-secondary)]">
                 Scalable engineering teams and strategic product development to transform your business goals into digital reality. Built for modern performance and growth.
               </p>
               
@@ -166,7 +166,7 @@ export function ServicesSection() {
                 type="button"
                 onClick={() => moveServices(1)}
                 disabled={currentIndex === maxIndex}
-                className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_0_20px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50 disabled:pointer-events-none disabled:opacity-40"
+                className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50 disabled:pointer-events-none disabled:opacity-40"
                 aria-label="Next services"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">

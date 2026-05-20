@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const cyclingWords = ["Software", "Products", "Platforms", "Solutions"];
@@ -55,11 +55,13 @@ function Stat({ value, label, suffix = "" }: { value: number; label: string; suf
 
 export function HeroSection() {
   const [wordIndex, setWordIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     const t = setInterval(() => setWordIndex((i) => (i + 1) % cyclingWords.length), 2400);
     return () => clearInterval(t);
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <section id="home" className="scroll-section relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
@@ -111,23 +113,30 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="text-[2.35rem] min-[390px]:text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-black leading-[1.05] tracking-tight"
+            aria-label="We Build Software That Drive Growth"
           >
             <span className="text-[var(--color-text-primary)]">We Build&nbsp;</span>
 
             {/* Cycling word */}
-            <span className="relative inline-flex overflow-hidden whitespace-nowrap">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={cyclingWords[wordIndex]}
-                  initial={{ y: "100%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  exit={{ y: "-100%", opacity: 0 }}
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-gradient-to-r from-[var(--color-brand-blue)] via-[var(--color-brand-cyan)] to-[var(--color-brand-blue)] bg-clip-text text-transparent"
-                >
-                  {cyclingWords[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
+            <span className="relative inline-flex min-w-[4.55em] justify-center overflow-hidden whitespace-nowrap align-bottom" aria-hidden="true">
+              {shouldReduceMotion ? (
+                <span className="bg-gradient-to-r from-[var(--color-brand-blue)] via-[var(--color-brand-cyan)] to-[var(--color-brand-blue)] bg-clip-text text-transparent">
+                  {cyclingWords[0]}
+                </span>
+              ) : (
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={cyclingWords[wordIndex]}
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    exit={{ y: "-100%", opacity: 0 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="bg-gradient-to-r from-[var(--color-brand-blue)] via-[var(--color-brand-cyan)] to-[var(--color-brand-blue)] bg-clip-text text-transparent"
+                  >
+                    {cyclingWords[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              )}
             </span>
 
             <br />
@@ -164,15 +173,15 @@ export function HeroSection() {
         >
           <Link
             href="/contact"
-            className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-[0_0_22px_var(--color-brand-blue-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_36px_var(--color-brand-blue-glow)] flex items-center justify-center"
+            className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-[0_2px_18px_var(--color-brand-blue-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_26px_var(--color-brand-blue-glow)] flex items-center justify-center"
           >
             Book a Discovery Call
           </Link>
           <a
-            href="#projects"
+            href="#work"
             className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] flex items-center justify-center"
           >
-            View Projects
+            View Work
           </a>
         </motion.div>
 

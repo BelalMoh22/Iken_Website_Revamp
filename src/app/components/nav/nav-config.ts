@@ -12,30 +12,29 @@ export const navigationData: NavItem[] = [
   {
     label: "Services",
     children: [
-      { label: "Product Discovery", href: "#services" },
-      { label: "Web Development", href: "#services" },
-      { label: "Mobile Applications", href: "#services" },
-      { label: "E-Commerce", href: "#services" },
-      { label: "Team as a Service", href: "#services" },
-      { label: "Development Partnership", href: "#services" },
+      { label: "Product Discovery", href: "/#services" },
+      { label: "Web Development", href: "/#services" },
+      { label: "Mobile Applications", href: "/#services" },
+      { label: "E-Commerce", href: "/#services" },
+      { label: "Team as a Service", href: "/#models" },
+      { label: "Development Partnership", href: "/#models" },
     ],
   },
   {
     label: "Work",
     children: [
-      { label: "Projects", href: "#projects" },
-      { label: "Industries", href: "#industries" },
-      { label: "Clients", href: "#clients" },
-      { label: "Testimonials", href: "#testimonials" },
+      { label: "Results We Delivered", href: "/#work" },
+      { label: "Sectors", href: "/sectors" },
+      { label: "Testimonials", href: "/#testimonials" },
     ],
   },
   {
     label: "Company",
     children: [
-      { label: "About", href: "#about" },
-      { label: "Why IKEN", href: "#why-iken" },
-      { label: "Models", href: "#models" },
-      { label: "FAQ", href: "#faq" },
+      { label: "About", href: "/#about" },
+      { label: "Why IKEN", href: "/#why-iken" },
+      { label: "Models", href: "/#models" },
+      { label: "FAQ", href: "/faq" },
     ],
   }
 ];
