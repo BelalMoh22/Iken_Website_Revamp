@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
       - develop
       - feature/**
       - hotfix/**
@@ -19,17 +20,22 @@ jobs:
           fetch-depth: 0
 
       - name: Push to Azure DevOps
-        run: |
-            git remote remove azure || true
-          
-            git remote add azure "https://$AZURE_PAT@${AZURE_REPO_URL#https://}"
-          
-            # Push main -> master
-            if [ "${GITHUB_REF_NAME}" = "main" ]; then
-              git push azure HEAD:master --force
-            else
-              git push azure HEAD:${GITHUB_REF_NAME} --force
-            fi
         env:
           AZURE_PAT: ${{ secrets.AZURE_PAT }}
           AZURE_REPO_URL: ${{ secrets.AZURE_REPO_URL }}
+        run: |
+          echo "Starting sync..."
+
+          git remote remove azure || true
+
+          CLEAN_URL=$(echo "$AZURE_REPO_URL" | tr -d '\r\n')
+
+          git remote add azure "https://:$AZURE_PAT@${CLEAN_URL#https://}"
+
+          echo "Pushing branch: ${GITHUB_REF_NAME}"
+
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            git push azure HEAD:master --force
+          else
+            git push azure HEAD:${GITHUB_REF_NAME} --force
+          fi
