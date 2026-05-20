@@ -34,4 +34,4 @@ jobs:
 
       - name: Push GitHub main to Azure master
         run: |
-          git push azure main:master --force-with-lease
+          git push azure main:master
