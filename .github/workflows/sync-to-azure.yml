@@ -1,41 +1,27 @@
-name: Sync GitHub to Azure DevOps
+name: Sync GitHub main to Azure master
 
 on:
   push:
     branches:
       - main
-      - master
-      - develop
-      - feature/**
-      - hotfix/**
 
 jobs:
-  sync:
+  sync-to-azure:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout GitHub repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Push to Azure DevOps
+      - name: Push main to Azure master
         env:
           AZURE_PAT: ${{ secrets.AZURE_PAT }}
-          AZURE_REPO_URL: ${{ secrets.AZURE_REPO_URL }}
         run: |
-          echo "Starting sync..."
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
-          git remote remove azure || true
+          git remote add azure https://anything:${AZURE_PAT}@dev.azure.com/ORG_NAME/PROJECT_NAME/_git/REPO_NAME
 
-          CLEAN_URL=$(echo "$AZURE_REPO_URL" | tr -d '\r\n')
-
-          git remote add azure "https://:$AZURE_PAT@${CLEAN_URL#https://}"
-
-          echo "Pushing branch: ${GITHUB_REF_NAME}"
-
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            git push azure HEAD:master --force
-          else
-            git push azure HEAD:${GITHUB_REF_NAME} --force
-          fi
+          git push azure main:master
