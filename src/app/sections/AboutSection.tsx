@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const pillars = [
@@ -55,32 +55,26 @@ function PillarGlyph({ kind }: { kind: string }) {
 
 export function AboutSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobileView, setIsMobileView] = useState(false);
-  const imagePanelRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const resetAutoTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % pillars.length);
+    }, 4500);
+  }, []);
 
   const handlePillarClick = (idx: number) => {
     setActiveIndex(idx);
-
-    if (isMobileView && imagePanelRef.current) {
-      imagePanelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    resetAutoTimer();
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % pillars.length);
-    }, 4500); // Cycle every 4.5 seconds
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 1023px)");
-    const updateMobileView = () => setIsMobileView(media.matches);
-
-    updateMobileView();
-    media.addEventListener("change", updateMobileView);
-    return () => media.removeEventListener("change", updateMobileView);
-  }, []);
+    resetAutoTimer();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [resetAutoTimer]);
 
   return (
     <section id="about" className="scroll-section home-section-y relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)]">
@@ -89,10 +83,10 @@ export function AboutSection() {
       <div className="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[var(--color-brand-cyan)] opacity-[0.12] blur-3xl" />
 
       <div className="site-container">
-        <div className="relative flex flex-col gap-8 sm:gap-10 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-12">
+        <div className="relative flex flex-col gap-8 sm:gap-10 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:grid-rows-[auto_1fr] lg:items-center lg:gap-12">
 
           {/* Left — info + pillar list */}
-          <aside className="z-10 shrink-0">
+          <aside className="order-1 z-10 shrink-0 lg:col-start-1 lg:row-start-1">
             <div className="w-full lg:max-w-[34rem]">
 
               <motion.div
@@ -105,17 +99,29 @@ export function AboutSection() {
                   <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
                   <span className="text-xs font-semibold uppercase tracking-[0.18em]">About IKEN</span>
                 </div>
-                <h2 className="mt-4 max-w-[18ch] text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-                  Empowering Businesses{" "}
-                  <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">Since 2018</span>
+                <h2 className="mt-4 max-w-[18rem] text-[2rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] min-[390px]:max-w-[20rem] min-[390px]:text-[2.25rem] sm:max-w-[18ch] sm:text-5xl">
+                  <span className="block">Empowering</span>
+                  <span className="block">
+                    Businesses{" "}
+                    <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
+                      Since
+                    </span>
+                  </span>
+                  <span className="block bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
+                    2018
+                  </span>
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                   IKEN Technology pioneers cutting-edge solutions tailored for all business sizes. Backed by over 7 years of unparalleled expertise, we build long-term, reliable partnerships that deliver real results — from startups to enterprise.
                 </p>
               </motion.div>
 
-              {/* Pillar list */}
-              <div className="mt-8 flex flex-col gap-5 sm:mt-10 sm:gap-6">
+            </div>
+          </aside>
+
+          {/* Pillar list */}
+          <div className="order-3 z-10 w-full lg:col-start-1 lg:row-start-2 lg:max-w-[34rem]">
+              <div className="flex flex-col gap-5 sm:gap-6 lg:mt-8">
                 {pillars.map((pillar, idx) => {
                   const isActive = idx === activeIndex;
                   return (
@@ -140,11 +146,10 @@ export function AboutSection() {
                   );
                 })}
               </div>
-            </div>
-          </aside>
+          </div>
 
           {/* Right — image carousel */}
-          <div ref={imagePanelRef} className="relative flex items-center lg:min-h-0 lg:self-stretch">
+          <div className="relative order-2 w-full flex items-center lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:min-h-0 lg:self-stretch">
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -183,7 +188,6 @@ export function AboutSection() {
                             {pillars[activeIndex].title}
                           </h3>
                         </div>
-                        <p className="text-xs leading-relaxed text-white/70 sm:text-sm">{pillars[activeIndex].desc}</p>
                       </div>
                       <div className="mt-3 border-l-2 border-[var(--color-brand-blue)] pl-2.5 sm:mt-4 sm:pl-3">
                         <p className="text-xs font-medium uppercase tracking-[0.13em] text-white/50">{pillars[activeIndex].short}</p>

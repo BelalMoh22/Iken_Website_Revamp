@@ -1,0 +1,76 @@
+.carousel :global(.slick-track) {
+  display: flex !important;
+  align-items: center;
+}
+
+.carousel :global(.slick-list) {
+  overflow: hidden;
+}
+
+.carousel :global(.slick-slide) {
+  opacity: 0.66;
+  transition:
+    opacity 280ms ease,
+    transform 320ms ease,
+    filter 320ms ease;
+}
+
+.carousel :global(.slick-slide) .card {
+  transform: scale(0.88);
+  transform-origin: center center;
+  filter: blur(4px);
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transition:
+    transform 320ms ease,
+    filter 320ms ease,
+    opacity 280ms ease;
+}
+
+.carousel :global(.slick-slide.slick-center) {
+  opacity: 1;
+}
+
+.carousel :global(.slick-slide.slick-center) .card {
+  transform: scale(0.96);
+  filter: blur(0);
+  background: var(--color-bg-card) !important;
+  border-color: var(--color-border-light) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+@supports selector(.x:has(+ .y)) {
+  .carousel :global(.slick-slide:has(+ .slick-center)) .card {
+    transform: perspective(900px) rotateY(24deg) scale(0.88);
+  }
+
+  .carousel :global(.slick-center + .slick-slide) .card {
+    transform: perspective(900px) rotateY(-24deg) scale(0.88);
+  }
+}
+
+@media (max-width: 767px) {
+  .carousel :global(.slick-list) {
+    padding-inline: 0.75rem;
+  }
+
+  .carousel :global(.slick-slide) {
+    opacity: 1;
+  }
+
+  .carousel :global(.slick-slide) .card {
+    transform: none;
+    filter: none;
+    background: var(--color-bg-card) !important;
+    border-color: var(--color-border-light) !important;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12) !important;
+  }
+
+}
+
+@media (max-width: 380px) {
+  .carousel :global(.slick-list) {
+    padding-inline: 0.5rem;
+  }
+}
