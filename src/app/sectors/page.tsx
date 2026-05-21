@@ -10,7 +10,7 @@ export default function SectorsPage() {
     <div className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       <Header />
       <main>
-        <section className="relative overflow-hidden bg-[var(--color-bg-main)] py-16 sm:py-24">
+        <section className="relative overflow-hidden bg-[var(--color-bg-main)] py-12 sm:py-16">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,var(--color-brand-blue-glow),transparent_35%),radial-gradient(circle_at_90%_10%,var(--color-brand-cyan-glow),transparent_30%)]" />
           <div className="site-container relative">
             <Breadcrumbs />

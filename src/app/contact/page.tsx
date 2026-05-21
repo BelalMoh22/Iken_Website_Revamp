@@ -173,10 +173,10 @@ export default function ContactPage() {
       <Header />
 
       {/* Page content */}
-      <main className="site-container relative z-10 py-16 lg:py-24">
+      <main className="site-container relative z-10 py-12 lg:py-16">
         <Breadcrumbs />
         {/* Page title */}
-        <div className="mb-14 max-w-2xl">
+        <div className="mb-10 max-w-2xl">
           <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
             <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
             <span className="text-xs font-semibold uppercase tracking-[0.18em]">Get In Touch</span>

@@ -114,7 +114,7 @@ export function ProjectsSection() {
       </div>
 
       <div className="relative z-10">
-        <div className="mx-auto mb-8 flex max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:mb-10 sm:px-6 md:flex-row md:items-end lg:px-8">
+        <div className="mx-auto mb-8 flex max-w-7xl flex-col items-center justify-between gap-5 px-4 sm:mb-10 sm:px-6 md:flex-row md:items-end lg:px-8">
           <div className="space-y-3 text-center md:text-left">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
               Selected Projects
@@ -185,7 +185,7 @@ export function ProjectsSection() {
           </Slider>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:mt-9" role="group" aria-label="Project slider navigation">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8" role="group" aria-label="Project slider navigation">
           <button
             onClick={() => sliderRef.current?.slickPrev()}
             className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
@@ -254,7 +254,7 @@ export function ProjectsSection() {
           </button>
         </div>
 
-        <p className="mx-auto mt-12 max-w-4xl px-4 text-center text-lg font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-14 sm:px-6 sm:text-xl lg:mt-16 lg:px-8">
+        <p className="mx-auto mt-8 max-w-4xl px-4 text-center text-lg font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-10 sm:px-6 sm:text-xl lg:px-8">
           We engineer high-performance digital products and scalable platforms
           that deliver measurable business impact—from rapid-growth startups to
           global enterprises.

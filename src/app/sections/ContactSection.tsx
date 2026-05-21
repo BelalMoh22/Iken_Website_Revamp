@@ -46,7 +46,7 @@ export function ContactSection() {
       <div className="home-section-y">
         <div className="site-container relative">
           {/* Header */}
-        <div className="mb-10 grid gap-6 lg:grid-cols-2 lg:items-end lg:mb-12">
+        <div className="mb-8 grid gap-5 lg:grid-cols-2 lg:items-end lg:mb-10">
           <div>
             <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
               <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
@@ -66,7 +66,7 @@ export function ContactSection() {
         </div>
 
         {/* Contact cards */}
-        <div className="mb-10 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:mb-12 lg:grid-cols-3">
+        <div className="mb-8 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:mb-10 lg:grid-cols-3">
           {contactItems.map((item) => (
             <a
               key={item.label}
@@ -87,7 +87,7 @@ export function ContactSection() {
         </div>
 
         {/* Footer links */}
-        <div className="grid gap-8 border-t border-[var(--color-border-light)] pt-8 md:grid-cols-3">
+        <div className="grid gap-6 border-t border-[var(--color-border-light)] pt-6 md:grid-cols-3">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Quick Links</p>
             <div className="flex flex-col gap-2 text-sm text-[var(--color-text-secondary)]">
