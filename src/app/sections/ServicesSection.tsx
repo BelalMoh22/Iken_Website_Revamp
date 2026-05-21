@@ -213,15 +213,15 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-16 text-[var(--color-text-primary)] sm:py-20 lg:py-24"
+      className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]"
     >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-10 h-72 w-[min(720px,90vw)] -translate-x-1/2 rounded-full bg-[var(--color-brand-blue-glow)] blur-[110px]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.38fr_0.62fr] lg:items-center lg:gap-12 xl:gap-16">
+      <div className="site-container relative">
+        <div className="grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-center lg:gap-10 xl:gap-12">
           <div className="flex items-center">
             <div className="w-full max-w-[31rem]">
               <div className="mb-5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -276,7 +276,7 @@ export function ServicesSection() {
               </div>
             </div>
 
-            <div className="mt-8 flex items-center justify-center gap-4 sm:mt-9" role="group" aria-label="Service slider navigation">
+            <div className="mt-6 flex items-center justify-center gap-4 sm:mt-8" role="group" aria-label="Service slider navigation">
               <NavArrow
                 direction="prev"
                 disabled={safeIndex === 0}

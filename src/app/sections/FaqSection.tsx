@@ -16,9 +16,9 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
       <div className="pointer-events-none absolute inset-0 border-t border-[var(--color-border-light)]" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,var(--color-brand-blue-glow),transparent_60%)]" />
 
-      <div className="site-container relative pb-16 pt-16 md:pb-24">
+      <div className="site-container relative home-section-y">
         {showHeader ? (
-          <div className="mb-12 flex flex-col items-center text-center md:mb-16">
+          <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               whileInView={{ opacity: 1, y: 0 }}

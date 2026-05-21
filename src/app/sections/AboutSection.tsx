@@ -83,7 +83,7 @@ export function AboutSection() {
       <div className="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[var(--color-brand-cyan)] opacity-[0.12] blur-3xl" />
 
       <div className="site-container">
-        <div className="relative flex flex-col gap-8 sm:gap-10 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:grid-rows-[auto_1fr] lg:items-center lg:gap-12">
+        <div className="relative flex flex-col gap-8 lg:grid lg:grid-cols-[0.94fr_1.06fr] lg:grid-rows-[auto_1fr] lg:items-center lg:gap-10">
 
           {/* Left — info + pillar list */}
           <aside className="order-1 z-10 shrink-0 lg:col-start-1 lg:row-start-1">
@@ -111,7 +111,7 @@ export function AboutSection() {
                     2018
                   </span>
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                   IKEN Technology pioneers cutting-edge solutions tailored for all business sizes. Backed by over 7 years of unparalleled expertise, we build long-term, reliable partnerships that deliver real results — from startups to enterprise.
                 </p>
               </motion.div>
@@ -121,7 +121,7 @@ export function AboutSection() {
 
           {/* Pillar list */}
           <div className="order-3 z-10 w-full lg:col-start-1 lg:row-start-2 lg:max-w-[34rem]">
-              <div className="flex flex-col gap-5 sm:gap-6 lg:mt-8">
+              <div className="flex flex-col gap-4 sm:gap-5 lg:mt-6">
                 {pillars.map((pillar, idx) => {
                   const isActive = idx === activeIndex;
                   return (
