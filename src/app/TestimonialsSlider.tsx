@@ -74,7 +74,7 @@ export function TestimonialsSlider() {
       <div className="site-container relative z-10 h-full">
         
         {/* Section Header */}
-        <div className="mx-auto mb-6 max-w-2xl text-center sm:mb-8">
+        <div className="mx-auto mb-5 max-w-2xl text-center sm:mb-6">
             <h2 className="mb-2 text-3xl font-light tracking-tight text-[var(--color-text-primary)] sm:mb-3 sm:text-4xl lg:text-5xl">
               Trusted by <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]">Visionaries</span>
             </h2>
@@ -161,7 +161,7 @@ export function TestimonialsSlider() {
         </div>
         
         {/* Bottom Pager Indicators */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:mt-9" role="group" aria-label="Testimonial slider navigation">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8" role="group" aria-label="Testimonial slider navigation">
           <button
             onClick={handlePrev}
             className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"

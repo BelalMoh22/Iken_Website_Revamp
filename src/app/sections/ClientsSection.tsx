@@ -45,7 +45,7 @@ export function ClientsSection() {
   return (
     <section
       id="clients"
-      className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-20 sm:py-24 lg:py-28"
+      className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)]"
     >
       {/* Premium Background Ornaments & Accent Glows */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -83,7 +83,7 @@ export function ClientsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mx-auto mb-12 max-w-2xl text-center sm:mb-14 lg:mb-16"
+          className="mx-auto mb-8 max-w-2xl text-center sm:mb-10"
         >
           <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[var(--color-text-brand)]">
             PARTNERSHIP
@@ -107,7 +107,7 @@ export function ClientsSection() {
           viewport={{ once: true, amount: 0.15 }}
           className="mx-auto w-full max-w-6xl"
         >
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5 sm:gap-10 lg:gap-12 place-items-center">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5 sm:gap-7 lg:gap-8 place-items-center">
             {featuredClients.map((client, index) => {
               const isLowerRow = index >= 5;
               return (

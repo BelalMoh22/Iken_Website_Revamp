@@ -95,11 +95,11 @@ export function ModelsSection() {
                   </div>
                 </div>
 
-                <div className="relative mt-5 sm:mt-7 lg:mt-8">
+                <div className="relative mt-4 sm:mt-5 lg:mt-6">
                   <h3 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-[1.65rem] lg:text-[1.7rem]">{model.title}</h3>
                   <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--color-text-secondary)] sm:mt-4">{model.desc}</p>
 
-                  <div className="mt-5 sm:mt-7 lg:mt-8">
+                  <div className="mt-4 sm:mt-5 lg:mt-6">
                     <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-text-muted)] sm:text-xs sm:tracking-[0.14em]">Core Features</p>
                     <div className="mt-2 flex flex-wrap gap-1.5 sm:mt-3 sm:gap-2">
                       {model.features.map((feature) => (
@@ -110,7 +110,7 @@ export function ModelsSection() {
                     </div>
                   </div>
 
-                  <div className="mt-5 border-t border-[var(--color-border-light)] pt-4 sm:mt-6 sm:pt-5 lg:mt-7 lg:pt-6">
+                  <div className="mt-4 border-t border-[var(--color-border-light)] pt-3 sm:mt-5 sm:pt-4 lg:mt-6 lg:pt-5">
                     <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--color-text-muted)] sm:text-xs sm:tracking-[0.14em]">Key Benefits</p>
                     <div className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-3">
                       {model.benefits.map((benefit) => (
