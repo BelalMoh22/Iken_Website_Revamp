@@ -74,45 +74,13 @@ export function TestimonialsSlider() {
       <div className="site-container relative z-10 h-full">
         
         {/* Section Header */}
-        <div className="mb-6 flex flex-col justify-between gap-5 sm:mb-8 md:flex-row md:items-end md:gap-6">
-          <div className="max-w-2xl">
+        <div className="mx-auto mb-6 max-w-2xl text-center sm:mb-8">
             <h2 className="mb-2 text-3xl font-light tracking-tight text-[var(--color-text-primary)] sm:mb-3 sm:text-4xl lg:text-5xl">
               Trusted by <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]">Visionaries</span>
             </h2>
             <p className="text-sm font-light leading-relaxed text-[var(--color-text-secondary)] sm:text-base lg:text-lg">
               Discover how industry leaders leverage our solutions to transform their operations and accelerate growth across the region.
             </p>
-          </div>
-          
-          {/* Top Navigation */}
-          <div className="flex shrink-0 items-center gap-3 sm:gap-4">
-            <button
-              onClick={handlePrev}
-              className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50"
-              aria-label="Previous testimonial"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1"><path d="m15 18-6-6 6-6"/></svg>
-            </button>
-            <div className="hidden px-2 font-mono text-sm tracking-widest text-[var(--color-text-muted)] sm:block">
-              <motion.span 
-                key={currentIndex}
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="inline-block text-[var(--color-text-primary)]"
-              >
-                0{currentIndex + 1}
-              </motion.span> 
-              <span className="mx-2 opacity-50">/</span> 
-              0{TESTIMONIALS.length}
-            </div>
-            <button
-              onClick={handleNext}
-              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
-              aria-label="Next testimonial"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-          </div>
         </div>
 
         {/* Main Content Area */}
@@ -193,17 +161,51 @@ export function TestimonialsSlider() {
         </div>
         
         {/* Bottom Pager Indicators */}
-        <div className="mt-4 flex justify-center gap-2.5 sm:mt-5 sm:gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:mt-9" role="group" aria-label="Testimonial slider navigation">
+          <button
+            onClick={handlePrev}
+            className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+            aria-label="Previous testimonial"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+
+          <div className="flex min-w-[64px] select-none items-baseline justify-center gap-1 font-mono text-sm tracking-wider text-[var(--color-text-primary)]" aria-live="polite">
+            <motion.span
+              key={currentIndex}
+              initial={{ y: 8, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="inline-block font-bold"
+            >
+              {String(currentIndex + 1).padStart(2, "0")}
+            </motion.span>
+            <span className="mx-0.5 text-[var(--color-text-muted)]">/</span>
+            <span className="font-medium text-[var(--color-text-muted)]">
+              {String(TESTIMONIALS.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-center gap-2.5" aria-label="Testimonial slides">
           {TESTIMONIALS.map((_, idx) => (
              <button
              key={idx}
              onClick={() => { setCurrentIndex(idx); startTimer(); }}
-             className={`h-1.5 rounded-full transition-all duration-500 ${
-               idx === currentIndex ? "w-9 bg-[var(--color-brand-blue)] sm:w-10" : "w-3.5 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)] sm:w-4"
+             className={`h-1.5 rounded-full transition-all duration-300 ${
+               idx === currentIndex ? "w-8 bg-[var(--color-brand-blue)]" : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
              }`}
              aria-label={`Go to slide ${idx + 1}`}
+             aria-current={idx === currentIndex ? "true" : undefined}
            />
           ))}
+          </div>
+
+          <button
+            onClick={handleNext}
+            className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+            aria-label="Next testimonial"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
         </div>
 
       </div>
