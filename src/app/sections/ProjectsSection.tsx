@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import type { MouseEvent, TouchEvent } from "react";
 import Slider, { type Settings } from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+
+import styles from "./ProjectsSection.module.css";
 
 const fade = {
   hidden: { opacity: 0, y: 16 },
@@ -59,7 +63,7 @@ export function ProjectsSection() {
     speed: 520,
     cssEase: "cubic-bezier(0.22, 1, 0.36, 1)",
     arrows: false,
-    dots: true,
+    dots: false,
     autoplay: true,
     autoplaySpeed: 3000,
     centerMode: true,
@@ -67,8 +71,7 @@ export function ProjectsSection() {
     variableWidth: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    beforeChange: (current, next) => setCurrentSlide(next),
-    customPaging: () => <span className="project-dot" />,
+    beforeChange: (_, next) => setCurrentSlide(next),
     responsive: [
       {
         breakpoint: 1280,
@@ -123,59 +126,9 @@ export function ProjectsSection() {
               </span>
             </h2>
           </div>
-
-          <div className="flex gap-3 items-center shrink-0">
-            <button
-              onClick={() => sliderRef.current?.slickPrev()}
-              className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50"
-              aria-label="Previous project"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-300 group-hover:-translate-x-1"
-              >
-                <path d="m15 18-6-6 6-6" />
-              </svg>
-            </button>
-            <div className="text-[var(--color-text-muted)] font-mono text-sm tracking-widest px-1 sm:px-2">
-              <span className="inline-block text-[var(--color-text-primary)]">
-                {String(currentSlide + 1).padStart(2, "0")}
-              </span>
-              <span className="mx-2 opacity-50">/</span>
-              <span className="opacity-70">
-                {String(products.length).padStart(2, "0")}
-              </span>
-            </div>
-            <button
-              onClick={() => sliderRef.current?.slickNext()}
-              className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
-              aria-label="Next project"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </button>
-          </div>
         </div>
 
-        <div className="projects-carousel mx-auto w-full max-w-7xl px-0 sm:px-2">
+        <div className={`${styles.carousel} mx-auto w-full max-w-7xl px-0 sm:px-2`}>
           <Slider ref={sliderRef} {...settings}>
             {products.map((project) => (
               <div
@@ -183,7 +136,7 @@ export function ProjectsSection() {
                 className="px-3 py-2"
                 style={{ width: 420 }}
               >
-                <article className="project-card relative mx-auto w-full max-w-[360px] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)]">
+                <article className={`${styles.card} relative mx-auto w-full max-w-[360px] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)]`}>
                   <div className="relative h-64 overflow-hidden">
                     {project.logo ? (
                       <div className="relative h-full w-full bg-white">
@@ -230,6 +183,75 @@ export function ProjectsSection() {
               </div>
             ))}
           </Slider>
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:mt-9" role="group" aria-label="Project slider navigation">
+          <button
+            onClick={() => sliderRef.current?.slickPrev()}
+            className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+            aria-label="Previous project"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-transform duration-300 group-hover:-translate-x-1"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+
+          <div className="flex min-w-[64px] select-none items-baseline justify-center gap-1 font-mono text-sm tracking-wider text-[var(--color-text-primary)]" aria-live="polite">
+            <span className="font-bold">
+              {String(currentSlide + 1).padStart(2, "0")}
+            </span>
+            <span className="mx-0.5 text-[var(--color-text-muted)]">/</span>
+            <span className="font-medium text-[var(--color-text-muted)]">
+              {String(products.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-center gap-2.5" aria-label="Project slides">
+            {products.map((project, idx) => (
+              <button
+                key={project.title}
+                type="button"
+                onClick={() => sliderRef.current?.slickGoTo(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentSlide
+                    ? "w-8 bg-[var(--color-brand-blue)]"
+                    : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+                }`}
+                aria-label={`Go to project slide ${idx + 1}`}
+                aria-current={idx === currentSlide ? "true" : undefined}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={() => sliderRef.current?.slickNext()}
+            className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
+            aria-label="Next project"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
         </div>
 
         <p className="mx-auto mt-12 max-w-4xl px-4 text-center text-lg font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-14 sm:px-6 sm:text-xl lg:mt-16 lg:px-8">

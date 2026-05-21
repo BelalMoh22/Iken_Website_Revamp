@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const services = [
   {
@@ -42,145 +42,284 @@ const services = [
   },
 ];
 
-function ServiceCard({ s }: { s: typeof services[0] }) {
+function ServiceCard({ s, priority = false }: { s: (typeof services)[0]; priority?: boolean }) {
   return (
     <article
       tabIndex={0}
-      className="group relative h-[310px] w-[min(240px,72vw)] shrink-0 cursor-pointer overflow-hidden rounded-[24px] opacity-95 transition-all duration-500 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-within:opacity-100 hover:opacity-100 min-[390px]:h-[330px] sm:h-[360px]"
+      className="group relative aspect-[1/1.02] w-full cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-slate-100 shadow-[0_18px_50px_rgba(15,23,42,0.12)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-main)] sm:aspect-[1/1.04] md:aspect-[1/1.06] lg:aspect-[1/1.2] dark:border-white/10 dark:bg-slate-900 dark:shadow-[0_22px_65px_rgba(0,0,0,0.42)]"
+      aria-label={s.tag}
     >
-      <Image 
-        src={s.image} 
-        alt={s.title} 
-        fill 
-        sizes="(max-width: 768px) 72vw, 240px"
-        className="object-cover brightness-[1.02] transition-all duration-700 ease-out group-hover:scale-[1.035] group-focus-within:scale-[1.035]"
+      <Image
+        src={s.image}
+        alt={s.tag}
+        fill
+        sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) calc((100vw - 6.5rem) / 2), 430px"
+        className="h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.025] group-focus:scale-[1.025]"
+        priority={priority}
+        quality={100}
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(118deg,rgba(3,10,24,0.01)_0%,rgba(3,10,24,0.04)_52%,rgba(3,10,24,0.08)_100%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-within:opacity-100" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,var(--color-brand-blue-glow),transparent_45%)] opacity-0 transition-opacity duration-500 group-hover:opacity-90 group-focus-within:opacity-90" />
-
-      <div className="absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.16)_52%,rgba(6,12,24,0.5)_100%)] transition-all duration-500 group-hover:h-48 group-hover:opacity-90 group-focus-within:h-48 group-focus-within:opacity-90" />
-
-      <div className="absolute inset-x-6 bottom-6 z-10 transition-transform duration-500 ease-out group-hover:-translate-y-24 group-focus-within:-translate-y-24">
-        <h3 className="mb-0 whitespace-pre-line text-xl font-bold leading-tight text-white drop-shadow-[0_1px_6px_rgba(6,12,24,0.14)]">
+      <div className="absolute inset-x-0 bottom-0 z-20 px-5 pb-6 pt-16 text-white transition-[background] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.46)_0%,rgba(2,6,23,0.25)_34%,rgba(2,6,23,0.08)_58%,transparent_76%)] group-focus:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.46)_0%,rgba(2,6,23,0.25)_34%,rgba(2,6,23,0.08)_58%,transparent_76%)] sm:px-6 sm:pb-7">
+        <h3 className="m-0 whitespace-pre-line text-lg font-extrabold uppercase leading-[1] tracking-wide text-white [text-shadow:0_2px_22px_rgba(2,6,23,0.76)] sm:text-xl xl:text-[1.45rem]">
           {s.title}
         </h3>
-        <div className="absolute left-0 top-full w-full pt-3 pointer-events-none">
-          <p className="text-sm leading-relaxed text-white/85 opacity-0 translate-y-4 drop-shadow-[0_1px_6px_rgba(6,12,24,0.14)] transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
-            {s.desc}
-          </p>
+
+        <div className="pointer-events-none mt-3 grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus:grid-rows-[1fr] group-focus:opacity-100">
+          <div className="min-h-0 overflow-hidden">
+            <p className="m-0 w-full translate-y-6 text-sm font-medium leading-relaxed text-white/90 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [text-shadow:0_2px_16px_rgba(2,6,23,0.72)] group-hover:translate-y-0 group-focus:translate-y-0 sm:text-[0.95rem]">
+              {s.desc}
+            </p>
+          </div>
         </div>
       </div>
     </article>
   );
 }
 
+function NavArrow({
+  direction,
+  disabled,
+  onClick,
+}: {
+  direction: "prev" | "next";
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  const isPrev = direction === "prev";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${
+        isPrev
+          ? "border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:enabled:-translate-y-0.5 hover:enabled:border-[var(--color-border-brand)] hover:enabled:text-[var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-35"
+          : "border-transparent bg-[var(--color-brand-blue)] text-white shadow-md shadow-[var(--color-brand-blue-glow)] hover:enabled:-translate-y-0.5 hover:enabled:shadow-lg hover:enabled:shadow-[var(--color-brand-blue-glow)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+      }`}
+      aria-label={isPrev ? "Previous service" : "Next service"}
+    >
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="transition-transform duration-300"
+      >
+        {isPrev ? <path d="m15 18-6-6 6-6" /> : <path d="m9 18 6-6-6-6" />}
+      </svg>
+    </button>
+  );
+}
+
 export function ServicesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(1);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const rafRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const updateVisibleCount = () => {
-      if (window.innerWidth >= 1536) {
-        setVisibleCount(3);
-      } else if (window.innerWidth >= 640) {
-        setVisibleCount(2);
-      } else {
-        setVisibleCount(1);
-      }
-    };
-
-    updateVisibleCount();
-    window.addEventListener("resize", updateVisibleCount);
-    return () => window.removeEventListener("resize", updateVisibleCount);
+  const getStep = useCallback(() => {
+    const first = slideRefs.current[0];
+    const second = slideRefs.current[1];
+    if (!first) return 0;
+    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
   }, []);
 
-  const maxIndex = Math.max(0, services.length - visibleCount);
-  const currentIndex = Math.min(activeIndex, maxIndex);
+  const totalSlides = services.length;
+  const maxIndex = Math.max(0, totalSlides - slidesPerView);
+  const safeIndex = Math.min(activeIndex, maxIndex);
 
-  const moveServices = useCallback((direction: -1 | 1) => {
-    setActiveIndex((index) => Math.min(maxIndex, Math.max(0, index + direction)));
-  }, [maxIndex]);
+  const scrollToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+      viewport.scrollTo({ left: index * step, behavior });
+    },
+    [getStep],
+  );
+
+  useEffect(() => {
+    const update = () => {
+      const nextSlidesPerView = window.innerWidth >= 768 ? 2 : 1;
+      setSlidesPerView(nextSlidesPerView);
+      setActiveIndex((current) => {
+        const nextMaxIndex = Math.max(0, services.length - nextSlidesPerView);
+        const next = Math.min(current, nextMaxIndex);
+        if (next !== current) {
+          window.requestAnimationFrame(() => scrollToIndex(next, "auto"));
+        }
+        return next;
+      });
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [scrollToIndex]);
+
+  const navigate = useCallback(
+    (dir: -1 | 1) => {
+      setActiveIndex((i) => {
+        const next = Math.min(maxIndex, Math.max(0, i + dir));
+        scrollToIndex(next);
+        return next;
+      });
+    },
+    [maxIndex, scrollToIndex],
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navigate(1);
+      }
+    },
+    [navigate],
+  );
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = window.requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+
+      const nextIndex = Math.min(maxIndex, Math.max(0, Math.round(viewport.scrollLeft / step)));
+      setActiveIndex(nextIndex);
+    });
+  }, [getStep, maxIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section
       id="services"
-      className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)]"
+      className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] py-16 text-[var(--color-text-primary)] sm:py-20 lg:py-24"
     >
-      <div className="site-container">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
-          
-          {/* Left Side: 40% Width Text Content */}
-          <div className="flex flex-col justify-center lg:w-[40%] shrink-0">
-            <div className="max-w-[480px]">
-              <div className="inline-flex items-center gap-2 text-[var(--color-text-brand)] mb-4">
-                <span className="inline-flex h-3 w-3 rounded-full bg-[var(--color-brand-blue)]" />
-                <span className="text-xs font-bold uppercase tracking-widest">Our Expertise</span>
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-10 h-72 w-[min(720px,90vw)] -translate-x-1/2 rounded-full bg-[var(--color-brand-blue-glow)] blur-[110px]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent" />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[0.38fr_0.62fr] lg:items-center lg:gap-12 xl:gap-16">
+          <div className="flex items-center">
+            <div className="w-full max-w-[31rem]">
+              <div className="mb-5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+                <span className="inline-block h-2.5 w-2.5 rounded-full bg-current" aria-hidden="true" />
+                <span className="text-xs font-bold uppercase tracking-[0.22em]">
+                  Our Expertise
+                </span>
               </div>
-              <h2 className="text-4xl font-semibold leading-[1.2] tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+
+              <h2 className="m-0 max-w-[11ch] text-4xl font-semibold leading-[1.02] tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-[3.45rem]">
                 WE PROVIDE{" "}
-                <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#004c99] to-[#0ea5e9] bg-clip-text text-transparent">
                   GREAT IT SOLUTIONS
                 </span>
               </h2>
-              <p className="mt-4 text-base leading-[1.6] text-[var(--color-text-secondary)]">
-                Scalable engineering teams and strategic product development to transform your business goals into digital reality. Built for modern performance and growth.
+
+              <p className="m-0 mt-5 max-w-[27rem] text-base leading-[1.75] text-[var(--color-text-secondary)] sm:text-lg">
+                Scalable engineering teams and strategic product development
+                to transform your business goals into digital reality. Built for
+                modern performance and growth.
               </p>
-              
-              {/* Scroll Indicator */}
-              <div className="hidden lg:flex items-center gap-3 mt-10 text-xs font-bold text-[var(--color-text-muted)] tracking-widest uppercase">
-                <span>Explore Services</span>
-                <span className="h-px w-10 bg-[var(--color-border-light)]" />
-              </div>
+
             </div>
           </div>
 
-          {/* Right Side: 60% Width Cards Track */}
-          <div className="w-full lg:w-[60%]">
-            <div className="mx-auto mb-5 flex w-[min(240px,72vw)] items-center justify-end gap-3 sm:w-[504px] 2xl:w-[768px]">
-              <button
-                type="button"
-                onClick={() => moveServices(-1)}
-                disabled={currentIndex === 0}
-                className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:bg-[var(--color-text-primary)] hover:text-[var(--color-bg-main)] hover:border-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-white/50 disabled:pointer-events-none disabled:opacity-40"
-                aria-label="Previous services"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:-translate-x-1">
-                  <path d="m15 18-6-6 6-6"/>
-                </svg>
-              </button>
-              <div className="text-[var(--color-text-muted)] font-mono text-sm tracking-widest px-1 sm:px-2">
-                <span className="inline-block text-[var(--color-text-primary)]">
-                  {String(currentIndex + 1).padStart(2, '0')}
-                </span>
-                <span className="mx-2 opacity-50">/</span>
-                <span className="opacity-70">{String(maxIndex + 1).padStart(2, '0')}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => moveServices(1)}
-                disabled={currentIndex === maxIndex}
-                className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50 disabled:pointer-events-none disabled:opacity-40"
-                aria-label="Next services"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-1">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </button>
-            </div>
-
-            <div className="mx-auto w-[min(240px,72vw)] overflow-hidden sm:w-[504px] 2xl:w-[768px]">
-              <div
-                className="flex gap-6 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                style={{ transform: `translateX(calc(-${currentIndex} * (min(240px, 72vw) + 1.5rem)))` }}
-              >
-                {services.map((s) => (
-                  <ServiceCard key={s.title} s={s} />
+          <div className="min-w-0">
+            <div
+              ref={viewportRef}
+              className="min-w-0 touch-pan-x overflow-x-auto overscroll-x-contain scroll-smooth outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              role="region"
+              aria-label="Services carousel"
+              aria-roledescription="carousel"
+              tabIndex={0}
+              onKeyDown={handleKeyDown}
+              onScroll={handleScroll}
+            >
+              <div className="flex snap-x snap-proximity gap-4 scroll-px-4 sm:gap-5 sm:scroll-px-6 lg:snap-mandatory lg:gap-6 xl:gap-8">
+                {services.map((s, i) => (
+                  <div
+                    ref={(node) => {
+                      slideRefs.current[i] = node;
+                    }}
+                    key={s.tag}
+                    className="min-w-0 shrink-0 basis-[74%] max-w-[17.5rem] snap-start min-[390px]:basis-[70%] min-[390px]:max-w-[18.75rem] sm:basis-[52%] sm:max-w-[20rem] md:basis-[42%] md:max-w-[21rem] lg:basis-[calc((100%-1.5rem)/2)] lg:max-w-none xl:basis-[calc((100%-2rem)/2)]"
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`Slide ${i + 1} of ${totalSlides}: ${s.tag}`}
+                  >
+                    <ServiceCard s={s} priority={i < 2} />
+                  </div>
                 ))}
               </div>
             </div>
-          </div>
 
+            <div className="mt-8 flex items-center justify-center gap-4 sm:mt-9" role="group" aria-label="Service slider navigation">
+              <NavArrow
+                direction="prev"
+                disabled={safeIndex === 0}
+                onClick={() => navigate(-1)}
+              />
+
+              <div className="flex min-w-[64px] select-none items-baseline justify-center gap-1 font-mono text-sm tracking-wider text-[var(--color-text-primary)]" aria-live="polite">
+                <span className="font-bold">
+                  {String(safeIndex + 1).padStart(2, "0")}
+                </span>
+                <span className="mx-0.5 text-[var(--color-text-muted)]">/</span>
+                <span className="font-medium text-[var(--color-text-muted)]">
+                  {String(maxIndex + 1).padStart(2, "0")}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-center gap-2.5" aria-label="Service slides">
+                {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      setActiveIndex(idx);
+                      scrollToIndex(idx);
+                    }}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      idx === safeIndex
+                        ? "w-8 bg-[var(--color-brand-blue)]"
+                        : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+                    }`}
+                    aria-label={`Go to service slide ${idx + 1}`}
+                    aria-current={idx === safeIndex ? "true" : undefined}
+                  />
+                ))}
+              </div>
+
+              <NavArrow
+                direction="next"
+                disabled={safeIndex === maxIndex}
+                onClick={() => navigate(1)}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
