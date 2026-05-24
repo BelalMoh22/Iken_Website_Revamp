@@ -155,32 +155,97 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── KEY INITIATIVES ── */}
-        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
-              <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
-                <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em]">Delivered</span>
-              </div>
-              <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">Key Initiatives</h2>
-            </motion.div>
-            <div className="space-y-4">
-              {[
-                { n: "01", title: "E-Commerce Flow Optimization", desc: "Redesigned product catalog management and streamlined checkout experience, resulting in improved platform stability, faster page loads, and measurably higher customer satisfaction scores." },
-                { n: "02", title: "Learning Management System", desc: "Custom-built LMS designed specifically for internal training programs, enabling HR and Sales teams to upskill employees efficiently and track professional development progress." },
-                { n: "03", title: "Coupon & Discount Management", desc: "Sophisticated promotional campaign system enabling targeted offers, seasonal discounts, and loyalty rewards that drive conversion rates and customer retention." },
-                { n: "04", title: "Multi-Department Collaboration", desc: "Cross-functional technology support extending beyond e-commerce to HR, Sales, Marketing, and Customer Success teams, creating unified digital operations." },
-              ].map((item, i) => (
-                <motion.div key={item.n} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  variants={fadeUp(i * 0.06)}
-                  className="flex gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all hover:border-[var(--color-border-brand)] sm:gap-5 sm:p-6">
-                  <span className="mt-0.5 text-2xl font-black text-[var(--color-brand-blue)]/30 tabular-nums">{item.n}</span>
-                  <div>
-                    <h3 className="mb-1.5 text-base font-bold text-[var(--color-text-primary)]">{item.title}</h3>
-                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-16 lg:py-24">
+          {/* Subtle soft lighting glows behind right image */}
+          <div className="pointer-events-none absolute inset-0 z-0">
+            <div className="absolute right-[10%] top-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />
+          </div>
+
+          <div className="site-container relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 xl:gap-20 items-center">
+              {/* Left Side (Content & Cards Stack) */}
+              <div className="w-full lg:col-span-7 xl:col-span-6 flex flex-col justify-center">
+                <motion.div 
+                  initial="hidden" 
+                  whileInView="visible" 
+                  viewport={{ once: true }} 
+                  variants={fadeUp(0)} 
+                  className="mb-8 sm:mb-10 lg:mb-12"
+                >
+                  <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+                    <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Delivered</span>
                   </div>
+                  <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight">
+                    Key Initiatives
+                  </h2>
                 </motion.div>
-              ))}
+
+                <div className="space-y-4 md:space-y-5 max-w-[580px] w-full">
+                  {[
+                    { n: "01", title: "E-Commerce Flow Optimization", desc: "Upgraded catalog management and checkout to improve platform stability, page load speeds, and customer satisfaction." },
+                    { n: "02", title: "Learning Management System", desc: "Developed a custom internal training platform for HR and Sales to efficiently upskill employees and track their professional development." },
+                    { n: "03", title: "Coupon & Discount Management", desc: "Created an advanced promotional system for targeted, seasonal, and loyalty discounts aimed at boosting conversion rates and customer retention." },
+                    { n: "04", title: "Multi-Department Collaboration", desc: "Provided cross-functional technology support across HR, Sales, Marketing, and Customer Success to unify digital operations." },
+                  ].map((item, i) => (
+                    <motion.div 
+                      key={item.n} 
+                      initial="hidden" 
+                      whileInView="visible" 
+                      viewport={{ once: true }}
+                      variants={fadeUp(i * 0.05)}
+                      className="group flex gap-4 sm:gap-5 rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                    >
+                      <span className="mt-0.5 text-3xl sm:text-4xl font-black text-[var(--color-brand-blue)]/20 tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 group-hover:text-[var(--color-brand-blue)]/40">
+                        {item.n}
+                      </span>
+                      <div className="flex flex-col">
+                        <h3 className="mb-1 text-base sm:text-[17px] font-bold text-[var(--color-text-primary)] transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85 max-w-[480px]">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Side (Visual Area) */}
+              <div className="w-full lg:col-span-5 xl:col-span-6 flex items-center justify-center relative">
+                {/* Soft ambient inner glow behind mockups */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.07] blur-[90px] rounded-full pointer-events-none" />
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative w-full max-w-[460px] md:max-w-full flex justify-center items-center"
+                >
+                  <motion.div
+                    animate={{
+                      y: [0, -8, 0],
+                    }}
+                    transition={{
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="w-full flex justify-center items-center"
+                  >
+                    <Image
+                      src="/clients/frame-logo.png"
+                      alt="ELAbd Patisserie Mobile Solutions Showcase"
+                      width={600}
+                      height={600}
+                      className="w-full h-auto object-contain max-h-[460px] lg:max-h-[520px] xl:max-h-[580px] select-none pointer-events-none"
+                      priority
+                    />
+                  </motion.div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -225,64 +290,165 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── IMPACT & RESULTS ── */}
-        <section id="results" className="scroll-section border-b border-[var(--color-border-light)] py-16 lg:py-20">
-          <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
-              <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+        <section id="results" className="scroll-section relative overflow-hidden border-b border-[var(--color-border-light)] py-16 lg:py-24">
+          {/* Subtle soft lighting glows behind right dashboard */}
+          <div className="pointer-events-none absolute inset-0 z-0">
+            <div className="absolute right-[5%] bottom-[10%] h-[450px] w-[450px] rounded-full bg-[var(--color-brand-cyan-glow)] opacity-[0.35] blur-[120px]" />
+          </div>
+
+          <div className="site-container relative z-10">
+            {/* Header: Full-width at the top */}
+            <motion.div 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true }} 
+              variants={fadeUp(0)}
+              className="mb-8 md:mb-12 max-w-3xl"
+            >
+              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em]">Outcomes</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Outcomes</span>
               </div>
-              <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">Impact &amp; Results</h2>
-              <p className="mt-3 max-w-2xl text-[var(--color-text-secondary)]">
+              <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight mb-4">
+                Impact &amp; Results
+              </h2>
+              <p className="text-sm sm:text-base leading-relaxed text-[var(--color-text-secondary)] opacity-85">
                 Measurable business outcomes across multiple dimensions, demonstrating the tangible value of the TaaS model in accelerating digital transformation.
               </p>
             </motion.div>
-            <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { v: "45%", l: "Faster Time-to-Market", sub: "New features deployed in half the time" },
-                { v: "30%", l: "Order Volume Increase", sub: "Following UI/UX enhancements and platform optimization" },
-                { v: "5+", l: "Departments Supported", sub: "E-Commerce, HR, Sales, Marketing, Operations" },
-                { v: "200+", l: "Employees Trained", sub: "Internal staff upskilled through the custom LMS" },
-              ].map((item, i) => (
-                <motion.div key={item.l} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  variants={fadeUp(i * 0.07)}
-                  className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 text-center">
-                  <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-4xl font-black text-transparent sm:text-5xl">
-                    {item.v}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-[var(--color-text-primary)]">{item.l}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-[var(--color-text-muted)]">{item.sub}</p>
-                </motion.div>
-              ))}
-            </div>
 
-            {/* Before/After bars */}
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0.1)}
-              className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6">
-              <p className="mb-6 text-sm font-semibold uppercase tracking-[0.15em] text-[var(--color-text-brand)]">Before vs. After Partnership</p>
-              <div className="space-y-5">
-                {[
-                  { label: "Feature Delivery Speed", before: 50, after: 80 },
-                  { label: "Platform Uptime", before: 65, after: 99 },
-                  { label: "Customer Satisfaction", before: 72, after: 89 },
-                ].map((bar) => (
-                  <div key={bar.label}>
-                    <div className="mb-2 flex justify-between text-xs">
-                      <span className="font-medium text-[var(--color-text-secondary)]">{bar.label}</span>
-                      <span className="text-[var(--color-text-muted)]">{bar.before}% → <span className="text-[var(--color-brand-blue)] font-semibold">{bar.after}%</span></span>
+            {/* Split layout: metrics grid on left, chart on right */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-stretch">
+              {/* Left Side (2x2 Metric Cards Grid) */}
+              <div className="w-full lg:col-span-6 xl:col-span-5">
+                <div className="grid grid-cols-2 gap-4 sm:gap-5 h-full">
+                  {[
+                    { v: "45%", l: "Faster Time-to-Market", sub: "New features deployed in half the time" },
+                    { v: "30%", l: "Order Volume Increase", sub: "Following UI/UX enhancements and platform optimization" },
+                    { v: "5+", l: "Departments Supported", sub: "E-Commerce, HR, Sales, Marketing, Operations" },
+                    { v: "200+", l: "Employees Trained", sub: "Internal staff upskilled through the custom LMS" },
+                  ].map((item, i) => (
+                    <motion.div 
+                      key={item.l} 
+                      initial="hidden" 
+                      whileInView="visible" 
+                      viewport={{ once: true }}
+                      variants={fadeUp(i * 0.05)}
+                      className="group flex flex-col items-center justify-center text-center rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md p-4 sm:p-5 min-h-[140px] sm:min-h-[160px] h-full transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.06)]"
+                    >
+                      <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-3xl sm:text-4xl font-black text-transparent select-none transition-transform duration-300 group-hover:scale-105">
+                        {item.v}
+                      </span>
+                      <span className="text-xs sm:text-sm font-bold text-[var(--color-text-primary)] mt-2 transition-colors duration-300">
+                        {item.l}
+                      </span>
+                      <span className="text-[10px] sm:text-xs leading-relaxed text-[var(--color-text-muted)] mt-1.5 max-w-[180px]">
+                        {item.sub}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Side (Dashboard Chart Panel) */}
+              <div className="w-full lg:col-span-6 xl:col-span-7 flex">
+                <motion.div 
+                  initial={{ opacity: 0, y: 30, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full flex flex-col justify-between rounded-[24px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/40 backdrop-blur-md p-5 sm:p-6 md:p-7 relative overflow-hidden group hover:border-[var(--color-border-brand)]/40 transition-all duration-300 shadow-xl"
+                >
+                  {/* Subtle inner background glow */}
+                  <div className="absolute -right-20 -top-20 w-48 h-48 bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.05] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+                  
+                  <div className="relative z-10 w-full flex flex-col h-full">
+                    {/* Dashboard Header */}
+                    <div className="mb-6">
+                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">
+                        Before vs. After Partnership
+                      </span>
                     </div>
-                    <div className="relative h-2 overflow-hidden rounded-full bg-[var(--color-bg-glass-strong)]">
-                      <div className="absolute left-0 top-0 h-full rounded-full bg-[var(--color-text-muted)] opacity-20" style={{ width: `${bar.before}%` }} />
-                      <div className="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]" style={{ width: `${bar.after}%` }} />
+
+                    {/* Grouped Vertical Bar Chart */}
+                    <div className="relative flex-1 min-h-[220px] sm:min-h-[240px] w-full mt-2 pl-8 pr-2">
+                      {/* Grid Lines */}
+                      <div className="absolute inset-x-0 top-0 bottom-0 pl-8 pointer-events-none">
+                        {[100, 80, 60, 40, 20].map((val) => (
+                          <div 
+                            key={val} 
+                            className="absolute left-8 right-0 border-t border-[var(--color-border-light)]/40 flex items-center" 
+                            style={{ bottom: `${val}%` }}
+                          >
+                            <span className="absolute -left-8 text-[10px] sm:text-[11px] font-bold text-[var(--color-text-muted)] w-6 text-right pr-1 select-none -translate-y-1/2 tabular-nums">
+                              {val}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Bars Container */}
+                      <div className="absolute left-8 right-0 bottom-0 top-0 flex justify-around items-end">
+                        {[
+                          { label: "Feature Delivery Speed", before: 50, after: 80 },
+                          { label: "Platform Uptime", before: 65, after: 99 },
+                          { label: "Customer Satisfaction", before: 72, after: 89 },
+                        ].map((data) => (
+                          <div key={data.label} className="flex flex-col items-center relative w-1/3 h-full justify-end group/bar">
+                            {/* Visual Grouped Bars */}
+                            <div className="flex items-end gap-1.5 sm:gap-2.5 h-full w-full justify-center pb-[2px]">
+                              {/* Before Bar */}
+                              <motion.div
+                                initial={{ height: "0%" }}
+                                whileInView={{ height: `${data.before}%` }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                                className="w-3.5 sm:w-5 md:w-6 bg-slate-400/20 dark:bg-slate-700/35 rounded-t-[4px] transition-all duration-300 group-hover/bar:bg-slate-400/30 dark:group-hover/bar:bg-slate-700/50"
+                              />
+                              {/* After Bar */}
+                              <motion.div
+                                initial={{ height: "0%" }}
+                                whileInView={{ height: `${data.after}%` }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                                className="w-3.5 sm:w-5 md:w-6 bg-gradient-to-t from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] rounded-t-[4px] shadow-[0_0_15px_rgba(14,165,233,0.1)] transition-all duration-300 group-hover/bar:brightness-110 group-hover/bar:shadow-[0_0_20px_rgba(14,165,233,0.2)]"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* X-Axis labels */}
+                    <div className="flex justify-around pl-8 mt-3 relative z-10">
+                      {[
+                        { label: "Feature Delivery Speed" },
+                        { label: "Platform Uptime" },
+                        { label: "Customer Satisfaction" },
+                      ].map((data) => (
+                        <div key={data.label} className="w-1/3 text-center px-1">
+                          <span className="text-[10px] sm:text-xs font-semibold text-[var(--color-text-muted)] line-clamp-2 sm:line-clamp-none leading-snug">
+                            {data.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Chart Legend */}
+                    <div className="mt-6 pl-8 flex gap-5 text-xs relative z-10">
+                      <span className="flex items-center gap-2 text-[var(--color-text-muted)] select-none">
+                        <span className="h-2.5 w-2.5 rounded-full bg-slate-400/30 dark:bg-slate-700/50 border border-[var(--color-border-light)]/40" />
+                        Before
+                      </span>
+                      <span className="flex items-center gap-2 text-[var(--color-text-brand)] font-semibold select-none">
+                        <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]" />
+                        After Partnership
+                      </span>
                     </div>
                   </div>
-                ))}
+                </motion.div>
               </div>
-              <div className="mt-5 flex gap-4 text-xs">
-                <span className="flex items-center gap-1.5 text-[var(--color-text-muted)]"><span className="h-2.5 w-2.5 rounded-full bg-white/10" />Before</span>
-                <span className="flex items-center gap-1.5 text-[var(--color-text-brand)]"><span className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]" />After Partnership</span>
-              </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
