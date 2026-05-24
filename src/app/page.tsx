@@ -1,5 +1,4 @@
 import { AboutSection } from "./sections/AboutSection";
-import { ClientsSection } from "./sections/ClientsSection";
 import { ContactSection } from "./sections/ContactSection";
 import { DifferentiationSection } from "./sections/DifferentiationSection";
 import { Header } from "./sections/Header";
@@ -7,7 +6,7 @@ import { HeroSection } from "./sections/HeroSection";
 import { ModelsSection } from "./sections/ModelsSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { ServicesSection } from "./sections/ServicesSection";
-import { TestimonialsSection } from "./sections/TestimonialsSection";
+import { TrustedCompaniesSection } from "./sections/TrustedCompaniesSection";
 
 export default function Home() {
   return (
@@ -27,9 +26,7 @@ export default function Home() {
 
         <ProjectsSection />
 
-        <ClientsSection />
-
-        <TestimonialsSection />
+        <TrustedCompaniesSection />
 
         <ContactSection />
       </main>

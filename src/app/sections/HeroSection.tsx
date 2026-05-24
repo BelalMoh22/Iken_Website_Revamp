@@ -63,7 +63,7 @@ export function HeroSection() {
   }, [shouldReduceMotion]);
 
   return (
-    <section id="home" className="scroll-section relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
+    <section id="home" className="scroll-section relative flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
 
       {/* ── Orb / glow field ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -89,7 +89,7 @@ export function HeroSection() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="site-container relative z-10 flex justify-center pt-8 md:pt-12 pb-4 md:pb-6"
+        className="site-container relative z-10 flex justify-center pt-4 md:pt-6 pb-4 md:pb-6"
       >
         <div className="flex max-w-full items-center gap-2.5 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
@@ -144,20 +144,20 @@ export function HeroSection() {
         </div>
 
         {/* Supporting Line / Eyebrow */}
-        <motion.p
+        {/* <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.32 }}
           className="mb-8 max-w-2xl text-[10px] min-[390px]:text-[11px] md:text-[12px] font-bold uppercase tracking-[0.24em] sm:tracking-[0.35em] text-[var(--color-text-brand)] opacity-90"
         >
           For startups and enterprises that need reliable product delivery
-        </motion.p>
+        </motion.p> */}
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.42 }}
-          className="mb-10 max-w-xl text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg"
+          className="mb-6 max-w-xl text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg"
         >
           From product discovery to full-scale delivery — IKEN engineers
           software, apps, and technology partnerships that scale with your
@@ -168,7 +168,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.52 }}
-          className="mb-16 flex w-full flex-col justify-center gap-3 min-[430px]:w-auto min-[430px]:flex-row min-[430px]:gap-4"
+          className="mb-6 flex w-full flex-col justify-center gap-3 min-[430px]:w-auto min-[430px]:flex-row min-[430px]:gap-4"
         >
           <Link
             href="/contact"
@@ -184,7 +184,7 @@ export function HeroSection() {
           </a>
         </motion.div>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
@@ -198,13 +198,13 @@ export function HeroSection() {
               {item}
             </span>
           ))}
-        </motion.div>
+        </motion.div> */}
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.68 }}
-          className="mb-10 flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-[var(--color-border-light)] pt-5"
+          className="flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-[var(--color-border-light)] pt-5 pb-4 md:pb-6"
         >
           {[
             { v: 7, s: "+", l: "Years" },
