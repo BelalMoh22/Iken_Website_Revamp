@@ -43,11 +43,11 @@ export default function ElAbdCaseStudy() {
       <main className="relative z-10">
 
         {/* ── HERO ── */}
-        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-20 lg:py-28">
+        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 sm:py-16 lg:py-28">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,var(--color-brand-blue-glow),transparent)]" />
           <div className="site-container">
             <Breadcrumbs />
-            <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
               <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="min-w-0">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
@@ -56,14 +56,14 @@ export default function ElAbdCaseStudy() {
                 <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl text-[var(--color-text-primary)]">
                   IKEN × ELAbd
                 </h1>
-                <p className="mb-6 text-2xl font-semibold leading-snug text-[var(--color-text-secondary)]">
+                <p className="mb-5 text-xl font-semibold leading-snug text-[var(--color-text-secondary)] sm:text-2xl lg:mb-6">
                   A Strategic TaaS Partnership Driving Digital Growth
                 </p>
-                <p className="mb-8 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80">
+                <p className="mb-6 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80 lg:mb-8">
                   ELAbd — Egypt's most celebrated pastry brand — partnered with IKEN Technology as their dedicated development arm, establishing a full TaaS model to accelerate digital transformation.
                 </p>
                 {/* Redesigned Text-Only Highlight Badges */}
-                <div className="mb-8 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3">
+                <div className="mb-6 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3 lg:mb-8">
                   {[
                     { label: "E-Commerce", value: "Platform" },
                     { label: "TaaS", value: "Model" },
@@ -122,10 +122,10 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── IKEN'S ROLE ── */}
-        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="site-container">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}
-              className="mb-12">
+              className="mb-8 lg:mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
                 <span className="text-xs font-semibold uppercase tracking-[0.18em]">Our Role</span>
@@ -155,7 +155,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── KEY INITIATIVES ── */}
-        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-16 lg:py-24">
+        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
           {/* Subtle soft lighting glows behind right image */}
           <div className="pointer-events-none absolute inset-0 z-0">
             <div className="absolute right-[10%] top-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />
@@ -168,7 +168,7 @@ export default function ElAbdCaseStudy() {
               whileInView="visible" 
               viewport={{ once: true }} 
               variants={fadeUp(0)} 
-              className="mb-8 md:mb-12"
+              className="mb-8 lg:mb-12"
             >
               <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -252,9 +252,9 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TAAS TEAM ── */}
-        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
                 <span className="text-xs font-semibold uppercase tracking-[0.18em]">Team Composition</span>
@@ -291,7 +291,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── IMPACT & RESULTS ── */}
-        <section id="results" className="scroll-section relative overflow-hidden border-b border-[var(--color-border-light)] py-16 lg:py-24">
+        <section id="results" className="scroll-section relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
           {/* Subtle soft lighting glows behind right dashboard */}
           <div className="pointer-events-none absolute inset-0 z-0">
             <div className="absolute right-[5%] bottom-[10%] h-[450px] w-[450px] rounded-full bg-[var(--color-brand-cyan-glow)] opacity-[0.35] blur-[120px]" />
@@ -304,7 +304,7 @@ export default function ElAbdCaseStudy() {
               whileInView="visible" 
               viewport={{ once: true }} 
               variants={fadeUp(0)}
-              className="mb-8 md:mb-12 max-w-3xl"
+              className="mb-8 lg:mb-12 max-w-3xl"
             >
               <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
@@ -454,9 +454,9 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TECH STACK ── */}
-        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-12">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
                 <span className="text-xs font-semibold uppercase tracking-[0.18em]">Technology</span>
@@ -493,7 +493,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TESTIMONIAL ── */}
-        <section className="border-b border-[var(--color-border-light)] py-16 lg:py-20">
+        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -520,7 +520,7 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── CTA ── */}
-        <section className="py-20 lg:py-28">
+        <section className="py-12 sm:py-16 lg:py-28">
           <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
               <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-blue)]">Ready?</p>

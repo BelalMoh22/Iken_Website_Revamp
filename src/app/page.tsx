@@ -11,7 +11,7 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       <Header />
 
-      <main id="home" className="bg-[var(--color-bg-main)]">
+      <main className="bg-[var(--color-bg-main)]">
         <HeroSection />
 
         <AboutSection />

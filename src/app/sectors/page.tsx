@@ -10,7 +10,7 @@ export default function SectorsPage() {
     <div className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       <Header />
       <main>
-        <section className="relative overflow-hidden bg-[var(--color-bg-main)] py-12 sm:py-16">
+        <section className="relative overflow-hidden bg-[var(--color-bg-main)] py-10 sm:py-14 lg:py-16">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,var(--color-brand-blue-glow),transparent_35%),radial-gradient(circle_at_90%_10%,var(--color-brand-cyan-glow),transparent_30%)]" />
           <div className="site-container relative">
             <Breadcrumbs />
@@ -25,10 +25,10 @@ export default function SectorsPage() {
                   sector realities
                 </span>
               </h1>
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-[var(--color-text-secondary)]">
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--color-text-secondary)] sm:mt-5">
                 IKEN supports teams across finance, automotive, commerce, events, logistics, and healthcare with product engineering shaped around each operating environment.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-px"

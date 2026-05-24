@@ -32,7 +32,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     { label: "About", href: "/#about" },
     { label: "Why IKEN", href: "/#why-iken" },
     { label: "Services", href: "/#services" },
-    { label: "Models", href: "/#models" },
+    { label: "Clients", href: "/#clients" },
     { label: "Sectors", href: "/sectors" },
     { label: "Work", href: "/#work" },
     { label: "Testimonials", href: "/#testimonials" },

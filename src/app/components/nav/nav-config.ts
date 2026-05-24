@@ -16,8 +16,8 @@ export const navigationData: NavItem[] = [
       { label: "Web Development", href: "/#services" },
       { label: "Mobile Applications", href: "/#services" },
       { label: "E-Commerce", href: "/#services" },
-      { label: "Team as a Service", href: "/#models" },
-      { label: "Development Partnership", href: "/#models" },
+      { label: "Team as a Service", href: "/#services" },
+      { label: "Development Partnership", href: "/#services" },
     ],
   },
   {
@@ -33,7 +33,7 @@ export const navigationData: NavItem[] = [
     children: [
       { label: "About", href: "/#about" },
       { label: "Why IKEN", href: "/#why-iken" },
-      { label: "Models", href: "/#models" },
+      { label: "Clients", href: "/#clients" },
       { label: "FAQ", href: "/faq" },
     ],
   }

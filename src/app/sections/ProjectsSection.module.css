@@ -52,7 +52,7 @@
 
 @media (max-width: 767px) {
   .carousel :global(.slick-list) {
-    padding-inline: 0.75rem;
+    padding-inline: 0.25rem;
   }
 
   .carousel :global(.slick-slide) {
@@ -71,6 +71,6 @@
 
 @media (max-width: 380px) {
   .carousel :global(.slick-list) {
-    padding-inline: 0.5rem;
+    padding-inline: 0.125rem;
   }
 }

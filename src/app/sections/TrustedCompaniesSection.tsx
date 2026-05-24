@@ -125,8 +125,8 @@ export function TrustedCompaniesSection() {
 
   return (
     <section
-      id="trusted"
-      className="relative overflow-hidden bg-[var(--color-bg-main)] pt-[100px] pb-[80px]"
+      id="testimonials"
+      className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)]"
     >
       {/* Background Graphic elements */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -174,7 +174,8 @@ export function TrustedCompaniesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
-          className="mx-auto mt-12 w-full max-w-6xl lg:mt-16"
+          id="clients"
+          className="scroll-section mx-auto mt-8 w-full max-w-6xl sm:mt-10 lg:mt-16"
         >
           {/* Desktop/Tablet Grid View */}
           <div className="hidden sm:grid sm:grid-cols-3 sm:gap-x-14 sm:gap-y-10 lg:grid-cols-5 lg:gap-x-10 lg:gap-y-10 place-items-center">
@@ -261,7 +262,7 @@ export function TrustedCompaniesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          className="mx-auto mt-[50px] w-full max-w-6xl"
+          className="mx-auto mt-8 w-full max-w-6xl sm:mt-10 lg:mt-[50px]"
         >
           <div className="relative min-h-[320px] w-full overflow-hidden rounded-[32px] border border-[rgba(15,23,42,0.06)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.98))] shadow-[0_8px_32px_rgba(0,0,0,0.07)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_48px_rgba(0,0,0,0.10)] lg:min-h-[420px] dark:border-[rgba(255,255,255,0.06)] dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.95),rgba(3,7,18,0.98))] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] dark:hover:shadow-[0_16px_48px_rgba(59,130,246,0.08)]">
             <AnimatePresence mode="wait">
@@ -341,7 +342,7 @@ export function TrustedCompaniesSection() {
 
           {/* Bottom Slider Navigation */}
           <div
-            className="mt-[32px] flex flex-wrap items-center justify-center gap-4 sm:mt-10"
+            className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8 lg:mt-10"
             role="group"
             aria-label="Testimonial slider navigation"
           >

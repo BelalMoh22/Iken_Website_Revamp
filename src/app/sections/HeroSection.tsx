@@ -43,11 +43,11 @@ function Stat({ value, label, suffix = "" }: { value: number; label: string; suf
 
   return (
     <div className="text-center">
-      <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-3xl font-black text-transparent">
+      <p className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-2xl font-black leading-none text-transparent sm:text-[1.75rem] md:text-3xl">
         {n}
         {suffix}
       </p>
-      <p className="mt-0.5 text-xs text-[var(--color-text-muted)]">{label}</p>
+      <p className="mt-0.5 text-[11px] leading-tight text-[var(--color-text-muted)] sm:text-xs">{label}</p>
     </div>
   );
 }
@@ -63,7 +63,7 @@ export function HeroSection() {
   }, [shouldReduceMotion]);
 
   return (
-    <section id="home" className="scroll-section relative flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
+    <section id="home" className="scroll-section relative flex flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)] md:min-h-[calc(100svh-5rem)]">
 
       {/* ── Orb / glow field ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -86,38 +86,38 @@ export function HeroSection() {
 
       {/* ── Top badge strip ── */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="site-container relative z-10 flex justify-center pt-4 md:pt-6 pb-4 md:pb-6"
+        className="site-container relative z-10 flex justify-center pb-2 pt-2 sm:pb-3 sm:pt-3 md:pb-6 md:pt-6"
       >
-        <div className="flex max-w-full items-center gap-2.5 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-1.5 backdrop-blur-sm">
+        <div className="flex max-w-full items-center gap-2 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-1.5 backdrop-blur-sm sm:px-4">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-accent-blue)] opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-accent-blue)]" />
           </span>
-          <span className="min-w-0 text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.18em] sm:tracking-[0.2em] text-[var(--color-text-secondary)]">
+          <span className="min-w-0 text-[9px] font-semibold uppercase tracking-[0.13em] text-[var(--color-text-secondary)] min-[390px]:text-[10px] sm:tracking-[0.18em] md:text-[11px]">
             Product Engineering Partner · Est. 2018 · Cairo, Egypt
           </span>
         </div>
       </motion.div>
 
       {/* ── Main headline ── */}
-      <div className="site-container relative z-10 flex flex-1 flex-col items-center justify-center text-center">
+      <div className="site-container relative z-10 flex w-full flex-col items-center justify-start pb-1 pt-1 text-center sm:pb-3 sm:pt-2 md:flex-1 md:justify-center md:pb-0">
 
         {/* Big headline with cycling word */}
-        <div className="mb-4 overflow-hidden">
+        <div className="mb-2 overflow-hidden sm:mb-3 md:mb-4">
           <motion.h1
-            initial={{ opacity: 0, y: 40 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[2.35rem] min-[390px]:text-[2.5rem] md:text-[3.5rem] lg:text-[4.5rem] font-black leading-[1.05] tracking-tight"
+            className="text-[1.95rem] font-black leading-[1.02] tracking-tight min-[375px]:text-[2.1rem] min-[390px]:text-[2.2rem] min-[414px]:text-[2.32rem] md:text-[3.5rem] md:leading-[1.05] lg:text-[4.5rem]"
             aria-label="We Build Software That Drive Growth"
           >
             <span className="text-[var(--color-text-primary)]">We Build&nbsp;</span>
 
             {/* Cycling word */}
-            <span className="relative inline-flex min-w-[4.55em] justify-center overflow-hidden whitespace-nowrap align-bottom" aria-hidden="true">
+            <span className="relative inline-flex min-w-[4.65em] justify-center overflow-hidden whitespace-nowrap align-bottom" aria-hidden="true">
               {shouldReduceMotion ? (
                 <span className="bg-gradient-to-r from-[var(--color-brand-blue)] via-[var(--color-brand-cyan)] to-[var(--color-brand-blue)] bg-clip-text text-transparent">
                   {cyclingWords[0]}
@@ -154,10 +154,10 @@ export function HeroSection() {
         </motion.p> */}
 
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.42 }}
-          className="mb-6 max-w-xl text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg"
+          className="mb-3 max-w-[34ch] text-[14px] leading-relaxed text-[var(--color-text-secondary)] min-[390px]:text-[15px] md:mb-6 md:max-w-xl md:text-lg"
         >
           From product discovery to full-scale delivery — IKEN engineers
           software, apps, and technology partnerships that scale with your
@@ -165,20 +165,20 @@ export function HeroSection() {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.52 }}
-          className="mb-6 flex w-full flex-col justify-center gap-3 min-[430px]:w-auto min-[430px]:flex-row min-[430px]:gap-4"
+          className="mb-3 flex w-full max-w-[26rem] flex-col justify-center gap-2 min-[430px]:w-auto min-[430px]:max-w-none min-[430px]:flex-row min-[430px]:gap-3 md:mb-6 md:gap-4"
         >
           <Link
             href="/contact"
-            className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-[0_2px_18px_var(--color-brand-blue-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_26px_var(--color-brand-blue-glow)] flex items-center justify-center"
+            className="flex items-center justify-center rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-3 text-sm font-bold text-white shadow-[0_2px_18px_var(--color-brand-blue-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_26px_var(--color-brand-blue-glow)] md:px-8 md:py-3.5"
           >
             Book a Discovery Call
           </Link>
           <a
             href="#work"
-            className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] flex items-center justify-center"
+            className="flex items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-3 text-sm font-bold text-[var(--color-text-primary)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] md:px-8 md:py-3.5"
           >
             View Work
           </a>
@@ -201,10 +201,10 @@ export function HeroSection() {
         </motion.div> */}
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.68 }}
-          className="flex flex-wrap justify-center gap-x-10 gap-y-4 border-t border-[var(--color-border-light)] pt-5 pb-4 md:pb-6"
+          className="grid w-full max-w-[24rem] grid-cols-2 gap-x-5 gap-y-2 border-t border-[var(--color-border-light)] pb-1 pt-2 min-[430px]:max-w-[28rem] sm:flex sm:max-w-none sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-4 sm:pb-4 sm:pt-5 md:pb-6"
         >
           {[
             { v: 7, s: "+", l: "Years" },
@@ -218,14 +218,14 @@ export function HeroSection() {
       </div>
 
       {/* ── Services marquee strip ── */}
-      <div className="relative z-10 overflow-hidden border-t border-[var(--color-border-light)] bg-[var(--color-bg-glass)] py-4 backdrop-blur-sm">
+      <div className="relative z-10 -mt-px overflow-x-auto overflow-y-hidden border-t border-[var(--color-border-light)] bg-[var(--color-bg-glass)] py-1.5 backdrop-blur-sm [scrollbar-width:none] sm:py-4 [&::-webkit-scrollbar]:hidden">
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-          className="flex whitespace-nowrap"
+          className="flex min-w-max whitespace-nowrap px-2 sm:px-0"
         >
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="mx-8 inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">
+            <span key={i} className="mx-5 inline-flex items-center gap-2.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-muted)] sm:mx-8 sm:gap-3 sm:text-[11px] sm:tracking-[0.18em]">
               <span className="h-1 w-1 rounded-full bg-[var(--color-brand-blue)]" />
               {item}
             </span>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import type { MouseEvent, TouchEvent } from "react";
+import type { MouseEvent } from "react";
 import Slider, { type Settings } from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -50,7 +50,7 @@ export function ProjectsSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleCaseStudyNavigate = (
-    e: MouseEvent<HTMLAnchorElement> | TouchEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
     e.preventDefault();
@@ -114,7 +114,7 @@ export function ProjectsSection() {
       </div>
 
       <div className="relative z-10">
-        <div className="mx-auto mb-8 flex max-w-7xl flex-col items-center justify-between gap-5 px-4 sm:mb-10 sm:px-6 md:flex-row md:items-end lg:px-8">
+        <div className="site-container mx-auto mb-8 flex max-w-7xl flex-col items-center justify-between gap-5 sm:mb-10 md:flex-row md:items-end">
           <div className="space-y-3 text-center md:text-left">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
               Selected Projects
@@ -128,15 +128,15 @@ export function ProjectsSection() {
           </div>
         </div>
 
-        <div className={`${styles.carousel} mx-auto w-full max-w-7xl px-0 sm:px-2`}>
+        <div className={`${styles.carousel} site-container mx-auto w-full max-w-7xl px-0 sm:px-2`}>
           <Slider ref={sliderRef} {...settings}>
             {products.map((project) => (
               <div
                 key={project.title}
-                className="px-3 py-2"
+                className="px-2 py-2 sm:px-3"
                 style={{ width: 420 }}
               >
-                <article className={`${styles.card} relative mx-auto w-full max-w-[360px] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)]`}>
+                <article className={`${styles.card} relative mx-auto w-full max-w-[min(360px,calc(100vw-3rem))] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)] sm:max-w-[360px]`}>
                   <div className="relative h-64 overflow-hidden">
                     {project.logo ? (
                       <div className="relative h-full w-full bg-white">
@@ -170,9 +170,6 @@ export function ProjectsSection() {
                         onClick={(e) =>
                           handleCaseStudyNavigate(e, project.href!)
                         }
-                        onTouchEnd={(e) =>
-                          handleCaseStudyNavigate(e, project.href!)
-                        }
                         className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
                       >
                         View Case Study
@@ -185,7 +182,7 @@ export function ProjectsSection() {
           </Slider>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:mt-8" role="group" aria-label="Project slider navigation">
+        <div className="site-container mt-6 flex flex-wrap items-center justify-center gap-4 px-1 sm:mt-8 sm:px-0" role="group" aria-label="Project slider navigation">
           <button
             onClick={() => sliderRef.current?.slickPrev()}
             className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
@@ -254,7 +251,7 @@ export function ProjectsSection() {
           </button>
         </div>
 
-        <p className="mx-auto mt-8 max-w-4xl px-4 text-center text-lg font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-10 sm:px-6 sm:text-xl lg:px-8">
+        <p className="site-container mx-auto mt-8 max-w-4xl px-0 text-center text-base font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-10 sm:text-xl">
           We engineer high-performance digital products and scalable platforms
           that deliver measurable business impact—from rapid-growth startups to
           global enterprises.
