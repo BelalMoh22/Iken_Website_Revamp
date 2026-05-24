@@ -162,25 +162,26 @@ export default function ElAbdCaseStudy() {
           </div>
 
           <div className="site-container relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 xl:gap-20 items-center">
-              {/* Left Side (Content & Cards Stack) */}
-              <div className="w-full lg:col-span-7 xl:col-span-6 flex flex-col justify-center">
-                <motion.div 
-                  initial="hidden" 
-                  whileInView="visible" 
-                  viewport={{ once: true }} 
-                  variants={fadeUp(0)} 
-                  className="mb-8 sm:mb-10 lg:mb-12"
-                >
-                  <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
-                    <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Delivered</span>
-                  </div>
-                  <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight">
-                    Key Initiatives
-                  </h2>
-                </motion.div>
+            {/* Header: Full-width at the top */}
+            <motion.div 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true }} 
+              variants={fadeUp(0)} 
+              className="mb-8 md:mb-12"
+            >
+              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+                <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Delivered</span>
+              </div>
+              <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight">
+                Key Initiatives
+              </h2>
+            </motion.div>
 
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-center">
+              {/* Left Side (Content & Cards Stack) - order-2 on mobile, lg:order-1 on desktop */}
+              <div className="w-full lg:col-span-7 xl:col-span-6 flex flex-col justify-center order-2 lg:order-1">
                 <div className="space-y-4 md:space-y-5 max-w-[580px] w-full">
                   {[
                     { n: "01", title: "E-Commerce Flow Optimization", desc: "Upgraded catalog management and checkout to improve platform stability, page load speeds, and customer satisfaction." },
@@ -212,8 +213,8 @@ export default function ElAbdCaseStudy() {
                 </div>
               </div>
 
-              {/* Right Side (Visual Area) */}
-              <div className="w-full lg:col-span-5 xl:col-span-6 flex items-center justify-center relative">
+              {/* Right Side (Visual Area) - order-1 on mobile, lg:order-2 on desktop */}
+              <div className="w-full lg:col-span-5 xl:col-span-6 flex items-center justify-center relative order-1 lg:order-2">
                 {/* Soft ambient inner glow behind mockups */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.07] blur-[90px] rounded-full pointer-events-none" />
 
