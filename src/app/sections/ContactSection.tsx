@@ -1,6 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.18 },
+  transition: { duration: 0.5, delay, ease: "easeOut" as const },
+});
 
 export function ContactSection() {
   const contactItems = [
@@ -9,7 +17,7 @@ export function ContactSection() {
       value: "16B/3 Ramadan, Etisalat Club Rd, Ezbet Fahmy, El Basatin, Cairo",
       href: "https://maps.google.com/?q=16B/3+Ramadan+Etisalat+Club+Rd+Ezbet+Fahmy+El+Basatin+Cairo+Governorate+4234302",
       icon: (
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7">
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7Z" strokeLinecap="round" strokeLinejoin="round" />
           <circle cx="12" cy="9" r="2.5" />
         </svg>
@@ -20,7 +28,7 @@ export function ContactSection() {
       value: "contact@iken.tech",
       href: "mailto:contact@iken.tech",
       icon: (
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z" strokeLinecap="round" strokeLinejoin="round" />
           <polyline points="22,6 12,13 2,6" />
         </svg>
@@ -31,105 +39,113 @@ export function ContactSection() {
       value: "(+20) 105 0500017",
       href: "https://wa.me/201050500017",
       icon: (
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.7">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92Z" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
     },
   ];
 
-  return (
-    <section id="contact" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
-      <div className="pointer-events-none absolute inset-0 border-t border-[var(--color-border-light)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,var(--color-brand-cyan-glow),transparent_35%),radial-gradient(circle_at_90%_18%,var(--color-brand-blue-glow),transparent_45%)]" />
+  const socialLinks = [
+    { label: "LinkedIn", href: "https://eg.linkedin.com/company/iken-tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg> },
+    { label: "Facebook", href: "https://www.facebook.com/IKEN.tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg> },
+    { label: "Instagram", href: "https://www.instagram.com/ikentechnology?igsh=MWdjYnBjZHozeHE2OQ==", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" /></svg> },
+    { label: "X (Twitter)", href: "https://twitter.com/iken_tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg> },
+  ];
 
-      <div className="home-section-y">
-        <div className="site-container relative">
-          {/* Header */}
-        <div className="mb-8 grid gap-5 lg:grid-cols-2 lg:items-end lg:mb-10">
-          <div>
-            <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
-              <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
-              <span className="text-xs font-semibold uppercase tracking-[0.18em]">Get In Touch</span>
+  return (
+    <footer id="contact" className="scroll-section relative overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,var(--color-brand-cyan-glow),transparent_35%),radial-gradient(circle_at_90%_18%,var(--color-brand-blue-glow),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent" />
+
+      <div className="site-container relative home-section-y">
+        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <motion.div {...fadeUp(0)}>
+            <div className="mb-4 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+              <span className="h-3.5 w-3.5 rounded-[4px] bg-[var(--color-brand-blue)] shadow-[0_0_8px_var(--color-brand-blue-glow)]" />
+              <span className="text-xs font-semibold uppercase tracking-[0.2em]">Get In Touch</span>
             </div>
-            <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl text-[var(--color-text-primary)]">
-              Ready to{" "}
-              <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
-                launch
-              </span>{" "}
-              your next product milestone?
+            <h2 className="max-w-[18ch] text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-[3.3rem]">
+              Ready to launch your next product milestone?
             </h2>
-          </div>
-          <p className="text-base leading-relaxed text-[var(--color-text-secondary)] lg:text-right">
-            Tell us your timeline, budget range, and product goals. We will reply with a realistic execution plan.
-          </p>
+          </motion.div>
+
+          <motion.div {...fadeUp(0.08)} className="max-w-md lg:text-right">
+            <p className="mb-4 text-sm leading-relaxed text-[var(--color-text-secondary)] sm:text-base">
+              Tell us your goals, timeline, and scope. We will reply with a practical execution plan tailored to your business.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_var(--color-brand-blue-glow)] transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_26px_var(--color-brand-blue-glow)]"
+            >
+              Book a Discovery Call
+            </Link>
+          </motion.div>
         </div>
 
-        {/* Contact cards */}
-        <div className="mb-8 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:mb-10 lg:grid-cols-3">
-          {contactItems.map((item) => (
-            <a
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {contactItems.map((item, index) => (
+            <motion.a
+              {...fadeUp(0.06 * index)}
               key={item.label}
               href={item.href}
               target={item.href.startsWith("http") ? "_blank" : undefined}
               rel="noreferrer"
-              className="group flex flex-col gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-5 transition-all duration-300 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+              className="group flex min-h-[136px] flex-col gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:shadow-[0_12px_30px_var(--color-brand-blue-glow)]"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-blue-glow)]/80">
+              <div key={`${item.label}-icon`} className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-cyan-glow)]">
                 {item.icon}
               </div>
-              <div className="min-w-0">
-                <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{item.label}</p>
-                <p className="text-sm font-medium text-[var(--color-text-secondary)] transition-colors group-hover:text-[var(--color-text-primary)] break-words">{item.value}</p>
-              </div>
-            </a>
+              <p key={`${item.label}-label`} className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{item.label}</p>
+              <p key={`${item.label}-value`} className="text-sm font-medium leading-relaxed text-[var(--color-text-secondary)] transition-colors group-hover:text-[var(--color-text-primary)]">
+                {item.value}
+              </p>
+            </motion.a>
           ))}
         </div>
 
-        {/* Footer links */}
-        <div className="grid gap-6 border-t border-[var(--color-border-light)] pt-6 md:grid-cols-3">
-          <div>
+        <div className="mt-10 grid gap-8 border-t border-[var(--color-border-light)] pt-8 md:grid-cols-3">
+          <motion.div {...fadeUp(0)}>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Quick Links</p>
-            <div className="flex flex-col gap-2 text-sm text-[var(--color-text-secondary)]">
-              {[
-                { label: "Services", href: "/#services" },
-                { label: "Results We Delivered", href: "/#work" },
-                { label: "Sectors", href: "/sectors" },
-                { label: "FAQ", href: "/faq" },
-                { label: "Contact", href: "/#contact" },
-              ].map((link) => (
-                <Link key={link.label} href={link.href} className="transition hover:text-[var(--color-text-primary)]">{link.label}</Link>
-              ))}
+            <div className="grid gap-2 text-sm text-[var(--color-text-secondary)]">
+              <Link href="/#services" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Services</Link>
+              <Link href="/#work" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Projects</Link>
+              <Link href="/#clients" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Clients</Link>
+              <Link href="/#contact" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Contact</Link>
+              <Link href="/faq" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">FAQ</Link>
+              <Link href="/sectors" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Sectors</Link>
             </div>
-          </div>
-          <div>
+          </motion.div>
+
+          <motion.div {...fadeUp(0.05)}>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Hours</p>
-            <p className="text-sm text-[var(--color-text-secondary)]">Sunday – Thursday</p>
-            <p className="text-sm text-[var(--color-text-secondary)]">8:00 AM – 7:00 PM (CAT)</p>
-          </div>
-          <div>
+            <p className="text-sm text-[var(--color-text-secondary)]">Sunday - Thursday</p>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">8:00 AM - 7:00 PM (CAT)</p>
+          </motion.div>
+
+          <motion.div {...fadeUp(0.1)}>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Social</p>
             <div className="flex gap-3">
-              {[
-                { label: "LinkedIn", href: "https://eg.linkedin.com/company/iken-tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg> },
-                { label: "Facebook", href: "https://www.facebook.com/IKEN.tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg> },
-                { label: "Instagram", href: "https://www.instagram.com/iken.tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" /></svg> },
-                { label: "X (Twitter)", href: "https://twitter.com/iken_tech", icon: <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg> },
-              ].map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-brand-blue-glow)] hover:text-[var(--color-text-brand)]">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-brand-blue-glow)] hover:text-[var(--color-text-brand)]"
+                >
                   {s.icon}
                 </a>
               ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
         </div>
       </div>
 
-      <div className="relative border-t border-[var(--color-border-light)] py-4 text-center text-xs text-[var(--color-text-muted)]">
-        © {new Date().getFullYear()} IKEN Technology. All rights reserved.
+      <div className="relative border-t border-[var(--color-border-light)] py-5 text-center text-xs text-[var(--color-text-muted)] opacity-90">
+        © 2026 IKEN Technology. All rights reserved.
       </div>
-    </section>
+    </footer>
   );
 }

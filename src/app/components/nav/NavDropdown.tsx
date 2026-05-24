@@ -1,47 +1,30 @@
 "use client";
-import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavLink } from "./NavLink";
 
 interface NavDropdownProps {
   label: string;
   items: { label: string; href: string }[];
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
-export function NavDropdown({ label, items }: NavDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 150);
-  };
-
-  const toggleOpen = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen((open) => !open);
-  };
-
+export function NavDropdown({ label, items, isOpen, onOpen, onClose }: NavDropdownProps) {
   return (
     <div
       className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
-          setIsOpen(false);
+          onClose();
         }
       }}
     >
       <button
         type="button"
-        onClick={toggleOpen}
+        onClick={isOpen ? onClose : onOpen}
         className={`flex items-center gap-1 rounded-md text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] ${isOpen ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           }`}
         aria-expanded={isOpen}
@@ -64,10 +47,10 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            exit={{ opacity: 0, y: 6, scale: 0.98 }}
+            transition={{ duration: 0.14, ease: "easeOut" }}
             className="absolute left-1/2 top-full mt-2 w-64 -translate-x-1/2 overflow-hidden rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] dark:bg-[#0d1525] p-2 shadow-xl backdrop-blur-xl dark:backdrop-blur-none"
           >
             <div className="grid gap-1">
@@ -75,7 +58,7 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
                 <NavLink
                   key={item.label}
                   href={item.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={onClose}
                   className="flex items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-[var(--color-bg-glass)] hover:text-[var(--color-text-primary)]"
                 >
                   {item.label}

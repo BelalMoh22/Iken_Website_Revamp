@@ -8,37 +8,37 @@ const services = [
     tag: "Product Discovery",
     title: "PRODUCT\nDISCOVERY",
     desc: "Turn business ideas into clear, validated product roadmaps with measurable milestones.",
-    image: "/service/product-discovery.png",
+    image: "/service/product-discovery-validated-roadmaps.png",
   },
   {
     tag: "Custom Software",
     title: "CUSTOM\nSOFTWARE",
     desc: "Tailored software solutions built to solve your unique business challenges and requirements.",
-    image: "/service/enterprise-integrations.png",
+    image: "/service/custom-software-business-solutions.png",
   },
   {
     tag: "Web & Mobile Apps",
     title: "WEB &\nMOBILE APPS",
     desc: "Cross-platform applications with seamless, high-performance experiences for customers and teams.",
-    image: "/service/web-mobile-engineering.png",
+    image: "/service/web-mobile-apps-cross-platform.png",
   },
   {
     tag: "E-Commerce Solutions",
     title: "E-COMMERCE\nSOLUTIONS",
     desc: "Innovative e-commerce platforms that drive online business growth and increase conversions.",
-    image: "/service/mobile-management.png",
+    image: "/service/ecommerce-solutions-growth-conversions.png",
   },
   {
     tag: "Maintenance & Support",
     title: "MAINTENANCE\n& SUPPORT",
     desc: "Ongoing assistance and monitoring to keep your products secure, stable, and performing optimally.",
-    image: "/service/software-support.png",
+    image: "/service/maintenance-support-secure-stable.png",
   },
   {
     tag: "Team As A Service",
     title: "TEAM AS\nA SERVICE",
     desc: "Dedicated squads that plan, build, and continuously improve your product pipeline.",
-    image: "/service/team-as-a-service.png",
+    image: "/service/team-as-a-service-dedicated-squads.png",
   },
 ];
 
@@ -54,12 +54,13 @@ function ServiceCard({ s, priority = false }: { s: (typeof services)[0]; priorit
         alt={s.tag}
         fill
         sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) calc((100vw - 6.5rem) / 2), 430px"
-        className="h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.025] group-focus:scale-[1.025]"
+        className="h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.04] group-focus:scale-[1.04]"
         priority={priority}
         quality={100}
       />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.01)_0%,rgba(2,6,23,0.08)_46%,rgba(2,6,23,0.54)_100%)]" />
 
-      <div className="absolute inset-x-0 bottom-0 z-20 px-5 pb-6 pt-16 text-white transition-[background] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.46)_0%,rgba(2,6,23,0.25)_34%,rgba(2,6,23,0.08)_58%,transparent_76%)] group-focus:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.46)_0%,rgba(2,6,23,0.25)_34%,rgba(2,6,23,0.08)_58%,transparent_76%)] sm:px-6 sm:pb-7">
+      <div className="absolute inset-x-0 bottom-0 z-20 px-5 pb-6 pt-16 text-white transition-[background] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)] group-focus:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)] sm:px-6 sm:pb-7">
         <h3 className="m-0 whitespace-pre-line text-lg font-extrabold uppercase leading-[1] tracking-wide text-white [text-shadow:0_2px_22px_rgba(2,6,23,0.76)] sm:text-xl xl:text-[1.45rem]">
           {s.title}
         </h3>
@@ -221,10 +222,10 @@ export function ServicesSection() {
       </div>
 
       <div className="site-container relative">
-        <div className="grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-center lg:gap-10 xl:gap-12">
-          <div className="flex items-center">
-            <div className="w-full max-w-[31rem]">
-              <div className="mb-5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+        <div className="grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-start lg:gap-10 xl:gap-12">
+          <div className="flex items-start">
+            <div className="w-full max-w-[31rem] pt-1">
+              <div className="mb-6 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-block h-2.5 w-2.5 rounded-full bg-current" aria-hidden="true" />
                 <span className="text-xs font-bold uppercase tracking-[0.22em]">
                   Our Expertise
@@ -233,7 +234,7 @@ export function ServicesSection() {
 
               <h2 className="m-0 max-w-[11ch] text-4xl font-semibold leading-[1.02] tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-[3.45rem]">
                 WE PROVIDE{" "}
-                <span className="bg-gradient-to-r from-[#004c99] to-[#0ea5e9] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
                   GREAT IT SOLUTIONS
                 </span>
               </h2>
@@ -247,7 +248,7 @@ export function ServicesSection() {
             </div>
           </div>
 
-          <div className="min-w-0">
+          <div className="min-w-0 lg:pt-1">
             <div
               ref={viewportRef}
               className="min-w-0 touch-pan-x overflow-x-auto overscroll-x-contain scroll-smooth outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"

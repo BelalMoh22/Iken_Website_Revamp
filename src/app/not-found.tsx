@@ -23,9 +23,10 @@ export default function NotFound() {
         </div>
       </main>
 
-      <footer className="relative z-10 border-t border-[var(--color-border-light)] py-4 text-center text-xs text-[var(--color-text-muted)] bg-[var(--color-bg-glass)] backdrop-blur-md">
-        © {new Date().getFullYear()} IKEN Technology. All rights reserved.
+      <footer className="relative z-10 border-t border-[var(--color-border-light)] bg-[var(--color-bg-glass)]/70 py-4 text-center text-xs text-[var(--color-text-muted)] backdrop-blur-sm">
+        © 2026 IKEN Technology. All rights reserved.
       </footer>
     </div>
   );
 }
+

@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { Header } from "../../sections/Header";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { useMounted } from "../../hooks/useMounted";
+import { ContactSection } from "../../sections/ContactSection";
 
 
 const fadeUp = (delay = 0) => ({
@@ -384,9 +385,8 @@ export default function ElAbdCaseStudy() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-[var(--color-border-light)] py-4 text-center text-xs text-[var(--color-text-muted)]">
-        © {new Date().getFullYear()} IKEN Technology. All rights reserved.
-      </footer>
+      <ContactSection />
     </div>
   );
 }
+

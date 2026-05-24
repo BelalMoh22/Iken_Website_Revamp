@@ -1,9 +1,7 @@
 import { AboutSection } from "./sections/AboutSection";
 import { ContactSection } from "./sections/ContactSection";
-import { DifferentiationSection } from "./sections/DifferentiationSection";
 import { Header } from "./sections/Header";
 import { HeroSection } from "./sections/HeroSection";
-import { ModelsSection } from "./sections/ModelsSection";
 import { ProjectsSection } from "./sections/ProjectsSection";
 import { ServicesSection } from "./sections/ServicesSection";
 import { TrustedCompaniesSection } from "./sections/TrustedCompaniesSection";
@@ -18,11 +16,9 @@ export default function Home() {
 
         <AboutSection />
 
-        <DifferentiationSection />
-
         <ServicesSection />
 
-        <ModelsSection />
+        {/* <ModelsSection /> */}
 
         <ProjectsSection />
 
