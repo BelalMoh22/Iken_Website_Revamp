@@ -37,6 +37,7 @@ const products: Product[] = [
   {
     title: "Orders & More",
     image: "/products/O&M.svg",
+    href: "/projects/orders-and-more",
   },
   {
     title: "Moqawalat",
