@@ -61,7 +61,7 @@ export default function ElAbdCaseStudy() {
                 <p className="mb-8 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80">
                   ELAbd — Egypt's most celebrated pastry brand — partnered with IKEN Technology as their dedicated development arm, establishing a full TaaS model to accelerate digital transformation.
                 </p>
-                    {/* Redesigned Text-Only Highlight Badges */}
+                {/* Redesigned Text-Only Highlight Badges */}
                 <div className="mb-8 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3">
                   {[
                     { label: "E-Commerce", value: "Platform" },
@@ -97,19 +97,19 @@ export default function ElAbdCaseStudy() {
                 <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 shadow-2xl relative overflow-hidden backdrop-blur-md group hover:border-[var(--color-border-brand)]/50 transition-all duration-500 sm:p-10">
                   {/* Immersive ambient glowing circle in the center */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.08] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  
+
                   <div className="flex items-center justify-center gap-4 sm:gap-8 relative z-10">
                     <div className="flex h-24 w-24 items-center justify-center rounded-3xl border border-[var(--color-border-brand)]/30 bg-[var(--color-brand-blue-glow)] p-5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,183,255,0.2)] transition-all duration-300 sm:h-32 sm:w-32 sm:p-6">
                       <GetThemedLogo className="h-14 w-auto" />
                     </div>
-                    
+
                     <div className="text-4xl font-black text-[var(--color-text-muted)] animate-pulse select-none">×</div>
-                    
+
                     <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-3xl border border-rose-500/20 bg-rose-500/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(244,63,94,0.15)] transition-all duration-300 sm:h-32 sm:w-32">
-                      <Image src="/clients/elabd-logo-square.svg" alt="ELAbd Patisserie brand logo" width={128} height={128} className="h-full w-full object-cover" />
+                      <Image src="/clients/elabd-logo-usecase.svg" alt="ELAbd Patisserie brand logo" width={128} height={128} className="h-full w-full object-cover" />
                     </div>
                   </div>
-                  
+
                   <div className="text-center relative z-10">
                     <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Strategic Technology Alliance</div>
                     <div className="mt-1.5 text-xs text-[var(--color-text-muted)]">Accelerating scale through unified product delivery</div>
@@ -210,7 +210,7 @@ export default function ElAbdCaseStudy() {
                   className="flex items-start gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5">
                   <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]">
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeLinecap="round"/><circle cx="12" cy="7" r="4"/>
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeLinecap="round" /><circle cx="12" cy="7" r="4" />
                     </svg>
                   </div>
                   <div>
@@ -314,7 +314,7 @@ export default function ElAbdCaseStudy() {
               ))}
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
-              {[["Reliable","99.9% uptime with redundant systems"],["Scalable","Cloud-native architecture handles traffic spikes"],["Secure","Industry-standard encryption and compliance"]].map(([t,d]) => (
+              {[["Reliable", "99.9% uptime with redundant systems"], ["Scalable", "Cloud-native architecture handles traffic spikes"], ["Secure", "Industry-standard encryption and compliance"]].map(([t, d]) => (
                 <div key={t} className="flex items-start gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-4">
                   <span className="mt-0.5 text-[var(--color-brand-blue)]">✓</span>
                   <div><p className="text-sm font-bold text-[var(--color-text-primary)]">{t}</p><p className="text-xs text-[var(--color-text-muted)]">{d}</p></div>
@@ -340,7 +340,7 @@ export default function ElAbdCaseStudy() {
               </blockquote>
               <div className="mt-8 flex items-center justify-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white p-1">
-                  <Image src="/clients/br-elabd.png" alt="ELAbd Patisserie brand logo" width={48} height={48} className="h-10 w-10 object-contain" />
+                  <Image src="/clients/alabd-light.svg" alt="ELAbd Patisserie brand logo" width={48} height={48} className="h-10 w-10 object-contain" />
                 </div>
                 <div className="text-left">
                   <p className="text-sm font-semibold text-[var(--color-text-primary)]">ELAbd Leadership</p>
