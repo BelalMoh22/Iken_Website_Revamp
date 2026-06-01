@@ -5,14 +5,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 const services = [
   {
-    tag: "Product Discovery",
-    title: "PRODUCT\nDISCOVERY",
+    tag: "Product Development",
+    title: "PRODUCT\nDEVELOPMENT",
     desc: "Turn business ideas into clear, validated product roadmaps with measurable milestones.",
     image: "/service/product-discovery-validated-roadmaps.png",
   },
   {
-    tag: "Custom Software",
-    title: "CUSTOM\nSOFTWARE",
+    tag: "Custom Solutions",
+    title: "CUSTOM\nSOLUTIONS",
     desc: "Tailored software solutions built to solve your unique business challenges and requirements.",
     image: "/service/custom-software-business-solutions.png",
   },
@@ -211,6 +211,58 @@ export function ServicesSection() {
     };
   }, []);
 
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    let startX = 0;
+    let startY = 0;
+    let isScrolling: "vertical" | "horizontal" | null = null;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isScrolling = null;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 1) return;
+
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+
+      const diffX = currentX - startX;
+      const diffY = currentY - startY;
+
+      if (isScrolling === null) {
+        const absX = Math.abs(diffX);
+        const absY = Math.abs(diffY);
+
+        if (absX > 6 || absY > 6) {
+          if (absY > absX) {
+            isScrolling = "vertical";
+          } else {
+            isScrolling = "horizontal";
+          }
+        }
+      }
+
+      // Prioritize vertical scrolling: do not preventDefault and let native scrolling happen
+      if (isScrolling === "vertical") {
+        return;
+      }
+    };
+
+    viewport.addEventListener("touchstart", handleTouchStart, { passive: true });
+    viewport.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    return () => {
+      viewport.removeEventListener("touchstart", handleTouchStart);
+      viewport.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
+
   return (
     <section
       id="services"
@@ -251,7 +303,7 @@ export function ServicesSection() {
           <div className="min-w-0 lg:pt-1">
             <div
               ref={viewportRef}
-              className="min-w-0 touch-pan-x overflow-x-auto overscroll-x-contain scroll-smooth outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="min-w-0 touch-pan-x touch-pan-y overflow-x-auto overscroll-x-contain scroll-smooth outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               role="region"
               aria-label="Services carousel"
               aria-roledescription="carousel"
