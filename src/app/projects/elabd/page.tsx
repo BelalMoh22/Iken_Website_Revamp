@@ -5,6 +5,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Code2, Network, Rocket, Wallet } from "lucide-react";
 
 import { useTheme } from "next-themes";
 import { Header } from "../../sections/Header";
@@ -137,19 +138,26 @@ export default function ElAbdCaseStudy() {
             </motion.div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { title: "Tech Expertise", desc: "Frontend, Backend, Mobile, DevOps, QA, and Product Management", icon: "⚡" },
-                { title: "Business Integration", desc: "Deep collaboration with marketing, sales, and operations for aligned execution", icon: "🔗" },
-                { title: "Fast Delivery", desc: "Continuous delivery with agile release cycles and rapid feature deployment", icon: "🚀" },
-                { title: "Cost Efficiency", desc: "Full platform ownership from development to optimization — no full-time hiring costs", icon: "💰" },
-              ].map((item, i) => (
-                <motion.div key={item.title} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  variants={fadeUp(i * 0.07)}
-                  className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
-                  <div className="mb-3 text-2xl">{item.icon}</div>
-                  <h3 className="mb-2 text-base font-bold text-[var(--color-text-primary)]">{item.title}</h3>
-                  <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
-                </motion.div>
-              ))}
+                { title: "Tech Expertise", desc: "Frontend, Backend, Mobile, DevOps, QA, and Product Management", icon: Code2 },
+                { title: "Business Integration", desc: "Deep collaboration with marketing, sales, and operations for aligned execution", icon: Network },
+                { title: "Fast Delivery", desc: "Continuous delivery with agile release cycles and rapid feature deployment", icon: Rocket },
+                { title: "Cost Efficiency", desc: "Full platform ownership from development to optimization — no full-time hiring costs", icon: Wallet },
+              ].map((item, i) => {
+                const IconComponent = item.icon;
+                return (
+                  <motion.div key={item.title} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                    variants={fadeUp(i * 0.07)}
+                    className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
+                    <div className="mb-3.5 flex items-center gap-3.5">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass-strong)] shadow-[0_2px_12px_var(--color-brand-blue-glow)]">
+                        <IconComponent className="h-[22px] w-[22px] text-[var(--color-brand-blue)]" strokeWidth={1.8} />
+                      </div>
+                      <h3 className="text-base font-bold text-[var(--color-text-primary)] leading-tight">{item.title}</h3>
+                    </div>
+                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
