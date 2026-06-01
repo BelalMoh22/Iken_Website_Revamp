@@ -19,7 +19,7 @@ const services = [
   {
     tag: "Web & Mobile Apps",
     title: "WEB &\nMOBILE APPS",
-    desc: "Cross-platform applications with seamless, high-performance experiences for customers and teams.",
+    desc: "Cross-platform applications with seamless, high-performance experiences for customers and end users.",
     image: "/service/web-mobile-apps-cross-platform.png",
   },
   {

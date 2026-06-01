@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 const cyclingWords = ["Software", "Products", "Platforms", "Solutions"];
 
 const marqueeItems = [
-  "Custom Software",
+  "Custom Solutions",
   "Web & Mobile Apps",
   "E-Commerce Solutions",
   "Team as a Service",
-  "Product Discovery",
+  "Product Development",
   "Dev Partnership",
   "Enterprise Integration",
   "Maintenance & Support",
