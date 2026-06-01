@@ -88,7 +88,7 @@ export function HeroSection() {
       <motion.div
         initial={false}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.18 }}
         className="site-container relative z-10 flex justify-center pb-2 pt-3 sm:pb-3 sm:pt-3 md:pb-6 md:pt-6"
       >
         <div className="flex max-w-full items-center gap-2 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-1.5 backdrop-blur-sm sm:px-4">
@@ -110,7 +110,7 @@ export function HeroSection() {
           <motion.h1
             initial={false}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="text-[1.95rem] font-black leading-[1.02] tracking-tight min-[375px]:text-[2.1rem] min-[390px]:text-[2.2rem] min-[414px]:text-[2.32rem] md:text-[3.5rem] md:leading-[1.05] lg:text-[4.5rem]"
             aria-label="We Build Software That Drive Growth"
           >
@@ -123,10 +123,10 @@ export function HeroSection() {
                   {cyclingWords[0]}
                 </span>
               ) : (
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={cyclingWords[wordIndex]}
-                    initial={{ y: "100%", opacity: 0 }}
+                    initial={false}
                     animate={{ y: "0%", opacity: 1 }}
                     exit={{ y: "-100%", opacity: 0 }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -156,7 +156,7 @@ export function HeroSection() {
         <motion.p
           initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.42 }}
+          transition={{ duration: 0.2 }}
           className="mb-12 max-w-[34ch] text-[14px] leading-relaxed text-[var(--color-text-secondary)] min-[390px]:text-[15px] sm:mb-5 md:mb-6 md:max-w-xl md:text-lg"
         >
           From product discovery to full-scale delivery — IKEN engineers
@@ -167,7 +167,7 @@ export function HeroSection() {
         <motion.div
           initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.52 }}
+          transition={{ duration: 0.2 }}
           className="mb-16 flex w-full max-w-[26rem] flex-col justify-center gap-2.5 min-[430px]:w-auto min-[430px]:max-w-none min-[430px]:flex-row min-[430px]:gap-3 sm:mb-6 md:mb-6 md:gap-4"
         >
           <Link
@@ -203,7 +203,7 @@ export function HeroSection() {
         <motion.div
           initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.68 }}
+          transition={{ duration: 0.2 }}
           className="grid w-full max-w-[24rem] grid-cols-2 gap-x-5 gap-y-2 border-t border-[var(--color-border-light)] pb-2 pt-12 min-[430px]:max-w-[28rem] sm:flex sm:max-w-[38rem] sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-4 sm:pb-4 sm:pt-5 md:pb-6 md:max-w-[38rem]"
         >
           {[

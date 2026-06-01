@@ -56,6 +56,10 @@ function PillarGlyph({ kind }: { kind: string }) {
 }
 
 export function AboutSection() {
+  const IMAGE_TRANSITION_SECONDS = 0.62;
+  const SLIDE_HOLD_MS = 2000;
+  const AUTO_ROTATE_MS = Math.round(IMAGE_TRANSITION_SECONDS * 1000) + SLIDE_HOLD_MS;
+
   const [imageIndex, setImageIndex] = useState(1);
   const [activeCardIndex, setActiveCardIndex] = useState(1);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -73,7 +77,14 @@ export function AboutSection() {
         setActiveCardIndex(next);
         return next;
       });
-    }, 4200);
+    }, AUTO_ROTATE_MS);
+  }, [AUTO_ROTATE_MS]);
+
+  const stopAutoRotate = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
   }, []);
 
   const handlePillarClick = (idx: number) => {
@@ -156,15 +167,27 @@ export function AboutSection() {
         animate={{ y: [0, -6, 0] }}
         transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
         className="relative mx-auto w-full max-w-[44rem]"
+        onMouseEnter={stopAutoRotate}
+        onMouseLeave={restartAutoRotate}
       >
         <div className="relative overflow-hidden rounded-[1.5rem] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_4px_14px_rgba(0,0,0,0.06)] dark:shadow-[0_6px_18px_rgba(0,0,0,0.22)]">
-          <AnimatePresence mode="wait">
+          <Image
+            src="/service/long-term-scalability-growing-products.png"
+            alt=""
+            width={1}
+            height={1}
+            priority
+            unoptimized
+            aria-hidden="true"
+            className="pointer-events-none absolute h-px w-px opacity-0"
+          />
+          <AnimatePresence mode="sync" initial={false}>
             <motion.div
               key={imageIndex}
               initial={{ opacity: 0, scale: 1.03, x: 12 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 1.01, x: -10 }}
-              transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: IMAGE_TRANSITION_SECONDS, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-0 will-change-transform will-change-opacity"
             >
               <Image
@@ -172,6 +195,7 @@ export function AboutSection() {
                 alt={pillars[imageIndex].title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
+                unoptimized={pillars[imageIndex].image === "/service/long-term-scalability-growing-products.png"}
                 className="object-cover"
               />
             </motion.div>
@@ -189,7 +213,7 @@ export function AboutSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.34, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-x-4 bottom-3 will-change-opacity sm:inset-x-5 sm:bottom-4"
               >
                 <div className="flex items-center gap-2 text-white">
