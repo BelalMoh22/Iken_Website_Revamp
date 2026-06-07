@@ -60,8 +60,8 @@ export function AboutSection() {
   const SLIDE_HOLD_MS = 2000;
   const AUTO_ROTATE_MS = Math.round(IMAGE_TRANSITION_SECONDS * 1000) + SLIDE_HOLD_MS;
 
-  const [imageIndex, setImageIndex] = useState(1);
-  const [activeCardIndex, setActiveCardIndex] = useState(1);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const switchToIndex = useCallback((idx: number) => {
@@ -175,16 +175,20 @@ export function AboutSection() {
         onMouseLeave={restartAutoRotate}
       >
         <div className="relative overflow-hidden rounded-[1.5rem] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_4px_14px_rgba(0,0,0,0.06)] dark:shadow-[0_6px_18px_rgba(0,0,0,0.22)]">
-          <Image
-            src="/service/long-term-scalability-growing-products.png"
-            alt=""
-            width={1}
-            height={1}
-            priority
-            unoptimized
-            aria-hidden="true"
-            className="pointer-events-none absolute h-px w-px opacity-0"
-          />
+          <div className="pointer-events-none absolute h-px w-px opacity-0">
+            {pillars.map((p) => (
+              <Image
+                key={p.title}
+                src={p.image}
+                alt=""
+                width={1}
+                height={1}
+                priority
+                unoptimized={p.image === "/service/long-term-scalability-growing-products.png"}
+                aria-hidden="true"
+              />
+            ))}
+          </div>
           <AnimatePresence mode="sync" initial={false}>
             <motion.div
               key={imageIndex}
