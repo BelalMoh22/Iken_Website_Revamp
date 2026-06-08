@@ -112,19 +112,17 @@ export function AboutSection() {
             transition={{ duration: 0.45, delay: idx * 0.08, ease: "easeOut" }}
             type="button"
             onClick={() => handlePillarClick(idx)}
-            className={`group relative flex w-full items-start gap-3 rounded-xl border border-transparent px-2.5 py-2 text-left [transform:translateZ(0)] [webkit-tap-highlight-color:transparent] transition-[border-color,background-color,opacity,transform] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] ${
-              isActive
+            className={`group relative flex w-full items-start gap-3 rounded-xl border border-transparent px-2.5 py-2 text-left [transform:translateZ(0)] [webkit-tap-highlight-color:transparent] transition-[border-color,background-color,opacity,transform] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] ${isActive
                 ? "border-[var(--color-border-brand)] bg-[linear-gradient(132deg,rgba(37,99,235,0.16),rgba(14,165,233,0.08)_45%,rgba(6,11,24,0.2)_100%)]"
                 : "bg-transparent hover:bg-[var(--color-bg-glass)]"
-            }`}
+              }`}
           >
             <span className={`absolute left-0 top-2.5 w-[2px] rounded-full transition-all duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] ${isActive ? "h-10 bg-[var(--color-brand-blue)] shadow-[0_0_14px_var(--color-brand-blue-glow)]" : "h-7 bg-[var(--color-border-light)] group-hover:h-8 group-hover:bg-[var(--color-border-brand)]"}`} />
 
-            <span className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border [transform:translateZ(0)] ${
-              isActive
+            <span className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border [transform:translateZ(0)] ${isActive
                 ? "transition-[border-color,background-color,color,opacity,transform] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] border-[var(--color-border-brand)] bg-[rgba(37,99,235,0.2)] text-[var(--color-text-brand)]"
                 : "transition-all duration-300 ease-[ease] border-[rgba(0,102,204,0.15)] bg-[rgba(0,102,204,0.08)] text-[#4A7DB8] group-hover:bg-[rgba(0,102,204,0.16)] group-hover:translate-x-[4px]"
-            }`}>
+              }`}>
               <PillarGlyph kind={pillar.icon} />
             </span>
 
