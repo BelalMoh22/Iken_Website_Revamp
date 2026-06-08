@@ -284,7 +284,7 @@ export function ServicesSection() {
                 </span>
               </div>
 
-              <h2 className="m-0 max-w-[11ch] text-4xl font-semibold leading-[1.02] tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-[3.45rem]">
+              <h2 className="m-0 max-w-[11ch] text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
                 WE PROVIDE{" "}
                 <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
                   GREAT IT SOLUTIONS
@@ -335,16 +335,6 @@ export function ServicesSection() {
                 disabled={safeIndex === 0}
                 onClick={() => navigate(-1)}
               />
-
-              <div className="flex min-w-[64px] select-none items-baseline justify-center gap-1 font-mono text-sm tracking-wider text-[var(--color-text-primary)]" aria-live="polite">
-                <span className="font-bold">
-                  {String(safeIndex + 1).padStart(2, "0")}
-                </span>
-                <span className="mx-0.5 text-[var(--color-text-muted)]">/</span>
-                <span className="font-medium text-[var(--color-text-muted)]">
-                  {String(maxIndex + 1).padStart(2, "0")}
-                </span>
-              </div>
 
               <div className="flex items-center justify-center gap-2.5" aria-label="Service slides">
                 {Array.from({ length: maxIndex + 1 }).map((_, idx) => (

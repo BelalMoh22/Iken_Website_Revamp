@@ -63,7 +63,7 @@ export function HeroSection() {
   }, [shouldReduceMotion]);
 
   return (
-    <section id="home" className="scroll-section relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)] md:min-h-[calc(100svh-5rem)]">
+    <section id="home" className="scroll-section relative flex flex-col overflow-hidden bg-[var(--color-bg-main)] text-[var(--color-text-primary)] md:min-h-[calc(100svh-5rem)]">
 
       {/* ── Orb / glow field ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -89,7 +89,7 @@ export function HeroSection() {
         initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.18 }}
-        className="site-container relative z-10 flex justify-center pb-2 pt-3 sm:pb-3 sm:pt-3 md:pb-6 md:pt-6"
+        className="site-container relative z-10 flex justify-center pb-2 pt-6 sm:pb-3 sm:pt-3 md:pb-6 md:pt-6"
       >
         <div className="flex max-w-full items-center gap-2 rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-1.5 backdrop-blur-sm sm:px-4">
           <span className="relative flex h-2 w-2">
@@ -103,10 +103,10 @@ export function HeroSection() {
       </motion.div>
 
       {/* ── Main headline ── */}
-      <div className="site-container relative z-10 flex w-full flex-1 flex-col items-center justify-center pb-4 pt-2 text-center sm:pb-3 sm:pt-2 md:pb-0">
+      <div className="site-container relative z-10 flex w-full flex-col items-center justify-center pb-4 pt-2 text-center sm:pb-3 sm:pt-2 md:flex-1 md:pb-0">
 
         {/* Big headline with cycling word */}
-        <div className="mb-10 overflow-hidden sm:mb-3 md:mb-4">
+        <div className="mb-4 overflow-hidden sm:mb-3 md:mb-4">
           <motion.h1
             initial={false}
             animate={{ opacity: 1, y: 0 }}
@@ -157,7 +157,7 @@ export function HeroSection() {
           initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-          className="mb-12 max-w-[34ch] text-[14px] leading-relaxed text-[var(--color-text-secondary)] min-[390px]:text-[15px] sm:mb-5 md:mb-6 md:max-w-xl md:text-lg"
+          className="mb-5 max-w-[34ch] text-[14px] leading-relaxed text-[var(--color-text-secondary)] min-[390px]:text-[15px] sm:mb-5 md:mb-6 md:max-w-xl md:text-lg"
         >
           From product discovery to full-scale delivery — IKEN engineers
           software, apps, and technology partnerships that scale with your
@@ -168,7 +168,7 @@ export function HeroSection() {
           initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-          className="mb-16 flex w-full max-w-[26rem] flex-col justify-center gap-2.5 min-[430px]:w-auto min-[430px]:max-w-none min-[430px]:flex-row min-[430px]:gap-3 sm:mb-6 md:mb-6 md:gap-4"
+          className="mb-6 flex w-full max-w-[26rem] flex-col justify-center gap-2.5 min-[430px]:w-auto min-[430px]:max-w-none min-[430px]:flex-row min-[430px]:gap-3 sm:mb-6 md:mb-6 md:gap-4"
         >
           <Link
             href="/contact"
@@ -204,7 +204,7 @@ export function HeroSection() {
           initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
-          className="grid w-full max-w-[24rem] grid-cols-2 gap-x-5 gap-y-2 border-t border-[var(--color-border-light)] pb-2 pt-12 min-[430px]:max-w-[28rem] sm:flex sm:max-w-[38rem] sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-4 sm:pb-4 sm:pt-5 md:pb-6 md:max-w-[38rem]"
+          className="grid w-full max-w-[24rem] grid-cols-2 gap-x-5 gap-y-2 border-t border-[var(--color-border-light)] pb-2 pt-5 min-[430px]:max-w-[28rem] sm:flex sm:max-w-[38rem] sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-4 sm:pb-4 sm:pt-5 md:pb-6 md:max-w-[38rem]"
         >
           {[
             { v: 7, s: "+", l: "Years" },

@@ -63,7 +63,7 @@ export function ModelsSection() {
             <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-cyan)]" />
             <span className="text-xs font-semibold uppercase tracking-[0.18em]">How We Work</span>
           </div>
-          <h2 className="mt-4 text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+          <h2 className="mt-4 text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
             Engagement models built around your capacity needs
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[var(--color-text-secondary)]">

@@ -120,7 +120,7 @@ export function ProjectsSection() {
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
               Selected Projects
             </p>
-            <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+            <h2 className="text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
               Results We{" "}
               <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
                 Delivered
@@ -203,16 +203,6 @@ export function ProjectsSection() {
               <path d="m15 18-6-6 6-6" />
             </svg>
           </button>
-
-          <div className="flex min-w-[64px] select-none items-baseline justify-center gap-1 font-mono text-sm tracking-wider text-[var(--color-text-primary)]" aria-live="polite">
-            <span className="font-bold">
-              {String(currentSlide + 1).padStart(2, "0")}
-            </span>
-            <span className="mx-0.5 text-[var(--color-text-muted)]">/</span>
-            <span className="font-medium text-[var(--color-text-muted)]">
-              {String(products.length).padStart(2, "0")}
-            </span>
-          </div>
 
           <div className="flex items-center justify-center gap-2.5" aria-label="Project slides">
             {products.map((project, idx) => (

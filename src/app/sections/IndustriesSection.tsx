@@ -44,7 +44,7 @@ export function IndustriesSection({ showHeader = true }: { showHeader?: boolean 
               <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">Industries We Serve</span>
             </div>
-            <h2 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+            <h2 className="text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
               Built for{" "}
               <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
                 Every Sector

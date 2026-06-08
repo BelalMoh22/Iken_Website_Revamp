@@ -65,7 +65,7 @@ export function ContactSection() {
               <span className="h-3.5 w-3.5 rounded-[4px] bg-[var(--color-brand-blue)] shadow-[0_0_8px_var(--color-brand-blue-glow)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.2em]">Get In Touch</span>
             </div>
-            <h2 className="max-w-[18ch] text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-[3.3rem]">
+            <h2 className="max-w-[18ch] text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
               Ready to launch your next product milestone?
             </h2>
           </motion.div>

@@ -157,13 +157,13 @@ export function TrustedCompaniesSection() {
           <span className="text-[12px] font-medium uppercase tracking-[4px] text-[var(--color-brand-blue)]">
             PARTNERSHIP
           </span>
-          <h2 className="mt-4 text-[32px] font-semibold leading-[1.1] tracking-tight text-[var(--color-text-primary)] md:text-[42px] lg:text-[56px]">
+          <h2 className="mt-4 text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
             Trusted by{" "}
             <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
               Leading Companies
             </span>
           </h2>
-          <p className="mt-5 max-w-[700px] text-[15px] font-medium leading-relaxed text-[var(--color-text-secondary)] opacity-80 md:text-[17px]">
+          <p className="mt-5 max-w-[700px] text-[15px] font-medium leading-relaxed text-[var(--color-text-secondary)] opacity-80 md:text-[16px]">
             Discover how industry leaders leverage our solutions to transform operations and accelerate growth.
           </p>
         </motion.div>
@@ -366,20 +366,6 @@ export function TrustedCompaniesSection() {
               </svg>
             </button>
 
-            <div className="flex min-w-[64px] select-none items-baseline justify-center gap-1 font-mono text-sm tracking-wider text-[var(--color-text-primary)]" aria-live="polite">
-              <motion.span
-                key={currentIndex}
-                initial={{ y: 8, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="inline-block font-bold"
-              >
-                {String(currentIndex + 1).padStart(2, "0")}
-              </motion.span>
-              <span className="mx-0.5 text-[var(--color-text-muted)]">/</span>
-              <span className="font-medium text-[var(--color-text-muted)]">
-                {String(TESTIMONIALS.length).padStart(2, "0")}
-              </span>
-            </div>
 
             <div className="flex items-center justify-center gap-2.5" aria-label="Testimonial slides">
               {TESTIMONIALS.map((_, idx) => (
@@ -387,8 +373,8 @@ export function TrustedCompaniesSection() {
                   key={idx}
                   onClick={() => { setCurrentIndex(idx); startTimer(); }}
                   className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentIndex
-                      ? "w-8 bg-[var(--color-brand-blue)]"
-                      : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+                    ? "w-8 bg-[var(--color-brand-blue)]"
+                    : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
                     }`}
                   aria-label={`Go to slide ${idx + 1}`}
                   aria-current={idx === currentIndex ? "true" : undefined}
