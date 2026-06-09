@@ -13,7 +13,7 @@ import "slick-carousel/slick/slick.css";
 import styles from "./ProjectsSection.module.css";
 
 const fade = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -67,6 +67,8 @@ export function ProjectsSection() {
     dots: false,
     autoplay: true,
     autoplaySpeed: 3000,
+    pauseOnHover: true,
+    pauseOnFocus: true,
     centerMode: true,
     centerPadding: "0px",
     variableWidth: true,

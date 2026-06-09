@@ -2,20 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "next-themes";
-import type { ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 import { Header } from "../../sections/Header";
 import { ContactSection } from "../../sections/ContactSection";
 import { useMounted } from "../../hooks/useMounted";
 
 const fadeUp = (delay = 0) => ({
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 1, y: 0 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: "easeOut" as const, delay },
+    transition: { duration: 0.2, ease: "easeOut" as const, delay: Math.min(delay, 0.04) },
   },
 });
 
@@ -238,6 +238,212 @@ const challengeCards = [
   },
 ];
 
+function ChallengeCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const rafRef = useRef<number | null>(null);
+
+  const getStep = useCallback(() => {
+    const first = slideRefs.current[0];
+    const second = slideRefs.current[1];
+    if (!first) return 0;
+    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+  }, []);
+
+  const totalSlides = challengeCards.length;
+  const maxIndex = Math.max(0, totalSlides - slidesPerView);
+  const safeIndex = Math.min(activeIndex, maxIndex);
+
+  const scrollToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+      viewport.scrollTo({ left: index * step, behavior });
+    },
+    [getStep],
+  );
+
+  useEffect(() => {
+    const update = () => {
+      const nextSlidesPerView = window.innerWidth >= 640 ? 2 : 1;
+      setSlidesPerView(nextSlidesPerView);
+      setActiveIndex((current) => {
+        const nextMaxIndex = Math.max(0, challengeCards.length - nextSlidesPerView);
+        const next = Math.min(current, nextMaxIndex);
+        if (next !== current) {
+          window.requestAnimationFrame(() => scrollToIndex(next, "auto"));
+        }
+        return next;
+      });
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [scrollToIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  const navigate = useCallback(
+    (dir: -1 | 1) => {
+      setActiveIndex((index) => {
+        const next = Math.min(maxIndex, Math.max(0, index + dir));
+        scrollToIndex(next);
+        return next;
+      });
+    },
+    [maxIndex, scrollToIndex],
+  );
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = window.requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+
+      const nextIndex = Math.min(maxIndex, Math.max(0, Math.round(viewport.scrollLeft / step)));
+      setActiveIndex(nextIndex);
+    });
+  }, [getStep, maxIndex]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navigate(1);
+      }
+    },
+    [navigate],
+  );
+
+  return (
+    <>
+      <div
+        ref={viewportRef}
+        className="-mx-4 min-w-0 touch-pan-x overflow-x-auto overscroll-x-contain px-4 pb-2 outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6 lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0"
+        role="region"
+        aria-label="Challenge cards carousel"
+        aria-roledescription="carousel"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onScroll={handleScroll}
+      >
+        <div className="flex snap-x snap-proximity gap-4 lg:grid lg:grid-cols-4 lg:snap-none">
+          {challengeCards.map((item, i) => (
+            <motion.article
+              ref={(node) => {
+                slideRefs.current[i] = node;
+              }}
+              key={item.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(i * 0.06)}
+              className="min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Challenge ${i + 1} of ${totalSlides}: ${item.title}`}
+            >
+              <div className="mb-4 flex items-center gap-3">
+                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${item.border} ${item.bg} ${item.color}`}>
+                  <AppIcon name={item.icon} className="h-5 w-5" />
+                </div>
+                <h3 className="text-base font-bold leading-snug text-[var(--color-text-primary)]">{item.title}</h3>
+              </div>
+              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden" role="group" aria-label="Challenge slider navigation">
+        <SliderArrow direction="prev" disabled={safeIndex === 0} onClick={() => navigate(-1)} label="Previous challenge" />
+
+        <div className="flex items-center justify-center gap-2.5" aria-label="Challenge slides">
+          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                setActiveIndex(idx);
+                scrollToIndex(idx);
+              }}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === safeIndex
+                  ? "w-8 bg-[var(--color-brand-blue)]"
+                  : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+              }`}
+              aria-label={`Go to challenge slide ${idx + 1}`}
+              aria-current={idx === safeIndex ? "true" : undefined}
+            />
+          ))}
+        </div>
+
+        <SliderArrow direction="next" disabled={safeIndex === maxIndex} onClick={() => navigate(1)} label="Next challenge" />
+      </div>
+    </>
+  );
+}
+
+function SliderArrow({
+  direction,
+  disabled,
+  onClick,
+  label,
+}: {
+  direction: "prev" | "next";
+  disabled: boolean;
+  onClick: () => void;
+  label: string;
+}) {
+  const isPrev = direction === "prev";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${
+        isPrev
+          ? "border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:enabled:-translate-y-0.5 hover:enabled:border-[var(--color-border-brand)] hover:enabled:text-[var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-35"
+          : "border-transparent bg-[var(--color-brand-blue)] text-white shadow-md shadow-[var(--color-brand-blue-glow)] hover:enabled:-translate-y-0.5 hover:enabled:shadow-lg hover:enabled:shadow-[var(--color-brand-blue-glow)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+      }`}
+      aria-label={label}
+    >
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="transition-transform duration-300"
+      >
+        {isPrev ? <path d="m15 18-6-6 6-6" /> : <path d="m9 18 6-6-6-6" />}
+      </svg>
+    </button>
+  );
+}
+
 const sources = [
   { label: "Vendors", icon: "users" as const, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
   { label: "Products", icon: "container" as const, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
@@ -258,21 +464,25 @@ const initiatives = [
     n: "01",
     title: "Vendor Management",
     desc: "Unified onboarding and performance tracking.",
+    image: "/clients/vendorManagement.svg",
   },
   {
     n: "02",
     title: "Order Management",
     desc: "Streamlined order lifecycle from placement to delivery.",
+    image: "/clients/orderManagement.svg",
   },
   {
     n: "03",
     title: "Pricing & Discounts Engine",
     desc: "Advanced rules and dynamic pricing automation.",
+    image: "/clients/pricingAndDiscounts.svg",
   },
   {
     n: "04",
     title: "Analytics & Reporting",
     desc: "Real-time dashboards and actionable insights.",
+    image: null,
   },
 ];
 
@@ -333,6 +543,172 @@ const techStack = [
     icon: "credit-card" as const,
   },
 ];
+
+function TechStackCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const rafRef = useRef<number | null>(null);
+
+  const getStep = useCallback(() => {
+    const first = slideRefs.current[0];
+    const second = slideRefs.current[1];
+    if (!first) return 0;
+    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+  }, []);
+
+  const totalSlides = techStack.length;
+  const maxIndex = Math.max(0, totalSlides - slidesPerView);
+  const safeIndex = Math.min(activeIndex, maxIndex);
+
+  const scrollToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+      viewport.scrollTo({ left: index * step, behavior });
+    },
+    [getStep],
+  );
+
+  useEffect(() => {
+    const update = () => {
+      const nextSlidesPerView = window.innerWidth >= 640 ? 2 : 1;
+      setSlidesPerView(nextSlidesPerView);
+      setActiveIndex((current) => {
+        const nextMaxIndex = Math.max(0, techStack.length - nextSlidesPerView);
+        const next = Math.min(current, nextMaxIndex);
+        if (next !== current) {
+          window.requestAnimationFrame(() => scrollToIndex(next, "auto"));
+        }
+        return next;
+      });
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [scrollToIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  const navigate = useCallback(
+    (dir: -1 | 1) => {
+      setActiveIndex((index) => {
+        const next = Math.min(maxIndex, Math.max(0, index + dir));
+        scrollToIndex(next);
+        return next;
+      });
+    },
+    [maxIndex, scrollToIndex],
+  );
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = window.requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+
+      const nextIndex = Math.min(maxIndex, Math.max(0, Math.round(viewport.scrollLeft / step)));
+      setActiveIndex(nextIndex);
+    });
+  }, [getStep, maxIndex]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navigate(1);
+      }
+    },
+    [navigate],
+  );
+
+  return (
+    <>
+      <div
+        ref={viewportRef}
+        className="-mx-4 min-w-0 touch-pan-x overflow-x-auto overscroll-x-contain px-4 pb-2 outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6 lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0"
+        role="region"
+        aria-label="Technology stack carousel"
+        aria-roledescription="carousel"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onScroll={handleScroll}
+      >
+        <div className="flex snap-x snap-proximity gap-4 lg:grid lg:grid-cols-3 lg:snap-none">
+          {techStack.map((item, i) => (
+            <motion.article
+              ref={(node) => {
+                slideRefs.current[i] = node;
+              }}
+              key={item.name}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(i * 0.05)}
+              className={`group min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto ${
+                i === techStack.length - 1 ? "lg:col-start-2" : ""
+              }`}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Technology ${i + 1} of ${totalSlides}: ${item.name}`}
+            >
+              <div className="mb-4 flex items-center gap-4">
+                <TechBrandIcon name={item.name} />
+                <div>
+                  <p className="text-base font-bold text-[var(--color-text-brand)]">{item.name}</p>
+                  <p className="mt-1 text-xs font-semibold text-[var(--color-text-primary)]">{item.category}</p>
+                </div>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden" role="group" aria-label="Technology slider navigation">
+        <SliderArrow direction="prev" disabled={safeIndex === 0} onClick={() => navigate(-1)} label="Previous technology" />
+
+        <div className="flex items-center justify-center gap-2.5" aria-label="Technology slides">
+          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                setActiveIndex(idx);
+                scrollToIndex(idx);
+              }}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === safeIndex
+                  ? "w-8 bg-[var(--color-brand-blue)]"
+                  : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+              }`}
+              aria-label={`Go to technology slide ${idx + 1}`}
+              aria-current={idx === safeIndex ? "true" : undefined}
+            />
+          ))}
+        </div>
+
+        <SliderArrow direction="next" disabled={safeIndex === maxIndex} onClick={() => navigate(1)} label="Next technology" />
+      </div>
+    </>
+  );
+}
 
 function SectionHeader({
   label,
@@ -429,12 +805,13 @@ function SolutionFlow() {
     : { opacity: [0.28, 0.72, 0.48], strokeDashoffset: [28, 0, -28] };
   const mobileConnector = (delay = 0, dotCount = 1) => (
     <div className="relative mx-auto h-14 w-8 lg:hidden" aria-hidden="true">
-      <div className="absolute left-1/2 top-0 h-full -translate-x-1/2 border-l border-dashed border-[var(--color-border-brand)]" />
+      <div className="absolute left-1/2 top-0 h-full -translate-x-1/2 border-l border-dashed border-cyan-400/35" />
+      <span className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.85)]" />
       {!reduce &&
         Array.from({ length: dotCount }).map((_, index) => (
           <motion.span
             key={index}
-            className="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[var(--color-brand-cyan)] shadow-[0_0_14px_var(--color-brand-cyan)]"
+            className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_14px_rgba(34,211,238,0.9)]"
             animate={{ y: [0, 46], opacity: [0, 1, 0] }}
             transition={{
               duration: 1.6,
@@ -576,100 +953,128 @@ function SolutionFlow() {
       </div>
 
       <div className="grid gap-0 lg:hidden">
-        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5">
-          <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">Sources</p>
-          <div className="grid gap-3 sm:grid-cols-2">
+        <motion.div
+          animate={reduce ? undefined : { y: [0, -3, 0] }}
+          transition={reduce ? undefined : { duration: 5.4, repeat: Infinity, ease: "easeInOut" }}
+          className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4 shadow-[0_18px_46px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-[#07172c] dark:shadow-[0_18px_46px_rgba(0,0,0,0.28)]"
+        >
+          <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-cyan-400/10 blur-3xl" />
+          <p className="mb-4 text-[10px] font-black uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Sources</p>
+          <div className="grid grid-cols-2 gap-3">
             {sources.map((item) => (
-              <div key={item.label} className="flex items-center gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm font-bold">
-                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
+              <div key={item.label} className="flex min-h-12 items-center gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-3 text-[11px] font-extrabold text-[var(--color-text-primary)] dark:border-white/5 dark:bg-[#0a2138]/70 dark:text-white">
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
                   <AppIcon name={item.icon} className="h-4 w-4" />
                 </span>
                 <span>{item.label}</span>
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
         {mobileConnector(0.25)}
-        <div className="relative overflow-hidden rounded-[24px] border border-[var(--color-border-brand)] bg-[var(--color-bg-card)] p-6 text-center shadow-[0_14px_38px_var(--color-brand-blue-glow)]">
-          <div className="pointer-events-none absolute inset-x-8 -top-20 h-32 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)]">
-            <OrdersLogo className="h-9 w-auto" />
+        <motion.div
+          animate={reduce ? undefined : { y: [0, -4, 0] }}
+          transition={reduce ? undefined : { duration: 5.8, repeat: Infinity, ease: "easeInOut", delay: 0.15 }}
+          className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 text-center shadow-[0_18px_46px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-[#07172c] dark:shadow-[0_18px_46px_rgba(0,0,0,0.28)]"
+        >
+          <div className="pointer-events-none absolute inset-x-6 -top-20 h-32 rounded-full bg-blue-500/20 blur-3xl" />
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] dark:border-white/10 dark:bg-[#0b2037] dark:text-slate-300">
+            <OrdersLogo className="h-8 w-auto" />
           </div>
-          <h3 className="text-2xl font-black">Orders & more</h3>
-          <p className="mt-2 text-sm font-semibold text-[var(--color-text-secondary)]">Unified. Automated. Intelligent.</p>
-        </div>
+          <h3 className="text-xl font-black text-[var(--color-text-primary)]">Orders & more</h3>
+          <p className="mt-2 text-xs font-semibold text-[var(--color-text-secondary)]">Unified. Automated. Intelligent.</p>
+        </motion.div>
         {mobileConnector(0.5, 4)}
-        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5">
-          <div className="pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-[var(--color-brand-cyan-glow)] blur-3xl" />
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">Outcomes</p>
-          <div className="grid gap-3 sm:grid-cols-2">
+        <motion.div
+          animate={reduce ? undefined : { y: [0, -3, 0] }}
+          transition={reduce ? undefined : { duration: 5.4, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+          className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4 shadow-[0_18px_46px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-[#07172c] dark:shadow-[0_18px_46px_rgba(0,0,0,0.28)]"
+        >
+          <div className="pointer-events-none absolute -left-10 bottom-0 h-28 w-28 rounded-full bg-cyan-400/10 blur-3xl" />
+          <p className="mb-4 text-[10px] font-black uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Outcomes</p>
+          <div className="grid grid-cols-2 gap-3">
             {outcomes.map((item) => (
-              <div key={item.label} className="flex items-center gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-4 py-3 text-sm font-bold">
-                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
+              <div key={item.label} className={`flex min-h-12 items-center gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-3 text-[11px] font-extrabold text-[var(--color-text-primary)] dark:border-white/5 dark:bg-[#0a2138]/70 dark:text-white ${item.label === "Shipping & Delivery" ? "col-span-2 mx-auto w-[76%]" : ""}`}>
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
                   <AppIcon name={item.icon} className="h-4 w-4" />
                 </span>
                 <span>{item.label}</span>
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
 }
 
-function LaptopPreview() {
+function InitiativeShowcase({
+  activeIndex,
+  activeImage,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  activeIndex: number;
+  activeImage: string;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
+  const activeInitiative = initiatives[activeIndex];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.96 }}
+      initial={{ opacity: 1, y: 0, scale: 1 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto w-full max-w-[620px]"
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto w-full max-w-[820px] lg:-my-8"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <div className="absolute -inset-10 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
-      <div className="relative rounded-t-[28px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-3 shadow-2xl">
-        <div className="rounded-t-[20px] border border-[var(--color-border-light)] bg-[var(--color-bg-main)]/70 p-4">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded-full bg-red-400/80" />
-              <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
-              <span className="h-3 w-3 rounded-full bg-green-400/80" />
-            </div>
-            <OrdersLogo className="h-7 w-auto" />
-          </div>
-          <div className="grid gap-4 md:grid-cols-[0.7fr_1fr]">
-            <div className="space-y-3">
-              {["Orders", "Vendors", "Products", "Reports"].map((item, i) => (
-                <div key={item} className={`rounded-xl border border-[var(--color-border-light)] px-3 py-3 text-xs font-bold ${i === 0 ? "bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]" : "bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)]"}`}>
-                  {item}
-                </div>
-              ))}
-            </div>
-            <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-4">
-              <div className="mb-4 grid gap-3 sm:grid-cols-3">
-                {[
-                  ["Revenue", "EGP 1.2M"],
-                  ["Orders", "4,820"],
-                  ["Vendors", "120"],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--color-text-muted)]">{label}</p>
-                    <p className="mt-2 text-sm font-black text-[var(--color-text-primary)]">{value}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="flex h-40 items-end gap-2 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4">
-                {[34, 56, 45, 72, 62, 88, 74, 95].map((height) => (
-                  <span key={height} style={{ height: `${height}%` }} className="flex-1 rounded-t bg-gradient-to-t from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)]" />
-                ))}
-              </div>
-            </div>
-          </div>
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
+        className="relative"
+      >
+        <div className="pointer-events-none absolute h-px w-px opacity-0">
+          {initiatives
+            .filter((initiative) => Boolean(initiative.image))
+            .map((initiative) => (
+              <Image
+                key={initiative.title}
+                src={initiative.image || "/clients/pricingAndDiscounts.svg"}
+                alt=""
+                width={1}
+                height={1}
+                priority
+                aria-hidden="true"
+              />
+            ))}
         </div>
-      </div>
-      <div className="mx-auto h-4 w-[78%] rounded-b-[28px] border-x border-b border-[var(--color-border-light)] bg-[var(--color-bg-glass-strong)]" />
+
+        <div className="relative h-[22rem] sm:h-[27rem] lg:h-[39rem] xl:h-[42rem]">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              key={activeImage}
+              initial={{ opacity: 0, x: 18, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, x: -18, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 scale-[1.08] will-change-transform will-change-opacity sm:scale-[1.12] lg:scale-[1.16]"
+            >
+              <Image
+                src={activeImage}
+                alt={`${activeInitiative.title} visual`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 64vw"
+                className="object-contain [image-rendering:auto]"
+                priority
+                unoptimized
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -717,7 +1122,7 @@ function ResultsSection() {
 
           <div className="flex w-full lg:col-span-6 xl:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              initial={{ opacity: 1, y: 0, scale: 1 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -797,6 +1202,39 @@ function ResultsSection() {
 }
 
 export default function OrdersAndMoreCaseStudy() {
+  const defaultInitiativeIndex = initiatives.findIndex((item) => item.image === "/clients/pricingAndDiscounts.svg");
+  const [activeInitiativeIndex, setActiveInitiativeIndex] = useState(defaultInitiativeIndex >= 0 ? defaultInitiativeIndex : 0);
+  const [activeInitiativeImage, setActiveInitiativeImage] = useState(
+    initiatives[defaultInitiativeIndex >= 0 ? defaultInitiativeIndex : 0].image || "/clients/pricingAndDiscounts.svg",
+  );
+  const [isInitiativePaused, setIsInitiativePaused] = useState(false);
+
+  useEffect(() => {
+    if (isInitiativePaused) return;
+
+    const timer = window.setInterval(() => {
+      setActiveInitiativeIndex((current) => {
+        const next = (current + 1) % initiatives.length;
+        const nextImage = initiatives[next].image;
+
+        if (nextImage) {
+          setActiveInitiativeImage(nextImage);
+        }
+
+        return next;
+      });
+    }, 1500);
+
+    return () => window.clearInterval(timer);
+  }, [isInitiativePaused]);
+
+  const handleInitiativeClick = (index: number) => {
+    setActiveInitiativeIndex(index);
+    if (initiatives[index].image) {
+      setActiveInitiativeImage(initiatives[index].image);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       <div className="pointer-events-none fixed inset-0 z-0">
@@ -818,16 +1256,29 @@ export default function OrdersAndMoreCaseStudy() {
               <span className="font-bold text-[var(--color-text-primary)]">Orders And More</span>
             </nav>
 
+            <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="mb-6 lg:hidden">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study Â· TAAS</span>
+              </div>
+              <h1 className="text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+                Orders and More
+              </h1>
+              <p className="mt-4 text-xl font-semibold leading-snug text-[var(--color-text-secondary)] sm:text-2xl">
+                Your All-in-One B2B E-Commerce Platform
+              </p>
+            </motion.div>
+
             <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
-              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="min-w-0">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
+              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="order-2 min-w-0 lg:order-1">
+                <div className="mb-4 hidden items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 lg:inline-flex">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TAAS</span>
                 </div>
-                <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:text-6xl">
+                <h1 className="mb-4 hidden text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:block lg:text-6xl">
                   Orders and More
                 </h1>
-                <p className="mb-5 text-xl font-semibold leading-snug text-[var(--color-text-secondary)] sm:text-2xl lg:mb-6">
+                <p className="mb-5 hidden text-xl font-semibold leading-snug text-[var(--color-text-secondary)] sm:text-2xl lg:mb-6 lg:block">
                   Your All-in-One B2B E-Commerce Platform
                 </p>
                 <p className="mb-6 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80 lg:mb-8">
@@ -857,7 +1308,9 @@ export default function OrdersAndMoreCaseStudy() {
                 </div>
               </motion.div>
 
-              <HeroMockup />
+              <div className="order-1 lg:order-2">
+                <HeroMockup />
+              </div>
             </div>
           </div>
         </section>
@@ -869,26 +1322,7 @@ export default function OrdersAndMoreCaseStudy() {
               title="The Challenge"
               desc="Orders & More faced operational inefficiencies, fragmented systems, and slow processes that limited their growth in a competitive market."
             />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {challengeCards.map((item, i) => (
-                  <motion.article
-                    key={item.title}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeUp(i * 0.06)}
-                    className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
-                  >
-                    <div className="mb-4 flex items-center gap-3">
-                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${item.border} ${item.bg} ${item.color}`}>
-                        <AppIcon name={item.icon} className="h-5 w-5" />
-                      </div>
-                      <h3 className="text-base font-bold leading-snug text-[var(--color-text-primary)]">{item.title}</h3>
-                    </div>
-                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
-                  </motion.article>
-              ))}
-            </div>
+            <ChallengeCarousel />
           </div>
         </section>
 
@@ -916,28 +1350,48 @@ export default function OrdersAndMoreCaseStudy() {
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16 xl:gap-20">
               <div className="order-1 flex w-full flex-col justify-center lg:col-span-6">
                 <div className="w-full max-w-[580px] space-y-4 md:space-y-5">
-                  {initiatives.map((item, i) => (
-                    <motion.div
+                  {initiatives.map((item, i) => {
+                    const isActive = i === activeInitiativeIndex;
+
+                    return (
+                    <motion.button
                       key={item.n}
+                      type="button"
+                      onClick={() => handleInitiativeClick(i)}
                       initial="hidden"
                       whileInView="visible"
                       viewport={{ once: true }}
                       variants={fadeUp(i * 0.05)}
-                      className="group flex gap-4 rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 p-4 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)] sm:gap-5 sm:p-5"
+                      className={`group flex w-full gap-4 rounded-[20px] border p-4 text-left backdrop-blur-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] sm:gap-5 sm:p-5 ${
+                        isActive
+                          ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                          : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                      }`}
+                      aria-pressed={isActive}
                     >
-                      <span className="mt-0.5 shrink-0 select-none text-3xl font-black tabular-nums tracking-tight text-[var(--color-brand-blue)]/20 transition-colors duration-300 group-hover:text-[var(--color-brand-blue)]/40 sm:text-4xl">
+                      <span className={`mt-0.5 shrink-0 select-none text-3xl font-black tabular-nums tracking-tight transition-colors duration-300 sm:text-4xl ${
+                        isActive ? "text-[var(--color-brand-blue)]/55" : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
+                      }`}>
                         {item.n}
                       </span>
                       <div>
-                        <h3 className="mb-1 text-base font-bold text-[var(--color-text-primary)] sm:text-[17px]">{item.title}</h3>
+                        <h3 className={`mb-1 text-base font-bold transition-colors duration-300 sm:text-[17px] ${
+                          isActive ? "text-[var(--color-text-brand)]" : "text-[var(--color-text-primary)]"
+                        }`}>{item.title}</h3>
                         <p className="max-w-[480px] text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85">{item.desc}</p>
                       </div>
-                    </motion.div>
-                  ))}
+                    </motion.button>
+                    );
+                  })}
                 </div>
               </div>
               <div className="order-2 flex w-full items-center justify-center lg:col-span-6">
-                <LaptopPreview />
+                <InitiativeShowcase
+                  activeIndex={activeInitiativeIndex}
+                  activeImage={activeInitiativeImage}
+                  onMouseEnter={() => setIsInitiativePaused(true)}
+                  onMouseLeave={() => setIsInitiativePaused(false)}
+                />
               </div>
             </div>
           </div>
@@ -952,29 +1406,7 @@ export default function OrdersAndMoreCaseStudy() {
               title="Technology Stack"
               desc="Our dedicated team operates with the same priorities and urgency as internal staff — enabling flexible scaling based on project demands and business cycles."
             />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {techStack.map((item, i) => (
-                  <motion.article
-                    key={item.name}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeUp(i * 0.05)}
-                    className={`group rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] ${
-                      i === techStack.length - 1 ? "sm:col-span-2 sm:mx-auto sm:w-[calc(50%-0.5rem)] lg:col-span-1 lg:col-start-2 lg:w-full" : ""
-                    }`}
-                  >
-                    <div className="mb-4 flex items-center gap-4">
-                      <TechBrandIcon name={item.name} />
-                      <div>
-                        <p className="text-base font-bold text-[var(--color-text-brand)]">{item.name}</p>
-                        <p className="mt-1 text-xs font-semibold text-[var(--color-text-primary)]">{item.category}</p>
-                      </div>
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
-                  </motion.article>
-              ))}
-            </div>
+            <TechStackCarousel />
           </div>
         </section>
 

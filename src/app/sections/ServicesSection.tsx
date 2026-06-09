@@ -43,9 +43,24 @@ const services = [
 ];
 
 function ServiceCard({ s, priority = false }: { s: (typeof services)[0]; priority?: boolean }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpanded = () => setIsExpanded((expanded) => !expanded);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleExpanded();
+    }
+  };
+
   return (
     <article
       tabIndex={0}
+      role="button"
+      aria-expanded={isExpanded}
+      onClick={toggleExpanded}
+      onKeyDown={handleKeyDown}
       className="group relative aspect-[1/1.02] w-full cursor-pointer overflow-hidden rounded-2xl border border-black/5 bg-slate-100 shadow-[0_18px_50px_rgba(15,23,42,0.12)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg-main)] sm:aspect-[1/1.04] md:aspect-[1/1.06] lg:aspect-[1/1.2] dark:border-white/10 dark:bg-slate-900 dark:shadow-[0_22px_65px_rgba(0,0,0,0.42)]"
       aria-label={s.tag}
     >
@@ -54,20 +69,36 @@ function ServiceCard({ s, priority = false }: { s: (typeof services)[0]; priorit
         alt={s.tag}
         fill
         sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) calc((100vw - 6.5rem) / 2), 430px"
-        className="h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.04] group-focus:scale-[1.04]"
+        className={`h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${
+          isExpanded ? "scale-[1.04]" : ""
+        }`}
         priority={priority}
         quality={100}
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.01)_0%,rgba(2,6,23,0.08)_46%,rgba(2,6,23,0.54)_100%)]" />
 
-      <div className="absolute inset-x-0 bottom-0 z-20 px-5 pb-6 pt-16 text-white transition-[background] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)] group-focus:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)] sm:px-6 sm:pb-7">
+      <div
+        className={`absolute inset-x-0 bottom-0 z-20 px-5 pb-6 pt-16 text-white transition-[background] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)] group-focus-visible:bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)] sm:px-6 sm:pb-7 ${
+          isExpanded
+            ? "bg-[radial-gradient(ellipse_at_bottom_left,rgba(2,6,23,0.36)_0%,rgba(2,6,23,0.18)_36%,rgba(2,6,23,0.04)_60%,transparent_80%)]"
+            : ""
+        }`}
+      >
         <h3 className="m-0 whitespace-pre-line text-lg font-extrabold uppercase leading-[1] tracking-wide text-white [text-shadow:0_2px_22px_rgba(2,6,23,0.76)] sm:text-xl xl:text-[1.45rem]">
           {s.title}
         </h3>
 
-        <div className="pointer-events-none mt-3 grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus:grid-rows-[1fr] group-focus:opacity-100">
+        <div
+          className={`pointer-events-none mt-3 grid opacity-0 transition-[grid-template-rows,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus-visible:grid-rows-[1fr] group-focus-visible:opacity-100 ${
+            isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr]"
+          }`}
+        >
           <div className="min-h-0 overflow-hidden">
-            <p className="m-0 w-full translate-y-6 text-sm font-medium leading-relaxed text-white/90 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [text-shadow:0_2px_16px_rgba(2,6,23,0.72)] group-hover:translate-y-0 group-focus:translate-y-0 sm:text-[0.95rem]">
+            <p
+              className={`m-0 w-full text-sm font-medium leading-relaxed text-white/90 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [text-shadow:0_2px_16px_rgba(2,6,23,0.72)] group-hover:translate-y-0 group-focus-visible:translate-y-0 sm:text-[0.95rem] ${
+                isExpanded ? "translate-y-0" : "translate-y-6"
+              }`}
+            >
               {s.desc}
             </p>
           </div>

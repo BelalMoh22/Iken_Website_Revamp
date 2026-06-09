@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { sectors } from "../content";
 
-const fade = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
+const fade = { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } };
 
 function SectorIcon({ kind }: { kind: string }) {
   return (
@@ -57,14 +57,14 @@ export function IndustriesSection({ showHeader = true }: { showHeader?: boolean 
         ) : null}
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {sectors.map((item, i) => (
+          {sectors.map((item) => (
             <motion.div
               key={item.title}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
               variants={fade}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
+              transition={{ duration: 0.2, delay: 0 }}
               className="group relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-6 transition-all duration-300 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
             >
               <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

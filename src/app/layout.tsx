@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { Providers } from "./providers";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { ScrollStabilizer } from "./components/ScrollStabilizer";
 import "./globals.css";
 
 const manropeSans = Manrope({
@@ -49,6 +50,7 @@ export default function RootLayout({
         className={`${manropeSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>{children}</Providers>
+        <ScrollStabilizer />
         <ScrollToTop />
       </body>
     </html>

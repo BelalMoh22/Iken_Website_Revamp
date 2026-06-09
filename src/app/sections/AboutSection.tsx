@@ -106,10 +106,10 @@ export function AboutSection() {
         return (
           <motion.button
             key={pillar.title}
-            initial={{ opacity: 0, x: -14 }}
+            initial={{ opacity: 1, x: 0 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.45, delay: idx * 0.08, ease: "easeOut" }}
+            transition={{ duration: 0.2, delay: 0, ease: "easeOut" }}
             type="button"
             onClick={() => handlePillarClick(idx)}
             className={`group relative flex w-full items-start gap-3 rounded-xl border border-transparent px-2.5 py-2 text-left [transform:translateZ(0)] [webkit-tap-highlight-color:transparent] transition-[border-color,background-color,opacity,transform] duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] ${isActive
@@ -159,10 +159,10 @@ export function AboutSection() {
 
   const renderShowcase = () => (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 1, y: 0 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       className="relative z-10"
     >
       <motion.div
@@ -190,7 +190,7 @@ export function AboutSection() {
           <AnimatePresence mode="sync" initial={false}>
             <motion.div
               key={imageIndex}
-              initial={{ opacity: 0, scale: 1.03, x: 12 }}
+              initial={{ opacity: 1, scale: 1, x: 0 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 1.01, x: -10 }}
               transition={{ duration: IMAGE_TRANSITION_SECONDS, ease: [0.22, 1, 0.36, 1] }}
@@ -216,7 +216,7 @@ export function AboutSection() {
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={`overlay-${imageIndex}`}
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
@@ -273,10 +273,10 @@ export function AboutSection() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_88%_16%,var(--color-brand-blue-glow),transparent_52%)] opacity-35" />
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, ease: "easeOut" }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="relative z-10"
           >
             <div className="inline-flex items-center gap-2 text-[var(--color-text-brand)]">

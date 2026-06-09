@@ -25,7 +25,7 @@ export function DifferentiationSection() {
 
       <div className="site-container relative">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.45 }}
@@ -45,13 +45,13 @@ export function DifferentiationSection() {
         </motion.div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          {differentiators.map((item, index) => (
+          {differentiators.map((item) => (
             <motion.article
               key={item.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.12 }}
-              transition={{ duration: 0.45, delay: index * 0.08 }}
+              transition={{ duration: 0.2, delay: 0 }}
               className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-5 shadow-[0_2px_16px_rgba(0,0,0,0.04)] transition-colors hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:p-6 dark:shadow-[0_4px_24px_rgba(0,0,0,0.2)]"
             >
               <h3 className="text-xl font-semibold text-[var(--color-text-primary)]">{item.title}</h3>

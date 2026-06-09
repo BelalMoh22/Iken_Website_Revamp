@@ -15,8 +15,8 @@ import { ContactSection } from "../../sections/ContactSection";
 
 
 const fadeUp = (delay = 0) => ({
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as const, delay } },
+  hidden: { opacity: 1, y: 0 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" as const, delay: Math.min(delay, 0.04) } },
 });
 
 function GetThemedLogo({ className = "h-10 w-auto" }) {
@@ -227,7 +227,7 @@ export default function ElAbdCaseStudy() {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.07] blur-[90px] rounded-full pointer-events-none" />
 
                 <motion.div
-                  initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                  initial={{ opacity: 1, y: 0, scale: 1 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
@@ -362,7 +362,7 @@ export default function ElAbdCaseStudy() {
               {/* Right Side (Dashboard Chart Panel) */}
               <div className="w-full lg:col-span-6 xl:col-span-7 flex">
                 <motion.div 
-                  initial={{ opacity: 0, y: 30, scale: 0.97 }}
+                  initial={{ opacity: 1, y: 0, scale: 1 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}

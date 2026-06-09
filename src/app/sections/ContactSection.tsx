@@ -4,10 +4,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 1, y: 0 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.18 },
-  transition: { duration: 0.5, delay, ease: "easeOut" as const },
+  transition: { duration: 0.2, delay: Math.min(delay, 0.04), ease: "easeOut" as const },
 });
 
 export function ContactSection() {

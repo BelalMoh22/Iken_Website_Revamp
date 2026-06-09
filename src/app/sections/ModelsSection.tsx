@@ -53,7 +53,7 @@ export function ModelsSection() {
 
       <div className="site-container relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.45 }}
@@ -74,14 +74,14 @@ export function ModelsSection() {
         <div
           className="grid gap-4 sm:gap-5 lg:gap-6 [grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr))]"
         >
-          {models.map((model, index) => {
+          {models.map((model) => {
             return (
               <motion.article
                 key={model.title}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 1, y: 0 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.18 }}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
+                transition={{ duration: 0.2, delay: 0 }}
                 className="group relative min-w-0 w-full overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4 shadow-[0_4px_24px_rgba(0,0,0,0.05)] transition-colors sm:p-6 lg:p-8 dark:shadow-[0_6px_28px_rgba(0,0,0,0.22)]"
               >
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-brand)] to-transparent" />

@@ -20,7 +20,7 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
         {showHeader ? (
           <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
@@ -30,10 +30,10 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">FAQ</span>
             </motion.div>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.2, delay: 0 }}
               className="mb-4 text-3xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-4xl md:text-5xl"
             >
               Frequently Asked{" "}
@@ -42,10 +42,10 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
               </span>
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.2, delay: 0 }}
               className="max-w-2xl text-base leading-relaxed text-[var(--color-text-secondary)]"
             >
               We believe in transparent product partnerships. Here are answers to the most common questions about working with IKEN Technology.
@@ -62,10 +62,10 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
             return (
               <motion.div
                 key={faq.question}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 1, y: 0 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                transition={{ duration: 0.2, delay: 0 }}
                 className="mb-4"
               >
                 <div

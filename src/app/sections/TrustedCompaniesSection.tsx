@@ -46,17 +46,17 @@ const TESTIMONIALS = [
 
 // Animation variants
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.06,
+      staggerChildren: 0,
     },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 1, y: 0 },
   visible: {
     opacity: 1,
     y: 0,
@@ -71,17 +71,21 @@ const cardVariants = {
 export function TrustedCompaniesSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
+  const [isLogoPaused, setIsLogoPaused] = useState(false);
+  const [isTestimonialPaused, setIsTestimonialPaused] = useState(false);
 
   // Mobile Logo Slider state - showing 2x2 grid (4 logos at a time)
   const [logoPageIndex, setLogoPageIndex] = useState(0);
   const totalLogoPages = Math.ceil(featuredClients.length / 4);
 
   useEffect(() => {
+    if (isLogoPaused) return;
+
     const logoTimer = setInterval(() => {
       setLogoPageIndex((prev) => (prev + 1) % totalLogoPages);
     }, 2000);
     return () => clearInterval(logoTimer);
-  }, [totalLogoPages]);
+  }, [isLogoPaused, totalLogoPages]);
 
   const getVisibleLogos = () => {
     const startIndex = logoPageIndex * 4;
@@ -95,21 +99,34 @@ export function TrustedCompaniesSection() {
   const visibleLogos = getVisibleLogos();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const stopTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
   const startTimer = useCallback(() => {
+    if (isTestimonialPaused) return;
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setSlideDirection(1);
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 6000);
-  }, []);
+  }, [isTestimonialPaused]);
 
   // Auto-advance
   useEffect(() => {
+    if (isTestimonialPaused) {
+      stopTimer();
+      return;
+    }
+
     startTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [startTimer]);
+  }, [isTestimonialPaused, startTimer, stopTimer]);
 
   const handleNext = () => {
     setSlideDirection(1);
@@ -148,7 +165,7 @@ export function TrustedCompaniesSection() {
 
         {/* Header Area */}
         <motion.div
-          initial={{ opacity: 0, y: -12 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: "easeOut" }}
@@ -212,11 +229,15 @@ export function TrustedCompaniesSection() {
           </div>
 
           {/* Mobile Slider View (2x2 grid of logos visible at a time) */}
-          <div className="block sm:hidden relative w-full overflow-hidden px-2 py-4">
+          <div
+            className="block sm:hidden relative w-full overflow-hidden px-2 py-4"
+            onMouseEnter={() => setIsLogoPaused(true)}
+            onMouseLeave={() => setIsLogoPaused(false)}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={logoPageIndex}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 1, x: 0 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
@@ -258,18 +279,20 @@ export function TrustedCompaniesSection() {
         {/* Testimonial Card */}
         <motion.div
           id="testimonials"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 0.2, ease: "easeOut", delay: 0 }}
           className="scroll-section mx-auto mt-8 w-full max-w-6xl sm:mt-10 lg:mt-[50px]"
+          onMouseEnter={() => setIsTestimonialPaused(true)}
+          onMouseLeave={() => setIsTestimonialPaused(false)}
         >
           <div className="relative min-h-[320px] w-full overflow-hidden rounded-[32px] border border-[rgba(15,23,42,0.06)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.98))] shadow-[0_8px_32px_rgba(0,0,0,0.07)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_48px_rgba(0,0,0,0.10)] lg:min-h-[420px] dark:border-[rgba(255,255,255,0.06)] dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.95),rgba(3,7,18,0.98))] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] dark:hover:shadow-[0_16px_48px_rgba(59,130,246,0.08)]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
                 className="flex w-full flex-col lg:h-[420px] lg:flex-row"
-                initial={{ opacity: 0, x: slideDirection * 30 }}
+                initial={{ opacity: 1, x: 0 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{
                   opacity: 0,
@@ -303,18 +326,18 @@ export function TrustedCompaniesSection() {
                 <div className="relative z-20 flex w-full flex-1 flex-col justify-between p-5 sm:p-10 lg:px-14 lg:py-12 xl:px-[56px] xl:py-12">
                   {/* Quote Icon */}
                   <motion.div
-                    initial={{ opacity: 0, x: 12 }}
+                    initial={{ opacity: 1, x: 0 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.08, duration: 0.45, ease: "easeOut" }}
+                    transition={{ delay: 0, duration: 0.2, ease: "easeOut" }}
                     className="pointer-events-none absolute right-6 top-6 select-none font-serif text-[72px] leading-none text-[rgba(15,23,42,0.90)] opacity-100 dark:text-[rgba(255,255,255,0.90)] lg:right-10 lg:top-8 hidden sm:block"
                   >
                     &rdquo;
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 1, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.18, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: 0, duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                     className="flex max-w-[700px] flex-1 flex-col justify-center pt-2 lg:pt-0"
                   >
                     <p className="max-w-[720px] text-pretty text-[15px] font-normal leading-[1.7] text-[rgba(15,23,42,0.72)] sm:text-[20px] lg:text-[22px] lg:mb-8 dark:text-[rgba(255,255,255,0.72)]">
@@ -323,9 +346,9 @@ export function TrustedCompaniesSection() {
                   </motion.div>
 
                   <motion.div
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={{ opacity: 1, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.32, duration: 0.45, ease: "easeOut" }}
+                    transition={{ delay: 0, duration: 0.2, ease: "easeOut" }}
                     className="mt-6 flex flex-col gap-1 pt-6 lg:mt-auto border-t border-[rgba(15,23,42,0.08)] dark:border-[rgba(255,255,255,0.08)]"
                   >
                     <h3 className="mb-0.5 text-[16px] sm:text-[20px] font-bold tracking-wide text-[#0F172A] dark:text-white">
