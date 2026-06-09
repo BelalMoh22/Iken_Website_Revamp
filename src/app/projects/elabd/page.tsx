@@ -2,34 +2,65 @@
 
 /* eslint-disable react/no-unescaped-entities */
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Network, Rocket, Wallet } from "lucide-react";
 
-import { useTheme } from "next-themes";
 import { Header } from "../../sections/Header";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
-import { useMounted } from "../../hooks/useMounted";
 import { ContactSection } from "../../sections/ContactSection";
-
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" as const, delay: Math.min(delay, 0.04) } },
 });
 
-function GetThemedLogo({ className = "h-10 w-auto" }) {
-  const { theme } = useTheme();
-  const mounted = useMounted();
-  return (
-    <Image src="/iken-logo-new.png" alt="IKEN" width={120} height={40}
-      className={`${className} object-contain transition-all ${mounted && theme === "dark" ? "brightness-0 invert" : ""}`}
-      style={{ width: "auto" }} />
-  );
-}
+const initiatives = [
+  {
+    id: 1,
+    n: "01",
+    title: "E-Commerce Flow Optimization",
+    desc: "Upgraded catalog management and checkout to improve platform stability, page load speeds, and customer satisfaction.",
+    image: "/clients/elabd-frame.svg"
+  },
+  {
+    id: 2,
+    n: "02",
+    title: "Learning Management System",
+    desc: "Developed a custom internal training platform for HR and Sales to efficiently upskill employees and track their professional development.",
+    image: "/clients/elabd-lms.svg"
+  },
+  {
+    id: 3,
+    n: "03",
+    title: "Coupon & Discount Management",
+    desc: "Created an advanced promotional system for targeted, seasonal, and loyalty discounts aimed at boosting conversion rates and customer retention.",
+    image: "/clients/elabd-coupons.svg"
+  },
+  {
+    id: 4,
+    n: "04",
+    title: "Multi-Department Collaboration",
+    desc: "Provided cross-functional technology support across HR, Sales, Marketing, and Customer Success to unify digital operations.",
+    image: "/clients/elabd-coupons.svg"
+  }
+];
 
 export default function ElAbdCaseStudy() {
+  const [activeCard, setActiveCard] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setActiveCard((prev) => (prev + 1) % initiatives.length);
+    }, 3000); 
+
+    return () => clearInterval(interval);
+  }, [isPaused, activeCard]);
   return (
     <div className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       {/* Ambient glows */}
@@ -44,13 +75,19 @@ export default function ElAbdCaseStudy() {
       <main className="relative z-10">
 
         {/* ── HERO ── */}
-        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 sm:py-16 lg:py-28">
+        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] pb-16 pt-6 sm:pb-20 sm:pt-8 lg:pb-36 lg:pt-10">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,var(--color-brand-blue-glow),transparent)]" />
-          <div className="site-container">
-            <Breadcrumbs />
-            <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
-              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="min-w-0">
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
+          <div className="site-container relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 xl:gap-24 items-center">
+              {/* Text Content Column */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeUp(0)}
+                className="min-w-0 lg:col-span-5 xl:col-span-5 flex flex-col justify-center"
+              >
+                <Breadcrumbs />
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 self-start">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TaaS</span>
                 </div>
@@ -93,29 +130,38 @@ export default function ElAbdCaseStudy() {
                 </div>
               </motion.div>
 
-              {/* Logos card (Enlarged) */}
-              <motion.div initial="hidden" animate="visible" variants={fadeUp(0.12)}
-                className="flex flex-col items-center justify-center">
-                <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 rounded-3xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 shadow-2xl relative overflow-hidden backdrop-blur-md group hover:border-[var(--color-border-brand)]/50 transition-all duration-500 sm:p-10">
-                  {/* Immersive ambient glowing circle in the center */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.08] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-
-                  <div className="flex items-center justify-center gap-4 sm:gap-8 relative z-10">
-                    <div className="flex h-24 w-24 items-center justify-center rounded-3xl border border-[var(--color-border-brand)]/30 bg-[var(--color-brand-blue-glow)] p-5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,183,255,0.2)] transition-all duration-300 sm:h-32 sm:w-32 sm:p-6">
-                      <GetThemedLogo className="h-14 w-auto" />
+              {/* Product Showcase Column */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeUp(0.12)}
+                className="lg:col-span-7 xl:col-span-7 flex items-center justify-center relative w-full overflow-visible lg:pl-4"
+              >
+                {/* Main Showcase Wrapper with negative margin for desktop overlap */}
+                <div className="relative w-full max-w-[550px] lg:max-w-[680px] lg:-mr-20 xl:-mr-32 z-10">
+                  <motion.div
+                    animate={{
+                      y: [0, -10, 0],
+                    }}
+                    transition={{
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="relative w-full select-none"
+                  >
+                    {/* Main Showcase SVG - Sitting naturally with clean soft shadows */}
+                    <div className="relative overflow-visible">
+                      <Image
+                        src="/clients/elabd-usecase-heroSection.svg"
+                        alt="ELAbd Patisserie E-Commerce platform showcase"
+                        width={820}
+                        height={615}
+                        className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[0_20px_50px_rgba(0,0,0,0.35)] dark:drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)] rounded-2xl"
+                        priority
+                      />
                     </div>
-
-                    <div className="text-4xl font-black text-[var(--color-text-muted)] animate-pulse select-none">×</div>
-
-                    <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-3xl border border-rose-500/20 bg-rose-500/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(244,63,94,0.15)] transition-all duration-300 sm:h-32 sm:w-32">
-                      <Image src="/clients/elabd-logo-usecase.svg" alt="ELAbd Patisserie brand logo" width={128} height={128} className="h-full w-full object-cover" />
-                    </div>
-                  </div>
-
-                  <div className="text-center relative z-10">
-                    <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Strategic Technology Alliance</div>
-                    <div className="mt-1.5 text-xs text-[var(--color-text-muted)]">Accelerating scale through unified product delivery</div>
-                  </div>
+                  </motion.div>
                 </div>
               </motion.div>
             </div>
@@ -171,11 +217,11 @@ export default function ElAbdCaseStudy() {
 
           <div className="site-container relative z-10">
             {/* Header: Full-width at the top */}
-            <motion.div 
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={{ once: true }} 
-              variants={fadeUp(0)} 
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(0)}
               className="mb-8 lg:mb-12"
             >
               <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
@@ -190,34 +236,44 @@ export default function ElAbdCaseStudy() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-center">
               {/* Left Side (Content & Cards Stack) - order-2 on mobile, lg:order-1 on desktop */}
               <div className="w-full lg:col-span-7 xl:col-span-6 flex flex-col justify-center order-2 lg:order-1">
-                <div className="space-y-4 md:space-y-5 max-w-[580px] w-full">
-                  {[
-                    { n: "01", title: "E-Commerce Flow Optimization", desc: "Upgraded catalog management and checkout to improve platform stability, page load speeds, and customer satisfaction." },
-                    { n: "02", title: "Learning Management System", desc: "Developed a custom internal training platform for HR and Sales to efficiently upskill employees and track their professional development." },
-                    { n: "03", title: "Coupon & Discount Management", desc: "Created an advanced promotional system for targeted, seasonal, and loyalty discounts aimed at boosting conversion rates and customer retention." },
-                    { n: "04", title: "Multi-Department Collaboration", desc: "Provided cross-functional technology support across HR, Sales, Marketing, and Customer Success to unify digital operations." },
-                  ].map((item, i) => (
-                    <motion.div 
-                      key={item.n} 
-                      initial="hidden" 
-                      whileInView="visible" 
-                      viewport={{ once: true }}
-                      variants={fadeUp(i * 0.05)}
-                      className="group flex gap-4 sm:gap-5 rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
-                    >
-                      <span className="mt-0.5 text-3xl sm:text-4xl font-black text-[var(--color-brand-blue)]/20 tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 group-hover:text-[var(--color-brand-blue)]/40">
-                        {item.n}
-                      </span>
-                      <div className="flex flex-col">
-                        <h3 className="mb-1 text-base sm:text-[17px] font-bold text-[var(--color-text-primary)] transition-colors duration-300">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85 max-w-[480px]">
-                          {item.desc}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
+                <div
+                  className="space-y-4 md:space-y-5 max-w-[580px] w-full"
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
+                >
+                  {initiatives.map((item, i) => {
+                    const isActive = activeCard === i;
+                    return (
+                      <motion.div
+                        key={item.id}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeUp(i * 0.05)}
+                        onClick={() => setActiveCard(i)}
+                        className={`group flex gap-4 sm:gap-5 rounded-[20px] border p-4 sm:p-5 cursor-pointer select-none transition-all duration-300 ${isActive
+                            ? "border-[var(--color-brand-blue)] bg-[var(--color-bg-card)] shadow-[0_10px_30px_var(--color-brand-blue-glow)] scale-[1.02]"
+                            : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60"
+                          }`}
+                      >
+                        <span className={`mt-0.5 text-3xl sm:text-4xl font-black tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 ${isActive
+                            ? "text-[var(--color-brand-blue)]"
+                            : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
+                          }`}>
+                          {item.n}
+                        </span>
+                        <div className="flex flex-col">
+                          <h3 className={`mb-1 text-base sm:text-[17px] font-bold transition-colors duration-300 ${isActive ? "text-white" : "text-[var(--color-text-primary)]"
+                            }`}>
+                            {item.title}
+                          </h3>
+                          <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85 max-w-[480px]">
+                            {item.desc}
+                          </p>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -231,28 +287,41 @@ export default function ElAbdCaseStudy() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative w-full max-w-[460px] md:max-w-full flex justify-center items-center"
+                  className="relative w-full max-w-[460px] md:max-w-full h-[320px] sm:h-[400px] lg:h-[460px] xl:h-[520px] flex justify-center items-center overflow-hidden"
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
                 >
-                  <motion.div
-                    animate={{
-                      y: [0, -8, 0],
-                    }}
-                    transition={{
-                      duration: 6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="w-full flex justify-center items-center"
-                  >
-                    <Image
-                      src="/clients/frame-logo.png"
-                      alt="ELAbd Patisserie Mobile Solutions Showcase"
-                      width={600}
-                      height={600}
-                      className="w-full h-auto object-contain max-h-[460px] lg:max-h-[520px] xl:max-h-[580px] select-none pointer-events-none"
-                      priority
-                    />
-                  </motion.div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeCard}
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.35, ease: "easeInOut" }}
+                      className="absolute inset-0 w-full h-full flex justify-center items-center"
+                    >
+                      <motion.div
+                        animate={{
+                          y: [0, -8, 0],
+                        }}
+                        transition={{
+                          duration: 6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                        className="w-full h-full flex justify-center items-center"
+                      >
+                        <Image
+                          src={initiatives[activeCard].image}
+                          alt={initiatives[activeCard].title}
+                          width={600}
+                          height={600}
+                          className="w-full h-auto max-h-full object-contain select-none pointer-events-none"
+                          priority
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </AnimatePresence>
                 </motion.div>
               </div>
             </div>
@@ -307,10 +376,10 @@ export default function ElAbdCaseStudy() {
 
           <div className="site-container relative z-10">
             {/* Header: Full-width at the top */}
-            <motion.div 
-              initial="hidden" 
-              whileInView="visible" 
-              viewport={{ once: true }} 
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={fadeUp(0)}
               className="mb-8 lg:mb-12 max-w-3xl"
             >
@@ -337,10 +406,10 @@ export default function ElAbdCaseStudy() {
                     { v: "5+", l: "Departments Supported", sub: "E-Commerce, HR, Sales, Marketing, Operations" },
                     { v: "200+", l: "Employees Trained", sub: "Internal staff upskilled through the custom LMS" },
                   ].map((item, i) => (
-                    <motion.div 
-                      key={item.l} 
-                      initial="hidden" 
-                      whileInView="visible" 
+                    <motion.div
+                      key={item.l}
+                      initial="hidden"
+                      whileInView="visible"
                       viewport={{ once: true }}
                       variants={fadeUp(i * 0.05)}
                       className="group flex flex-col items-center justify-center text-center rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md p-4 sm:p-5 min-h-[140px] sm:min-h-[160px] h-full transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.06)]"
@@ -361,7 +430,7 @@ export default function ElAbdCaseStudy() {
 
               {/* Right Side (Dashboard Chart Panel) */}
               <div className="w-full lg:col-span-6 xl:col-span-7 flex">
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 1, y: 0, scale: 1 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
@@ -370,7 +439,7 @@ export default function ElAbdCaseStudy() {
                 >
                   {/* Subtle inner background glow */}
                   <div className="absolute -right-20 -top-20 w-48 h-48 bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.05] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
-                  
+
                   <div className="relative z-10 w-full flex flex-col h-full">
                     {/* Dashboard Header */}
                     <div className="mb-6">
@@ -384,9 +453,9 @@ export default function ElAbdCaseStudy() {
                       {/* Grid Lines */}
                       <div className="absolute inset-x-0 top-0 bottom-0 pl-8 pointer-events-none">
                         {[100, 80, 60, 40, 20].map((val) => (
-                          <div 
-                            key={val} 
-                            className="absolute left-8 right-0 border-t border-[var(--color-border-light)]/40 flex items-center" 
+                          <div
+                            key={val}
+                            className="absolute left-8 right-0 border-t border-[var(--color-border-light)]/40 flex items-center"
                             style={{ bottom: `${val}%` }}
                           >
                             <span className="absolute -left-8 text-[10px] sm:text-[11px] font-bold text-[var(--color-text-muted)] w-6 text-right pr-1 select-none -translate-y-1/2 tabular-nums">
