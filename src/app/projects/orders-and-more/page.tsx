@@ -821,33 +821,142 @@ function DemoCtaSection() {
   );
 }
 
+const FLOW_ROW_H = 52;
+const FLOW_ROW_GAP = 22;
+const FLOW_ROW_PITCH = FLOW_ROW_H + FLOW_ROW_GAP;
+const FLOW_LIST_MIN_H = FLOW_ROW_H * 5 + FLOW_ROW_GAP * 4;
+
+const FLOW_LAYOUT = {
+  vbW: 1280,
+  vbH: 580,
+  sideInset: 56,
+  colW: 272,
+  cardW: 392,
+  cardH: 168,
+  gapToCenter: 88,
+  pillsH: 56,
+  headerOffset: 48,
+  labelH: 36,
+  get itemsTop() {
+    return this.pillsH + this.headerOffset + this.labelH;
+  },
+  get cardLeft() {
+    return (this.vbW - this.cardW) / 2;
+  },
+  get cardRight() {
+    return this.cardLeft + this.cardW;
+  },
+  get cardTop() {
+    const outcomeCenters = getRowCenters(5, this.itemsTop, FLOW_LIST_MIN_H);
+    const mid = (outcomeCenters[0] + outcomeCenters[outcomeCenters.length - 1]) / 2;
+    return mid - this.cardH / 2;
+  },
+  get leftColEnd() {
+    return this.sideInset + this.colW;
+  },
+  get rightColStart() {
+    return this.vbW - this.sideInset - this.colW;
+  },
+  get leftAnchorX() {
+    return this.leftColEnd;
+  },
+  get rightAnchorX() {
+    return this.rightColStart;
+  },
+  get leftBusX() {
+    return this.leftColEnd + 28;
+  },
+  get rightBusX() {
+    return this.rightColStart - 28;
+  },
+};
+
+function getRowCenters(count: number, itemsTop: number, listMinH: number) {
+  return Array.from({ length: count }, (_, i) => itemsTop + FLOW_ROW_H / 2 + i * FLOW_ROW_PITCH);
+}
+
+function getCenteredRowCenters(count: number, itemsTop: number, listMinH: number) {
+  const blockHeight = (count - 1) * FLOW_ROW_PITCH + FLOW_ROW_H;
+  const offset = (listMinH - blockHeight) / 2;
+  return Array.from({ length: count }, (_, i) => itemsTop + offset + FLOW_ROW_H / 2 + i * FLOW_ROW_PITCH);
+}
+
+function buildSidePaths(sourceCount: number, outcomeCount: number) {
+  const sourceYs = getCenteredRowCenters(sourceCount, FLOW_LAYOUT.itemsTop, FLOW_LIST_MIN_H);
+  const outcomeYs = getRowCenters(outcomeCount, FLOW_LAYOUT.itemsTop, FLOW_LIST_MIN_H);
+  const { cardLeft, cardRight, cardTop, cardH, leftAnchorX, leftBusX, rightAnchorX, rightBusX } = FLOW_LAYOUT;
+
+  const leftPaths = sourceYs.map((y, i) => {
+    const cardY = cardTop + 36 + (i * (cardH - 72)) / Math.max(sourceCount - 1, 1);
+    return `M ${leftAnchorX} ${y} H ${leftBusX} L ${cardLeft} ${cardY}`;
+  });
+
+  const rightPaths = outcomeYs.map((y, i) => {
+    const cardY = cardTop + 28 + (i * (cardH - 56)) / Math.max(outcomeCount - 1, 1);
+    return `M ${cardRight} ${cardY} L ${rightBusX} ${y} H ${rightAnchorX}`;
+  });
+
+  const trunkTop = outcomeYs[0];
+  const trunkBottom = outcomeYs[outcomeYs.length - 1];
+
+  return {
+    leftPaths,
+    rightPaths,
+    leftTrunk: `M ${leftBusX} ${trunkTop} V ${trunkBottom}`,
+    rightTrunk: `M ${rightBusX} ${trunkTop} V ${trunkBottom}`,
+  };
+}
+
+type FlowColumnItem = {
+  label: string;
+  icon: IconName;
+  color: string;
+  bg: string;
+  border: string;
+};
+
+function FlowColumn({
+  title,
+  items,
+  centerItems = false,
+  className = "",
+}: {
+  title: string;
+  items: FlowColumnItem[];
+  centerItems?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={`w-full max-w-[272px] shrink-0 ${className}`}>
+      <p className="mb-6 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{title}</p>
+      <div
+        className={`flex flex-col gap-[22px] ${centerItems ? "justify-center" : ""}`}
+        style={{ minHeight: FLOW_LIST_MIN_H }}
+      >
+        {items.map((item) => (
+          <div key={item.label} className="flex h-[52px] items-center gap-4">
+            <span
+              className={`flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}
+            >
+              <AppIcon name={item.icon} className="h-5 w-5" />
+            </span>
+            <span className="text-base font-medium leading-snug text-[var(--color-text-primary)]">{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function SolutionFlow() {
   const reduce = useReducedMotion();
   const topPaths = [
-    "M 330 54 C 330 110 500 136 570 170",
-    "M 500 54 C 500 112 565 138 605 170",
-    "M 680 54 C 680 112 635 138 625 170",
-    "M 850 54 C 850 110 710 136 640 170",
+    "M 380 54 C 380 110 510 177 580 211",
+    "M 550 54 C 550 112 575 179 610 211",
+    "M 730 54 C 730 112 685 179 655 211",
+    "M 900 54 C 900 110 770 177 670 211",
   ];
-  const topAnchors = [
-    [330, 54],
-    [500, 54],
-    [680, 54],
-    [850, 54],
-  ];
-  const leftPaths = [
-    "M 280 218 H 310 L 430 250",
-    "M 280 272 H 310 L 430 270",
-    "M 280 326 H 310 L 430 290",
-    "M 280 380 H 310 L 430 310",
-  ];
-  const rightPaths = [
-    "M 850 250 L 950 205 H 970",
-    "M 850 268 L 950 269 H 970",
-    "M 850 286 L 950 333 H 970",
-    "M 850 304 L 950 397 H 970",
-    "M 850 322 L 950 461 H 970",
-  ];
+  const { leftPaths, rightPaths, leftTrunk, rightTrunk } = buildSidePaths(sources.length, outcomes.length);
   const flowPaths = [...topPaths, ...leftPaths, ...rightPaths];
   const pathProps = reduce
     ? { opacity: 0.72, strokeDashoffset: 0 }
@@ -888,35 +997,34 @@ function SolutionFlow() {
       </div>
       {mobileConnector(0)}
 
-      <div className="relative mx-auto hidden h-[520px] max-w-7xl overflow-visible lg:block">
-        <div className="absolute inset-x-0 top-0 z-20 h-12">
+      <div className="relative mx-auto hidden h-[580px] max-w-7xl overflow-visible px-14 lg:block">
+        <div className="absolute inset-x-14 top-0 z-20 flex h-14 items-center justify-center gap-5 xl:gap-8">
           {capabilityPills.map((pill, i) => (
             <motion.span
               key={pill}
               variants={fadeUp(i * 0.04)}
-              className="absolute -translate-x-1/2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-bg-card)]/80 px-5 py-2.5 text-sm font-bold text-[var(--color-text-primary)] shadow-[0_10px_30px_var(--color-brand-blue-glow)] backdrop-blur-md"
-              style={{ left: `${(topAnchors[i][0] / 1280) * 100}%` }}
+              className="whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-bg-card)]/80 px-5 py-2.5 text-sm font-bold text-[var(--color-text-primary)] shadow-[0_10px_30px_var(--color-brand-blue-glow)] backdrop-blur-md"
             >
               {pill}
             </motion.span>
           ))}
         </div>
 
-        <div className="absolute left-0 top-[165px] z-20 w-[245px]">
-          <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">Sources</p>
-          <div className="space-y-4">
-            {sources.map((item) => (
-              <div key={item.label} className="flex h-12 items-center gap-4 text-lg font-medium text-[var(--color-text-primary)]">
-                <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
-                  <AppIcon name={item.icon} className="h-5 w-5" />
-                </span>
-                <span>{item.label}</span>
+        <div className="absolute inset-x-14 top-14 z-20 flex items-start justify-center gap-[88px] pt-12">
+          <FlowColumn title="Sources" items={sources} centerItems />
+          <div className="flex w-[392px] shrink-0 self-center">
+            <div className="w-full rounded-[24px] border border-[var(--color-border-brand)] bg-[var(--color-bg-card)]/95 px-8 py-7 text-center shadow-2xl backdrop-blur-md">
+              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] shadow-[0_12px_36px_var(--color-brand-blue-glow)]">
+                <OrdersLogo className="h-10 w-auto" />
               </div>
-            ))}
+              <h3 className="text-xl font-black text-[var(--color-text-primary)]">Orders & more</h3>
+              <p className="mt-2 text-sm font-semibold text-[var(--color-text-secondary)]">Unified. Automated. Intelligent.</p>
+            </div>
           </div>
+          <FlowColumn title="Outcomes" items={outcomes} />
         </div>
 
-        <svg className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-visible" viewBox="0 0 1280 520" preserveAspectRatio="none" aria-hidden="true">
+        <svg className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-visible" viewBox="0 0 1280 580" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <filter id="solution-flow-glow" x="-80%" y="-80%" width="260%" height="260%">
               <feGaussianBlur stdDeviation="3" result="blur" />
@@ -927,7 +1035,7 @@ function SolutionFlow() {
             </filter>
           </defs>
           <motion.path
-            d="M 310 218 V 380"
+            d={leftTrunk}
             fill="none"
             stroke="var(--color-brand-blue)"
             strokeWidth="1.15"
@@ -939,7 +1047,7 @@ function SolutionFlow() {
             transition={reduce ? undefined : { duration: 4.2, repeat: Infinity, ease: "linear" }}
           />
           <motion.path
-            d="M 950 205 V 461"
+            d={rightTrunk}
             fill="none"
             stroke="var(--color-brand-blue)"
             strokeWidth="1.15"
@@ -965,40 +1073,13 @@ function SolutionFlow() {
               transition={reduce ? undefined : { duration: 4.6, delay: i * 0.12, repeat: Infinity, ease: "linear" }}
             />
           ))}
-          {topAnchors.map(([cx, cy]) => (
-            <circle key={`${cx}-${cy}-anchor`} cx={cx} cy={cy} r="3.5" fill="var(--color-brand-cyan)" opacity="0.9" filter="url(#solution-flow-glow)" />
-          ))}
           {!reduce &&
-            flowPaths.map((d, i) => (
+            flowPaths.slice(topPaths.length).map((d, i) => (
               <motion.circle key={`${d}-dot`} r="3.2" fill="var(--color-brand-cyan)" filter="url(#solution-flow-glow)" opacity="0.92">
-                <animateMotion dur="2.6s" begin={`${i * 0.12}s`} repeatCount="indefinite" path={d} />
+                <animateMotion dur="2.6s" begin={`${(i + topPaths.length) * 0.12}s`} repeatCount="indefinite" path={d} />
               </motion.circle>
             ))}
         </svg>
-
-        <div className="absolute left-1/2 top-[170px] z-20 flex w-[420px] -translate-x-1/2 justify-center">
-          <div className="w-full rounded-[24px] border border-[var(--color-border-brand)] bg-[var(--color-bg-card)]/95 px-8 py-7 text-center shadow-2xl backdrop-blur-md">
-            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] shadow-[0_12px_36px_var(--color-brand-blue-glow)]">
-              <OrdersLogo className="h-10 w-auto" />
-            </div>
-            <h3 className="text-xl font-black text-[var(--color-text-primary)]">Orders & more</h3>
-            <p className="mt-2 text-sm font-semibold text-[var(--color-text-secondary)]">Unified. Automated. Intelligent.</p>
-          </div>
-        </div>
-
-        <div className="absolute right-0 top-[142px] z-20 w-[300px]">
-          <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">Outcomes</p>
-          <div className="space-y-4">
-            {outcomes.map((item) => (
-              <div key={item.label} className="flex h-12 items-center gap-4 text-lg font-medium text-[var(--color-text-primary)]">
-                <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
-                  <AppIcon name={item.icon} className="h-5 w-5" />
-                </span>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       <div className="grid gap-0 lg:hidden">
