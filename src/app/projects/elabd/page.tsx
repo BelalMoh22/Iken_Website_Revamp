@@ -2,11 +2,11 @@
 
 /* eslint-disable react/no-unescaped-entities */
 
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code2, Network, Rocket, Wallet } from "lucide-react";
+import { Code2, Network, Rocket, Wallet, type LucideIcon } from "lucide-react";
 
 import { Header } from "../../sections/Header";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
@@ -47,6 +47,198 @@ const initiatives = [
     image: "/clients/elabd-coupons.svg"
   }
 ];
+
+const roleCards: { title: string; desc: string; icon: LucideIcon }[] = [
+  { title: "Tech Expertise", desc: "Frontend, Backend, Mobile, DevOps, QA, and Product Management", icon: Code2 },
+  { title: "Business Integration", desc: "Deep collaboration with marketing, sales, and operations for aligned execution", icon: Network },
+  { title: "Fast Delivery", desc: "Continuous delivery with agile release cycles and rapid feature deployment", icon: Rocket },
+  { title: "Cost Efficiency", desc: "Full platform ownership from development to optimization - no full-time hiring costs", icon: Wallet },
+];
+
+function CarouselArrow({
+  direction,
+  disabled,
+  onClick,
+  label,
+}: {
+  direction: "prev" | "next";
+  disabled: boolean;
+  onClick: () => void;
+  label: string;
+}) {
+  const isPrev = direction === "prev";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${
+        isPrev
+          ? "border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:enabled:-translate-y-0.5 hover:enabled:border-[var(--color-border-brand)] hover:enabled:text-[var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-35"
+          : "border-transparent bg-[var(--color-brand-blue)] text-white shadow-md shadow-[var(--color-brand-blue-glow)] hover:enabled:-translate-y-0.5 hover:enabled:shadow-lg hover:enabled:shadow-[var(--color-brand-blue-glow)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+      }`}
+      aria-label={label}
+    >
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        {isPrev ? <path d="m15 18-6-6 6-6" /> : <path d="m9 18 6-6-6-6" />}
+      </svg>
+    </button>
+  );
+}
+
+function RoleCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const rafRef = useRef<number | null>(null);
+
+  const getStep = useCallback(() => {
+    const first = slideRefs.current[0];
+    const second = slideRefs.current[1];
+    if (!first) return 0;
+    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+  }, []);
+
+  const maxIndex = Math.max(0, roleCards.length - slidesPerView);
+  const safeIndex = Math.min(activeIndex, maxIndex);
+
+  const scrollToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+      viewport.scrollTo({ left: index * step, behavior });
+    },
+    [getStep],
+  );
+
+  useEffect(() => {
+    const update = () => {
+      const nextSlidesPerView = window.innerWidth >= 640 ? 2 : 1;
+      setSlidesPerView(nextSlidesPerView);
+      setActiveIndex((current) => {
+        const nextMaxIndex = Math.max(0, roleCards.length - nextSlidesPerView);
+        const next = Math.min(current, nextMaxIndex);
+        window.requestAnimationFrame(() => scrollToIndex(next, "auto"));
+        return next;
+      });
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [scrollToIndex]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  const navigate = useCallback(
+    (dir: -1 | 1) => {
+      setActiveIndex((index) => {
+        const next = Math.min(maxIndex, Math.max(0, index + dir));
+        scrollToIndex(next);
+        return next;
+      });
+    },
+    [maxIndex, scrollToIndex],
+  );
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = window.requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+      setActiveIndex(Math.min(maxIndex, Math.max(0, Math.round(viewport.scrollLeft / step))));
+    });
+  }, [getStep, maxIndex]);
+
+  return (
+    <>
+      <div
+        ref={viewportRef}
+        className="-mx-4 flex snap-x snap-proximity gap-4 overflow-x-auto overscroll-x-contain px-4 pb-2 outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0 lg:pb-0"
+        role="region"
+        aria-label="ELAbd role cards carousel"
+        aria-roledescription="carousel"
+        tabIndex={0}
+        onScroll={handleScroll}
+      >
+        {roleCards.map((item, i) => {
+          const IconComponent = item.icon;
+          return (
+            <motion.article
+              ref={(node) => {
+                slideRefs.current[i] = node;
+              }}
+              key={item.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(i * 0.07)}
+              className="min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Role ${i + 1} of ${roleCards.length}: ${item.title}`}
+            >
+              <div className="mb-3.5 flex items-center gap-3.5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass-strong)] shadow-[0_2px_12px_var(--color-brand-blue-glow)]">
+                  <IconComponent className="h-[22px] w-[22px] text-[var(--color-brand-blue)]" strokeWidth={1.8} />
+                </div>
+                <h3 className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.title}</h3>
+              </div>
+              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+            </motion.article>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden" role="group" aria-label="Role slider navigation">
+        <CarouselArrow direction="prev" disabled={safeIndex === 0} onClick={() => navigate(-1)} label="Previous role" />
+
+        <div className="flex items-center justify-center gap-2.5" aria-label="Role slides">
+          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                setActiveIndex(idx);
+                scrollToIndex(idx);
+              }}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === safeIndex ? "w-8 bg-[var(--color-brand-blue)]" : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+              }`}
+              aria-label={`Go to role slide ${idx + 1}`}
+              aria-current={idx === safeIndex ? "true" : undefined}
+            />
+          ))}
+        </div>
+
+        <CarouselArrow direction="next" disabled={safeIndex === maxIndex} onClick={() => navigate(1)} label="Next role" />
+      </div>
+    </>
+  );
+}
 
 export default function ElAbdCaseStudy() {
   const [activeCard, setActiveCard] = useState(0);
@@ -182,7 +374,8 @@ export default function ElAbdCaseStudy() {
                 IKEN functions as ELAbd's in-house technical division — providing full-stack capabilities through a dedicated squad model without the overhead of building internal infrastructure.
               </p>
             </motion.div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <RoleCarousel />
+            <div className="hidden">
               {[
                 { title: "Tech Expertise", desc: "Frontend, Backend, Mobile, DevOps, QA, and Product Management", icon: Code2 },
                 { title: "Business Integration", desc: "Deep collaboration with marketing, sales, and operations for aligned execution", icon: Network },
@@ -193,7 +386,7 @@ export default function ElAbdCaseStudy() {
                 return (
                   <motion.div key={item.title} initial="hidden" whileInView="visible" viewport={{ once: true }}
                     variants={fadeUp(i * 0.07)}
-                    className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
+                    className="min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto">
                     <div className="mb-3.5 flex items-center gap-3.5">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass-strong)] shadow-[0_2px_12px_var(--color-brand-blue-glow)]">
                         <IconComponent className="h-[22px] w-[22px] text-[var(--color-brand-blue)]" strokeWidth={1.8} />
@@ -252,18 +445,18 @@ export default function ElAbdCaseStudy() {
                         variants={fadeUp(i * 0.05)}
                         onClick={() => setActiveCard(i)}
                         className={`group flex gap-4 sm:gap-5 rounded-[20px] border p-4 sm:p-5 cursor-pointer select-none transition-all duration-300 ${isActive
-                            ? "border-[var(--color-brand-blue)] bg-[var(--color-bg-card)] shadow-[0_10px_30px_var(--color-brand-blue-glow)] scale-[1.02]"
-                            : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60"
+                            ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)] scale-[1.02]"
+                            : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
                           }`}
                       >
                         <span className={`mt-0.5 text-3xl sm:text-4xl font-black tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 ${isActive
-                            ? "text-[var(--color-brand-blue)]"
+                            ? "text-[var(--color-brand-blue)]/55"
                             : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
                           }`}>
                           {item.n}
                         </span>
                         <div className="flex flex-col">
-                          <h3 className={`mb-1 text-base sm:text-[17px] font-bold transition-colors duration-300 ${isActive ? "text-white" : "text-[var(--color-text-primary)]"
+                          <h3 className={`mb-1 text-base sm:text-[17px] font-bold transition-colors duration-300 ${isActive ? "text-[var(--color-text-brand)]" : "text-[var(--color-text-primary)]"
                             }`}>
                             {item.title}
                           </h3>

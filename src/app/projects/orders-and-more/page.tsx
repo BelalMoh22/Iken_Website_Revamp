@@ -482,7 +482,7 @@ const initiatives = [
     n: "04",
     title: "Analytics & Reporting",
     desc: "Real-time dashboards and actionable insights.",
-    image: null,
+    image: "/clients/pricingAndDiscounts.svg",
   },
 ];
 
@@ -759,16 +759,65 @@ function HeroMockup() {
     <motion.div initial="hidden" animate="visible" variants={fadeUp(0.12)} className="relative mx-auto w-full max-w-[640px]">
       <div className="absolute -inset-8 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
       <div className="relative">
-        <Image
-          src="/clients/O&M.png"
-          alt="Orders & More platform dashboard and storefront mockup"
-          width={1800}
-          height={1500}
-          className="h-auto w-full object-contain drop-shadow-2xl"
-          priority
-        />
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="select-none"
+        >
+          <Image
+            src="/clients/O&M.png"
+            alt="Orders & More platform dashboard and storefront mockup"
+            width={1800}
+            height={1500}
+            className="h-auto w-full object-contain drop-shadow-2xl"
+            priority
+          />
+        </motion.div>
       </div>
     </motion.div>
+  );
+}
+
+function DemoCtaSection() {
+  return (
+    <section className="py-12 sm:py-16 lg:py-28">
+      <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
+          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-blue)]">Ready?</p>
+          <h2 className="mb-5 text-3xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+            Transform Your{" "}
+            <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
+              E-Commerce Operations
+            </span>
+          </h2>
+          <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-[var(--color-text-secondary)]">
+            The best way to understand the power of Orders and More is to see it in action. Book a personalized demo and discover how the platform can address your specific business challenges.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/contact"
+              className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl"
+            >
+              Schedule Demo
+            </Link>
+            <a
+              href="/docs/Orders-and-More-2026%201.pdf"
+              className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+            >
+              Learn More
+            </a>
+          </div>
+          <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-[var(--color-text-secondary)]">
+            <a href="mailto:mustafa@iken.tech" className="transition hover:text-[var(--color-text-primary)]">mustafa@iken.tech</a>
+            <a href="https://wa.me/201050549994" className="transition hover:text-[var(--color-text-primary)]">(+20) 10 5054 9994</a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
@@ -1010,71 +1059,75 @@ function SolutionFlow() {
 
 function InitiativeShowcase({
   activeIndex,
-  activeImage,
   onMouseEnter,
   onMouseLeave,
 }: {
   activeIndex: number;
-  activeImage: string;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
   const activeInitiative = initiatives[activeIndex];
+  const activeImage = activeInitiative.image || "/clients/pricingAndDiscounts.svg";
 
   return (
     <motion.div
       initial={{ opacity: 1, y: 0, scale: 1 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
       className="relative mx-auto w-full max-w-[820px] lg:-my-8"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
-        className="relative"
-      >
-        <div className="pointer-events-none absolute h-px w-px opacity-0">
-          {initiatives
-            .filter((initiative) => Boolean(initiative.image))
-            .map((initiative) => (
-              <Image
-                key={initiative.title}
-                src={initiative.image || "/clients/pricingAndDiscounts.svg"}
-                alt=""
-                width={1}
-                height={1}
-                priority
-                aria-hidden="true"
-              />
-            ))}
-        </div>
+      <div className="pointer-events-none absolute h-px w-px opacity-0">
+        {initiatives
+          .filter((initiative) => Boolean(initiative.image))
+          .map((initiative) => (
+            <Image
+              key={initiative.title}
+              src={initiative.image || "/clients/pricingAndDiscounts.svg"}
+              alt=""
+              width={1}
+              height={1}
+              priority
+              aria-hidden="true"
+            />
+          ))}
+      </div>
 
-        <div className="relative h-[22rem] sm:h-[27rem] lg:h-[39rem] xl:h-[42rem]">
-          <AnimatePresence mode="popLayout" initial={false}>
+      <div className="relative h-[22rem] sm:h-[27rem] lg:h-[39rem] xl:h-[42rem] overflow-hidden flex justify-center items-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full flex justify-center items-center"
+          >
             <motion.div
-              key={activeImage}
-              initial={{ opacity: 0, x: 18, y: 10, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, x: -18, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 scale-[1.08] will-change-transform will-change-opacity sm:scale-[1.12] lg:scale-[1.16]"
+              animate={{
+                y: [0, -8, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="w-full h-full flex justify-center items-center"
             >
               <Image
                 src={activeImage}
                 alt={`${activeInitiative.title} visual`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 64vw"
-                className="object-contain [image-rendering:auto]"
+                width={820}
+                height={615}
+                className="w-full h-auto max-h-full object-contain select-none pointer-events-none"
                 priority
-                unoptimized
               />
             </motion.div>
-          </AnimatePresence>
-        </div>
-      </motion.div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </motion.div>
   );
 }
@@ -1202,37 +1255,21 @@ function ResultsSection() {
 }
 
 export default function OrdersAndMoreCaseStudy() {
-  const defaultInitiativeIndex = initiatives.findIndex((item) => item.image === "/clients/pricingAndDiscounts.svg");
-  const [activeInitiativeIndex, setActiveInitiativeIndex] = useState(defaultInitiativeIndex >= 0 ? defaultInitiativeIndex : 0);
-  const [activeInitiativeImage, setActiveInitiativeImage] = useState(
-    initiatives[defaultInitiativeIndex >= 0 ? defaultInitiativeIndex : 0].image || "/clients/pricingAndDiscounts.svg",
-  );
+  const [activeInitiativeIndex, setActiveInitiativeIndex] = useState(0);
   const [isInitiativePaused, setIsInitiativePaused] = useState(false);
 
   useEffect(() => {
     if (isInitiativePaused) return;
 
     const timer = window.setInterval(() => {
-      setActiveInitiativeIndex((current) => {
-        const next = (current + 1) % initiatives.length;
-        const nextImage = initiatives[next].image;
-
-        if (nextImage) {
-          setActiveInitiativeImage(nextImage);
-        }
-
-        return next;
-      });
-    }, 1500);
+      setActiveInitiativeIndex((current) => (current + 1) % initiatives.length);
+    }, 3000);
 
     return () => window.clearInterval(timer);
-  }, [isInitiativePaused]);
+  }, [isInitiativePaused, activeInitiativeIndex]);
 
   const handleInitiativeClick = (index: number) => {
     setActiveInitiativeIndex(index);
-    if (initiatives[index].image) {
-      setActiveInitiativeImage(initiatives[index].image);
-    }
   };
 
   return (
@@ -1259,7 +1296,7 @@ export default function OrdersAndMoreCaseStudy() {
             <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="mb-6 lg:hidden">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study Â· TAAS</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TAAS</span>
               </div>
               <h1 className="text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
                 Orders and More
@@ -1348,7 +1385,7 @@ export default function OrdersAndMoreCaseStudy() {
               desc="We designed a robust platform that centralizes operations and drives efficiency at scale."
             />
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16 xl:gap-20">
-              <div className="order-1 flex w-full flex-col justify-center lg:col-span-6">
+              <div className="order-2 flex w-full flex-col justify-center lg:order-1 lg:col-span-6">
                 <div className="w-full max-w-[580px] space-y-4 md:space-y-5">
                   {initiatives.map((item, i) => {
                     const isActive = i === activeInitiativeIndex;
@@ -1385,10 +1422,9 @@ export default function OrdersAndMoreCaseStudy() {
                   })}
                 </div>
               </div>
-              <div className="order-2 flex w-full items-center justify-center lg:col-span-6">
+              <div className="order-1 flex w-full items-center justify-center lg:order-2 lg:col-span-6">
                 <InitiativeShowcase
                   activeIndex={activeInitiativeIndex}
-                  activeImage={activeInitiativeImage}
                   onMouseEnter={() => setIsInitiativePaused(true)}
                   onMouseLeave={() => setIsInitiativePaused(false)}
                 />
@@ -1455,6 +1491,8 @@ export default function OrdersAndMoreCaseStudy() {
             </motion.div>
           </div>
         </section>
+
+        <DemoCtaSection />
       </main>
 
       <ContactSection />
