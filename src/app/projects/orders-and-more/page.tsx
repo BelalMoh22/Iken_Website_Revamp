@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
+import { ChallengeSolutionSection } from "../../components/ChallengeSolutionSection";
 import { Header } from "../../sections/Header";
 import { ContactSection } from "../../sections/ContactSection";
 import { useMounted } from "../../hooks/useMounted";
@@ -238,6 +239,33 @@ const challengeCards = [
   },
 ];
 
+const challengeSolutionPairs = [
+  {
+    beforeLead: "Fragmented Systems",
+    beforeRest: "created operational silos across multiple disconnected tools and systems.",
+    afterLead: "Unified Platform",
+    afterRest: "centralized all core operations into a single ecosystem.",
+  },
+  {
+    beforeLead: "Manual Processes",
+    beforeRest: "relied heavily on repetitive tasks that slowed operations and increased errors.",
+    afterLead: "Workflow Automation",
+    afterRest: "streamlined repetitive tasks, reduced errors, and improved operational efficiency.",
+  },
+  {
+    beforeLead: "Limited Visibility",
+    beforeRest: "made it difficult to monitor performance and access real-time business insights.",
+    afterLead: "Real-Time Analytics",
+    afterRest: "provided instant visibility into key metrics and business performance.",
+  },
+  {
+    beforeLead: "Complex Pricing",
+    beforeRest: "required significant manual effort to manage discounts, promotions, and pricing rules.",
+    afterLead: "Dynamic Pricing Engine",
+    afterRest: "enabled flexible pricing, promotions, and discount management at scale.",
+  },
+];
+
 function ChallengeCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -443,21 +471,6 @@ function SliderArrow({
     </button>
   );
 }
-
-const sources = [
-  { label: "Vendors", icon: "users" as const, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-  { label: "Products", icon: "container" as const, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  { label: "Inventory", icon: "database" as const, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-  { label: "Pricing Rules", icon: "workflow" as const, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-];
-const outcomes = [
-  { label: "Order Management", icon: "shopping-cart" as const, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-  { label: "Payments", icon: "credit-card" as const, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  { label: "Analytics", icon: "zap" as const, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
-  { label: "Reports", icon: "database" as const, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
-  { label: "Shipping & Delivery", icon: "truck" as const, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-];
-const capabilityPills = ["Automation", "Real time sync", "Data integrity", "Security"];
 
 const initiatives = [
   {
@@ -821,323 +834,6 @@ function DemoCtaSection() {
   );
 }
 
-const FLOW_ROW_H = 52;
-const FLOW_ROW_GAP = 22;
-const FLOW_ROW_PITCH = FLOW_ROW_H + FLOW_ROW_GAP;
-const FLOW_LIST_MIN_H = FLOW_ROW_H * 5 + FLOW_ROW_GAP * 4;
-
-const FLOW_LAYOUT = {
-  vbW: 1280,
-  vbH: 580,
-  sideInset: 56,
-  colW: 272,
-  cardW: 392,
-  cardH: 168,
-  gapToCenter: 88,
-  pillsH: 56,
-  headerOffset: 48,
-  labelH: 36,
-  get itemsTop() {
-    return this.pillsH + this.headerOffset + this.labelH;
-  },
-  get cardLeft() {
-    return (this.vbW - this.cardW) / 2;
-  },
-  get cardRight() {
-    return this.cardLeft + this.cardW;
-  },
-  get cardTop() {
-    const outcomeCenters = getRowCenters(5, this.itemsTop, FLOW_LIST_MIN_H);
-    const mid = (outcomeCenters[0] + outcomeCenters[outcomeCenters.length - 1]) / 2;
-    return mid - this.cardH / 2;
-  },
-  get leftColEnd() {
-    return this.sideInset + this.colW;
-  },
-  get rightColStart() {
-    return this.vbW - this.sideInset - this.colW;
-  },
-  get leftAnchorX() {
-    return this.leftColEnd;
-  },
-  get rightAnchorX() {
-    return this.rightColStart;
-  },
-  get leftBusX() {
-    return this.leftColEnd + 28;
-  },
-  get rightBusX() {
-    return this.rightColStart - 28;
-  },
-};
-
-function getRowCenters(count: number, itemsTop: number, listMinH: number) {
-  return Array.from({ length: count }, (_, i) => itemsTop + FLOW_ROW_H / 2 + i * FLOW_ROW_PITCH);
-}
-
-function getCenteredRowCenters(count: number, itemsTop: number, listMinH: number) {
-  const blockHeight = (count - 1) * FLOW_ROW_PITCH + FLOW_ROW_H;
-  const offset = (listMinH - blockHeight) / 2;
-  return Array.from({ length: count }, (_, i) => itemsTop + offset + FLOW_ROW_H / 2 + i * FLOW_ROW_PITCH);
-}
-
-function buildSidePaths(sourceCount: number, outcomeCount: number) {
-  const sourceYs = getCenteredRowCenters(sourceCount, FLOW_LAYOUT.itemsTop, FLOW_LIST_MIN_H);
-  const outcomeYs = getRowCenters(outcomeCount, FLOW_LAYOUT.itemsTop, FLOW_LIST_MIN_H);
-  const { cardLeft, cardRight, cardTop, cardH, leftAnchorX, leftBusX, rightAnchorX, rightBusX } = FLOW_LAYOUT;
-
-  const leftPaths = sourceYs.map((y, i) => {
-    const cardY = cardTop + 36 + (i * (cardH - 72)) / Math.max(sourceCount - 1, 1);
-    return `M ${leftAnchorX} ${y} H ${leftBusX} L ${cardLeft} ${cardY}`;
-  });
-
-  const rightPaths = outcomeYs.map((y, i) => {
-    const cardY = cardTop + 28 + (i * (cardH - 56)) / Math.max(outcomeCount - 1, 1);
-    return `M ${cardRight} ${cardY} L ${rightBusX} ${y} H ${rightAnchorX}`;
-  });
-
-  const trunkTop = outcomeYs[0];
-  const trunkBottom = outcomeYs[outcomeYs.length - 1];
-
-  return {
-    leftPaths,
-    rightPaths,
-    leftTrunk: `M ${leftBusX} ${trunkTop} V ${trunkBottom}`,
-    rightTrunk: `M ${rightBusX} ${trunkTop} V ${trunkBottom}`,
-  };
-}
-
-type FlowColumnItem = {
-  label: string;
-  icon: IconName;
-  color: string;
-  bg: string;
-  border: string;
-};
-
-function FlowColumn({
-  title,
-  items,
-  centerItems = false,
-  className = "",
-}: {
-  title: string;
-  items: FlowColumnItem[];
-  centerItems?: boolean;
-  className?: string;
-}) {
-  return (
-    <div className={`w-full max-w-[272px] shrink-0 ${className}`}>
-      <p className="mb-6 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">{title}</p>
-      <div
-        className={`flex flex-col gap-[22px] ${centerItems ? "justify-center" : ""}`}
-        style={{ minHeight: FLOW_LIST_MIN_H }}
-      >
-        {items.map((item) => (
-          <div key={item.label} className="flex h-[52px] items-center gap-4">
-            <span
-              className={`flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}
-            >
-              <AppIcon name={item.icon} className="h-5 w-5" />
-            </span>
-            <span className="text-base font-medium leading-snug text-[var(--color-text-primary)]">{item.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SolutionFlow() {
-  const reduce = useReducedMotion();
-  const topPaths = [
-    "M 380 54 C 380 110 510 177 580 211",
-    "M 550 54 C 550 112 575 179 610 211",
-    "M 730 54 C 730 112 685 179 655 211",
-    "M 900 54 C 900 110 770 177 670 211",
-  ];
-  const { leftPaths, rightPaths, leftTrunk, rightTrunk } = buildSidePaths(sources.length, outcomes.length);
-  const flowPaths = [...topPaths, ...leftPaths, ...rightPaths];
-  const pathProps = reduce
-    ? { opacity: 0.72, strokeDashoffset: 0 }
-    : { opacity: [0.28, 0.72, 0.48], strokeDashoffset: [28, 0, -28] };
-  const mobileConnector = (delay = 0, dotCount = 1) => (
-    <div className="relative mx-auto h-14 w-8 lg:hidden" aria-hidden="true">
-      <div className="absolute left-1/2 top-0 h-full -translate-x-1/2 border-l border-dashed border-cyan-400/35" />
-      <span className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.85)]" />
-      {!reduce &&
-        Array.from({ length: dotCount }).map((_, index) => (
-          <motion.span
-            key={index}
-            className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_14px_rgba(34,211,238,0.9)]"
-            animate={{ y: [0, 46], opacity: [0, 1, 0] }}
-            transition={{
-              duration: 1.6,
-              delay: delay + index * 0.28,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
-    </div>
-  );
-
-  return (
-    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.25 }} variants={fadeUp(0.06)}>
-      <div className="mb-8 flex flex-wrap justify-center gap-3 lg:hidden">
-        {capabilityPills.map((pill, i) => (
-          <motion.span
-            key={pill}
-            variants={fadeUp(i * 0.04)}
-            className="rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 py-2 text-xs font-bold text-[var(--color-text-brand)]"
-          >
-            {pill}
-          </motion.span>
-        ))}
-      </div>
-      {mobileConnector(0)}
-
-      <div className="relative mx-auto hidden h-[580px] max-w-7xl overflow-visible px-14 lg:block">
-        <div className="absolute inset-x-14 top-0 z-20 flex h-14 items-center justify-center gap-5 xl:gap-8">
-          {capabilityPills.map((pill, i) => (
-            <motion.span
-              key={pill}
-              variants={fadeUp(i * 0.04)}
-              className="whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-bg-card)]/80 px-5 py-2.5 text-sm font-bold text-[var(--color-text-primary)] shadow-[0_10px_30px_var(--color-brand-blue-glow)] backdrop-blur-md"
-            >
-              {pill}
-            </motion.span>
-          ))}
-        </div>
-
-        <div className="absolute inset-x-14 top-14 z-20 flex items-start justify-center gap-[88px] pt-12">
-          <FlowColumn title="Sources" items={sources} centerItems />
-          <div className="flex w-[392px] shrink-0 self-center">
-            <div className="w-full rounded-[24px] border border-[var(--color-border-brand)] bg-[var(--color-bg-card)]/95 px-8 py-7 text-center shadow-2xl backdrop-blur-md">
-              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] shadow-[0_12px_36px_var(--color-brand-blue-glow)]">
-                <OrdersLogo className="h-10 w-auto" />
-              </div>
-              <h3 className="text-xl font-black text-[var(--color-text-primary)]">Orders & more</h3>
-              <p className="mt-2 text-sm font-semibold text-[var(--color-text-secondary)]">Unified. Automated. Intelligent.</p>
-            </div>
-          </div>
-          <FlowColumn title="Outcomes" items={outcomes} />
-        </div>
-
-        <svg className="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-visible" viewBox="0 0 1280 580" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <filter id="solution-flow-glow" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <motion.path
-            d={leftTrunk}
-            fill="none"
-            stroke="var(--color-brand-blue)"
-            strokeWidth="1.15"
-            strokeLinecap="round"
-            strokeDasharray="2.5 7"
-            initial={reduce ? false : { opacity: 0.2, strokeDashoffset: 24 }}
-            whileInView={reduce ? { opacity: 0.55, strokeDashoffset: 0 } : { opacity: [0.2, 0.55, 0.36], strokeDashoffset: [24, 0, -24] }}
-            viewport={{ once: false, amount: 0.4 }}
-            transition={reduce ? undefined : { duration: 4.2, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.path
-            d={rightTrunk}
-            fill="none"
-            stroke="var(--color-brand-blue)"
-            strokeWidth="1.15"
-            strokeLinecap="round"
-            strokeDasharray="2.5 7"
-            initial={reduce ? false : { opacity: 0.2, strokeDashoffset: 24 }}
-            whileInView={reduce ? { opacity: 0.55, strokeDashoffset: 0 } : { opacity: [0.2, 0.55, 0.36], strokeDashoffset: [24, 0, -24] }}
-            viewport={{ once: false, amount: 0.4 }}
-            transition={reduce ? undefined : { duration: 4.2, repeat: Infinity, ease: "linear", delay: 0.2 }}
-          />
-          {flowPaths.map((d, i) => (
-            <motion.path
-              key={d}
-              d={d}
-              fill="none"
-              stroke="var(--color-brand-blue)"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeDasharray="2.5 7"
-              initial={reduce ? false : { opacity: 0.18, strokeDashoffset: 28 }}
-              whileInView={pathProps}
-              viewport={{ once: false, amount: 0.4 }}
-              transition={reduce ? undefined : { duration: 4.6, delay: i * 0.12, repeat: Infinity, ease: "linear" }}
-            />
-          ))}
-          {!reduce &&
-            flowPaths.slice(topPaths.length).map((d, i) => (
-              <motion.circle key={`${d}-dot`} r="3.2" fill="var(--color-brand-cyan)" filter="url(#solution-flow-glow)" opacity="0.92">
-                <animateMotion dur="2.6s" begin={`${(i + topPaths.length) * 0.12}s`} repeatCount="indefinite" path={d} />
-              </motion.circle>
-            ))}
-        </svg>
-      </div>
-
-      <div className="grid gap-0 lg:hidden">
-        <motion.div
-          animate={reduce ? undefined : { y: [0, -3, 0] }}
-          transition={reduce ? undefined : { duration: 5.4, repeat: Infinity, ease: "easeInOut" }}
-          className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4 shadow-[0_18px_46px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-[#07172c] dark:shadow-[0_18px_46px_rgba(0,0,0,0.28)]"
-        >
-          <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-cyan-400/10 blur-3xl" />
-          <p className="mb-4 text-[10px] font-black uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Sources</p>
-          <div className="grid grid-cols-2 gap-3">
-            {sources.map((item) => (
-              <div key={item.label} className="flex min-h-12 items-center gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-3 text-[11px] font-extrabold text-[var(--color-text-primary)] dark:border-white/5 dark:bg-[#0a2138]/70 dark:text-white">
-                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
-                  <AppIcon name={item.icon} className="h-4 w-4" />
-                </span>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-        {mobileConnector(0.25)}
-        <motion.div
-          animate={reduce ? undefined : { y: [0, -4, 0] }}
-          transition={reduce ? undefined : { duration: 5.8, repeat: Infinity, ease: "easeInOut", delay: 0.15 }}
-          className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 text-center shadow-[0_18px_46px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-[#07172c] dark:shadow-[0_18px_46px_rgba(0,0,0,0.28)]"
-        >
-          <div className="pointer-events-none absolute inset-x-6 -top-20 h-32 rounded-full bg-blue-500/20 blur-3xl" />
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] text-[var(--color-text-secondary)] dark:border-white/10 dark:bg-[#0b2037] dark:text-slate-300">
-            <OrdersLogo className="h-8 w-auto" />
-          </div>
-          <h3 className="text-xl font-black text-[var(--color-text-primary)]">Orders & more</h3>
-          <p className="mt-2 text-xs font-semibold text-[var(--color-text-secondary)]">Unified. Automated. Intelligent.</p>
-        </motion.div>
-        {mobileConnector(0.5, 4)}
-        <motion.div
-          animate={reduce ? undefined : { y: [0, -3, 0] }}
-          transition={reduce ? undefined : { duration: 5.4, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-          className="relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4 shadow-[0_18px_46px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-[#07172c] dark:shadow-[0_18px_46px_rgba(0,0,0,0.28)]"
-        >
-          <div className="pointer-events-none absolute -left-10 bottom-0 h-28 w-28 rounded-full bg-cyan-400/10 blur-3xl" />
-          <p className="mb-4 text-[10px] font-black uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Outcomes</p>
-          <div className="grid grid-cols-2 gap-3">
-            {outcomes.map((item) => (
-              <div key={item.label} className={`flex min-h-12 items-center gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-3 text-[11px] font-extrabold text-[var(--color-text-primary)] dark:border-white/5 dark:bg-[#0a2138]/70 dark:text-white ${item.label === "Shipping & Delivery" ? "col-span-2 mx-auto w-[76%]" : ""}`}>
-                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${item.border} ${item.bg} ${item.color}`}>
-                  <AppIcon name={item.icon} className="h-4 w-4" />
-                </span>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
-
 function InitiativeShowcase({
   activeIndex,
   onMouseEnter,
@@ -1156,7 +852,7 @@ function InitiativeShowcase({
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto w-full max-w-[820px] lg:-my-8"
+      className="relative mx-auto w-full max-w-[760px] lg:-my-10"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -1176,7 +872,7 @@ function InitiativeShowcase({
           ))}
       </div>
 
-      <div className="relative h-[22rem] sm:h-[27rem] lg:h-[39rem] xl:h-[42rem] overflow-hidden flex justify-center items-center">
+      <div className="relative flex h-[24rem] items-center justify-center overflow-hidden sm:h-[30rem] lg:h-[42rem] xl:h-[45rem]">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIndex}
@@ -1184,7 +880,7 @@ function InitiativeShowcase({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="absolute inset-0 w-full h-full flex justify-center items-center"
+            className="absolute inset-0 flex h-full w-full items-center justify-center"
           >
             <motion.div
               animate={{
@@ -1195,14 +891,14 @@ function InitiativeShowcase({
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="w-full h-full flex justify-center items-center"
+              className="flex h-full w-full items-center justify-center"
             >
               <Image
                 src={activeImage}
                 alt={`${activeInitiative.title} visual`}
-                width={820}
-                height={615}
-                className="w-full h-auto max-h-full object-contain select-none pointer-events-none"
+                width={1000}
+                height={770}
+                className="pointer-events-none h-auto w-full max-w-[760px] select-none object-contain"
                 priority
               />
             </motion.div>
@@ -1433,29 +1129,19 @@ export default function OrdersAndMoreCaseStudy() {
           </div>
         </section>
 
-        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
-          <div className="site-container">
-            <SectionHeader
-              label="The Challenge"
-              title="The Challenge"
-              desc="Orders & More faced operational inefficiencies, fragmented systems, and slow processes that limited their growth in a competitive market."
-            />
-            <ChallengeCarousel />
-          </div>
-        </section>
-
-        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--color-brand-blue-glow)] opacity-60 blur-[140px]" />
-          <div className="site-container relative z-10">
-            <SectionHeader
-              label="Our Solution"
-              title="HOW WE SOLVED IT"
-              desc="We designed and built a unified platform that connects all core operations, automates workflows, and provides real-time intelligence."
-              className="text-center [&>p]:mx-auto"
-            />
-            <SolutionFlow />
-          </div>
-        </section>
+        <ChallengeSolutionSection
+          pairs={challengeSolutionPairs}
+          mobile={
+            <>
+              <SectionHeader
+                label="The Challenge"
+                title="The Challenge"
+                desc="Orders & More faced operational inefficiencies, fragmented systems, and slow processes that limited their growth in a competitive market."
+              />
+              <ChallengeCarousel />
+            </>
+          }
+        />
 
         <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="pointer-events-none absolute right-[10%] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />
@@ -1465,9 +1151,9 @@ export default function OrdersAndMoreCaseStudy() {
               title="What We Focused On"
               desc="We designed a robust platform that centralizes operations and drives efficiency at scale."
             />
-            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16 xl:gap-20">
-              <div className="order-2 flex w-full flex-col justify-center lg:order-1 lg:col-span-6">
-                <div className="w-full max-w-[580px] space-y-4 md:space-y-5">
+            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.9fr_1.3fr] lg:gap-12 xl:gap-16">
+              <div className="order-2 flex w-full flex-col justify-center lg:order-1">
+                <div className="w-full max-w-[560px] space-y-4 md:space-y-5">
                   {initiatives.map((item, i) => {
                     const isActive = i === activeInitiativeIndex;
 
@@ -1503,7 +1189,7 @@ export default function OrdersAndMoreCaseStudy() {
                   })}
                 </div>
               </div>
-              <div className="order-1 flex w-full items-center justify-center lg:order-2 lg:col-span-6">
+              <div className="order-1 flex w-full items-center justify-center lg:order-2 lg:justify-end">
                 <InitiativeShowcase
                   activeIndex={activeInitiativeIndex}
                   onMouseEnter={() => setIsInitiativePaused(true)}
