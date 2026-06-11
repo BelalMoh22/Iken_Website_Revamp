@@ -137,71 +137,30 @@ function AppIcon({ name, className = "h-6 w-6" }: { name: IconName; className?: 
 }
 
 function TechBrandIcon({ name }: { name: string }) {
-  if (name === "React") {
-    return (
-      <svg viewBox="0 0 64 64" className="h-10 w-10 text-[#61dafb]" aria-hidden="true">
-        <g fill="none" stroke="currentColor" strokeWidth="3">
-          <ellipse cx="32" cy="32" rx="25" ry="10" />
-          <ellipse cx="32" cy="32" rx="25" ry="10" transform="rotate(60 32 32)" />
-          <ellipse cx="32" cy="32" rx="25" ry="10" transform="rotate(120 32 32)" />
-        </g>
-        <circle cx="32" cy="32" r="5" fill="currentColor" />
-      </svg>
-    );
-  }
+  const logoMap: Record<string, { src: string; whiteBg?: boolean }> = {
+    "React": { src: "/clients/react-logo.svg" },
+    ".NET": { src: "/clients/net-logo.svg" },
+    "Microsoft SQL Server": { src: "/clients/sql-logo.svg" },
+    "Azure DevOps": { src: "/clients/azure-logo.svg" },
+    "Docker": { src: "/clients/docker-logo.svg" },
+    "MyFatoorah": { src: "/clients/myFatoorah-logo.jpeg", whiteBg: true },
+  };
 
-  if (name === "Node.js") {
-    return (
-      <div className="flex h-10 items-center text-[22px] font-black tracking-tight text-[#8cc84b]" aria-hidden="true">
-        node<span className="ml-0.5 text-[15px]">js</span>
-      </div>
-    );
-  }
+  const entry = logoMap[name];
+  if (!entry) return <div className="text-5xl font-black leading-none text-[#635bff]" aria-hidden="true">?</div>;
 
-  if (name === "PostgreSQL") {
-    return (
-      <svg viewBox="0 0 64 64" className="h-10 w-10 text-[#6fb6ff]" aria-hidden="true">
-        <path d="M17 33C12 28 13 17 21 12c7-5 20-5 26 2 6 7 5 20-1 25-3 2-7 3-11 2l-2 10c-.4 2-3.4 2-3.8.1L27 41c-4 0-7-2-10-8Z" fill="none" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
-        <path d="M37 21c3 2 5 6 4 10M27 22c-2 4-2 9 1 13M34 40c4 3 8 3 12 1" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-        <circle cx="26" cy="22" r="1.7" fill="currentColor" />
-        <circle cx="38" cy="22" r="1.7" fill="currentColor" />
-      </svg>
-    );
-  }
-
-  if (name === "AWS") {
-    return (
-      <svg viewBox="0 0 64 64" className="h-10 w-10 text-[#ff9900]" aria-hidden="true">
-        <path d="M14 34 32 24l18 10-18 10-18-10Z" fill="currentColor" opacity="0.9" />
-        <path d="M14 24 32 14l18 10-18 10-18-10Z" fill="currentColor" opacity="0.55" />
-        <path d="M14 44 32 34l18 10-18 10-18-10Z" fill="currentColor" opacity="0.75" />
-        <path d="M16 50c10 5 22 5 32-1" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  if (name === "Redis") {
-    return (
-      <svg viewBox="0 0 64 64" className="h-10 w-10 text-[#dc382d]" aria-hidden="true">
-        <path d="M12 20 32 10l20 10-20 10-20-10Z" fill="currentColor" />
-        <path d="M12 30 32 20l20 10-20 10-20-10Z" fill="currentColor" opacity="0.78" />
-        <path d="M12 40 32 30l20 10-20 10-20-10Z" fill="currentColor" opacity="0.58" />
-        <path d="M25 19h14M23 29h18M24 39h16" stroke="#fff" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
-      </svg>
-    );
-  }
-
-  if (name === "Docker") {
-    return (
-      <svg viewBox="0 0 64 64" className="h-10 w-10 text-[#0db7ed]" aria-hidden="true">
-        <path d="M18 28h7v7h-7v-7Zm9 0h7v7h-7v-7Zm9 0h7v7h-7v-7ZM27 19h7v7h-7v-7Zm9 0h7v7h-7v-7Z" fill="currentColor" />
-        <path d="M10 36h36c2.8 0 5.5-1 7.6-2.9.6 4-1 8-4.4 10.6C45.8 46.3 40.5 48 32 48H20.5C15 48 10.6 43.8 10 36Z" fill="currentColor" />
-        <path d="M50 31c1.8-.2 3.5.5 4.8 1.8" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  return <div className="text-5xl font-black leading-none text-[#635bff]" aria-hidden="true">S</div>;
+  return (
+    <div className={`flex h-10 w-10 items-center justify-center${entry.whiteBg ? " rounded-md bg-white p-0.5" : ""}`}>
+      <Image
+        src={entry.src}
+        alt={`${name} logo`}
+        width={40}
+        height={40}
+        className="h-10 w-10 object-contain select-none"
+        aria-hidden="true"
+      />
+    </div>
+  );
 }
 
 const challengeCards = [
@@ -412,11 +371,10 @@ function ChallengeCarousel() {
                 setActiveIndex(idx);
                 scrollToIndex(idx);
               }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                idx === safeIndex
+              className={`h-1.5 rounded-full transition-all duration-300 ${idx === safeIndex
                   ? "w-8 bg-[var(--color-brand-blue)]"
                   : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
-              }`}
+                }`}
               aria-label={`Go to challenge slide ${idx + 1}`}
               aria-current={idx === safeIndex ? "true" : undefined}
             />
@@ -447,11 +405,10 @@ function SliderArrow({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${
-        isPrev
+      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${isPrev
           ? "border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:enabled:-translate-y-0.5 hover:enabled:border-[var(--color-border-brand)] hover:enabled:text-[var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-35"
           : "border-transparent bg-[var(--color-brand-blue)] text-white shadow-md shadow-[var(--color-brand-blue-glow)] hover:enabled:-translate-y-0.5 hover:enabled:shadow-lg hover:enabled:shadow-[var(--color-brand-blue-glow)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
-      }`}
+        }`}
       aria-label={label}
     >
       <svg
@@ -517,43 +474,43 @@ const techStack = [
     name: "React",
     category: "Frontend Framework",
     desc: "Building fast, interactive, and responsive user experiences.",
-    icon: "sparkles" as const,
+    glowColor: "rgba(97,218,251,0.18)",
+    accentColor: "rgba(97,218,251,0.7)",
   },
   {
-    name: "Node.js",
-    category: "Backend Runtime",
-    desc: "Powering business logic, APIs, and platform operations.",
-    icon: "server" as const,
+    name: ".NET",
+    category: "Backend Framework",
+    desc: "Powering enterprise-grade business logic, APIs, integrations, and platform operations with high performance and scalability.",
+    glowColor: "rgba(95,90,220,0.18)",
+    accentColor: "rgba(95,90,220,0.7)",
   },
   {
-    name: "PostgreSQL",
-    category: "Database",
-    desc: "Secure and reliable data storage for business information.",
-    icon: "database" as const,
+    name: "Microsoft SQL Server",
+    category: "Relational Database",
+    desc: "Providing secure, reliable, and highly optimized data storage for transactional and business-critical workloads.",
+    glowColor: "rgba(204,52,52,0.18)",
+    accentColor: "rgba(204,52,52,0.7)",
   },
   {
-    name: "AWS",
-    category: "Cloud Infrastructure",
-    desc: "Providing scalability, performance, and high availability.",
-    icon: "cloud" as const,
-  },
-  {
-    name: "Redis",
-    category: "Caching Layer",
-    desc: "Improving speed and performance across the platform.",
-    icon: "zap" as const,
+    name: "Azure DevOps",
+    category: "CI/CD & DevOps Platform",
+    desc: "Automating deployments, release pipelines, source control, and development workflows for faster delivery.",
+    glowColor: "rgba(0,120,212,0.18)",
+    accentColor: "rgba(0,120,212,0.7)",
   },
   {
     name: "Docker",
     category: "Containerization",
-    desc: "Ensuring consistent deployments and streamlined workflows.",
-    icon: "container" as const,
+    desc: "Ensuring consistent deployments and streamlined workflows across all environments.",
+    glowColor: "rgba(13,183,237,0.18)",
+    accentColor: "rgba(13,183,237,0.7)",
   },
   {
-    name: "Stripe",
-    category: "Payment Processing",
-    desc: "Enabling secure online payments and financial transactions.",
-    icon: "credit-card" as const,
+    name: "MyFatoorah",
+    category: "Payment Gateway",
+    desc: "Enabling secure online payments, local payment methods, and seamless checkout experiences across the platform.",
+    glowColor: "rgba(0,168,107,0.18)",
+    accentColor: "rgba(0,168,107,0.7)",
   },
 ];
 
@@ -674,21 +631,27 @@ function TechStackCarousel() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp(i * 0.05)}
-              className={`group min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto ${
-                i === techStack.length - 1 ? "lg:col-start-2" : ""
-              }`}
+              className="group relative min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto"
               role="group"
               aria-roledescription="slide"
               aria-label={`Technology ${i + 1} of ${totalSlides}: ${item.name}`}
             >
-              <div className="mb-4 flex items-center gap-4">
-                <TechBrandIcon name={item.name} />
-                <div>
-                  <p className="text-base font-bold text-[var(--color-text-brand)]">{item.name}</p>
-                  <p className="mt-1 text-xs font-semibold text-[var(--color-text-primary)]">{item.category}</p>
+              {/* Brand-coloured hover glow */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{ boxShadow: `0 0 28px ${item.glowColor}, inset 0 0 16px ${item.glowColor}` }}
+              />
+              <div className="relative z-10">
+                <div
+                  className="mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass-strong)] transition-all duration-300"
+                  style={{ boxShadow: `0 2px 14px ${item.glowColor}` }}
+                >
+                  <TechBrandIcon name={item.name} />
                 </div>
+                <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.name}</p>
+                <p className="mt-0.5 mb-3 text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: item.accentColor }}>{item.category}</p>
+                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
             </motion.article>
           ))}
         </div>
@@ -706,11 +669,10 @@ function TechStackCarousel() {
                 setActiveIndex(idx);
                 scrollToIndex(idx);
               }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                idx === safeIndex
+              className={`h-1.5 rounded-full transition-all duration-300 ${idx === safeIndex
                   ? "w-8 bg-[var(--color-brand-blue)]"
                   : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
-              }`}
+                }`}
               aria-label={`Go to technology slide ${idx + 1}`}
               aria-current={idx === safeIndex ? "true" : undefined}
             />
@@ -1158,33 +1120,30 @@ export default function OrdersAndMoreCaseStudy() {
                     const isActive = i === activeInitiativeIndex;
 
                     return (
-                    <motion.button
-                      key={item.n}
-                      type="button"
-                      onClick={() => handleInitiativeClick(i)}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                      variants={fadeUp(i * 0.05)}
-                      className={`group flex w-full gap-4 rounded-[20px] border p-4 text-left backdrop-blur-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] sm:gap-5 sm:p-5 ${
-                        isActive
-                          ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
-                          : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
-                      }`}
-                      aria-pressed={isActive}
-                    >
-                      <span className={`mt-0.5 shrink-0 select-none text-3xl font-black tabular-nums tracking-tight transition-colors duration-300 sm:text-4xl ${
-                        isActive ? "text-[var(--color-brand-blue)]/55" : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
-                      }`}>
-                        {item.n}
-                      </span>
-                      <div>
-                        <h3 className={`mb-1 text-base font-bold transition-colors duration-300 sm:text-[17px] ${
-                          isActive ? "text-[var(--color-text-brand)]" : "text-[var(--color-text-primary)]"
-                        }`}>{item.title}</h3>
-                        <p className="max-w-[480px] text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85">{item.desc}</p>
-                      </div>
-                    </motion.button>
+                      <motion.button
+                        key={item.n}
+                        type="button"
+                        onClick={() => handleInitiativeClick(i)}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeUp(i * 0.05)}
+                        className={`group flex w-full gap-4 rounded-[20px] border p-4 text-left backdrop-blur-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] sm:gap-5 sm:p-5 ${isActive
+                            ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                            : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                          }`}
+                        aria-pressed={isActive}
+                      >
+                        <span className={`mt-0.5 shrink-0 select-none text-3xl font-black tabular-nums tracking-tight transition-colors duration-300 sm:text-4xl ${isActive ? "text-[var(--color-brand-blue)]/55" : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
+                          }`}>
+                          {item.n}
+                        </span>
+                        <div>
+                          <h3 className={`mb-1 text-base font-bold transition-colors duration-300 sm:text-[17px] ${isActive ? "text-[var(--color-text-brand)]" : "text-[var(--color-text-primary)]"
+                            }`}>{item.title}</h3>
+                          <p className="max-w-[480px] text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85">{item.desc}</p>
+                        </div>
+                      </motion.button>
                     );
                   })}
                 </div>
@@ -1204,11 +1163,14 @@ export default function OrdersAndMoreCaseStudy() {
 
         <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="site-container">
-            <SectionHeader
-              label="Technology"
-              title="Technology Stack"
-              desc="Our dedicated team operates with the same priorities and urgency as internal staff — enabling flexible scaling based on project demands and business cycles."
-            />
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
+              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+                <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Technology</span>
+              </div>
+              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">Technology Stack</h2>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">Our dedicated team operates with the same priorities and urgency as internal staff — enabling flexible scaling based on project demands and business cycles.</p>
+            </motion.div>
             <TechStackCarousel />
           </div>
         </section>

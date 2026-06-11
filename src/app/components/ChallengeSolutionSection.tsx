@@ -73,9 +73,15 @@ function PairText({
 function ConnectorArrow({ isActive }: { isActive: boolean }) {
   return (
     <motion.div
-      animate={{ x: isActive ? 24 : -10, scale: isActive ? 1.08 : 1 }}
-      transition={ROW_TRANSITION}
-      className={`relative z-30 flex shrink-0 items-center justify-center rounded-full border transition-[border-color,background-color,box-shadow,color] duration-[450ms] ${
+      animate={{
+        x: isActive ? 24 : -10,
+        scale: isActive ? 1.18 : 1,
+      }}
+      transition={{
+        ...ROW_TRANSITION,
+        duration: 0.38,
+      }}
+      className={`relative z-40 flex shrink-0 items-center justify-center rounded-full border transition-[border-color,background-color,box-shadow,color] duration-[380ms] ${
         isActive
           ? "border-[var(--color-brand-cyan)]/80 bg-gradient-to-br from-[var(--color-brand-cyan)] to-[var(--color-brand-blue)] text-white shadow-[0_0_28px_var(--color-brand-cyan-glow),0_0_12px_rgba(34,211,238,0.45)]"
           : "border-[var(--color-brand-cyan)]/35 bg-[var(--color-bg-glass-strong)] text-[var(--color-brand-cyan)] shadow-[0_0_14px_var(--color-brand-cyan-glow)] dark:bg-[#0a2036]"
@@ -177,10 +183,10 @@ function ChallengeRow({
             />
 
             <div
-              className={`pointer-events-none absolute top-1/2 z-20 -translate-y-1/2 rounded-full border bg-[var(--color-bg-main)] transition-[border-color,box-shadow] duration-[450ms] ${
+              className={`pointer-events-none absolute top-1/2 z-20 -translate-y-1/2 rounded-full border bg-[var(--color-bg-main)] transition-[border-color,box-shadow,opacity] duration-[380ms] ${
                 isActive
-                  ? "border-[var(--color-brand-cyan)]/35 shadow-[inset_-8px_0_18px_rgba(34,211,238,0.08)]"
-                  : "border-[var(--color-border-light)] dark:border-white/[0.06]"
+                  ? "border-[var(--color-brand-cyan)]/35 shadow-[inset_-8px_0_18px_rgba(34,211,238,0.08)] opacity-0"
+                  : "border-[var(--color-border-light)] opacity-100 dark:border-white/[0.06]"
               }`}
               style={{
                 left: -CONNECTOR_RADIUS,

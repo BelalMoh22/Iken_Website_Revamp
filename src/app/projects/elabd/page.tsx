@@ -73,11 +73,10 @@ function CarouselArrow({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${
-        isPrev
+      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${isPrev
           ? "border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:enabled:-translate-y-0.5 hover:enabled:border-[var(--color-border-brand)] hover:enabled:text-[var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-35"
           : "border-transparent bg-[var(--color-brand-blue)] text-white shadow-md shadow-[var(--color-brand-blue-glow)] hover:enabled:-translate-y-0.5 hover:enabled:shadow-lg hover:enabled:shadow-[var(--color-brand-blue-glow)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
-      }`}
+        }`}
       aria-label={label}
     >
       <svg
@@ -225,9 +224,8 @@ function RoleCarousel() {
                 setActiveIndex(idx);
                 scrollToIndex(idx);
               }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                idx === safeIndex ? "w-8 bg-[var(--color-brand-blue)]" : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
-              }`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${idx === safeIndex ? "w-8 bg-[var(--color-brand-blue)]" : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
+                }`}
               aria-label={`Go to role slide ${idx + 1}`}
               aria-current={idx === safeIndex ? "true" : undefined}
             />
@@ -249,7 +247,7 @@ export default function ElAbdCaseStudy() {
 
     const interval = setInterval(() => {
       setActiveCard((prev) => (prev + 1) % initiatives.length);
-    }, 3000); 
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [isPaused, activeCard]);
@@ -445,13 +443,13 @@ export default function ElAbdCaseStudy() {
                         variants={fadeUp(i * 0.05)}
                         onClick={() => setActiveCard(i)}
                         className={`group flex gap-4 sm:gap-5 rounded-[20px] border p-4 sm:p-5 cursor-pointer select-none transition-all duration-300 ${isActive
-                            ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)] scale-[1.02]"
-                            : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                          ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)] scale-[1.02]"
+                          : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
                           }`}
                       >
                         <span className={`mt-0.5 text-3xl sm:text-4xl font-black tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 ${isActive
-                            ? "text-[var(--color-brand-blue)]/55"
-                            : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
+                          ? "text-[var(--color-brand-blue)]/55"
+                          : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
                           }`}>
                           {item.n}
                         </span>
@@ -731,32 +729,112 @@ export default function ElAbdCaseStudy() {
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
                 <span className="text-xs font-semibold uppercase tracking-[0.18em]">Technology</span>
               </div>
-              <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">Inside the Tech Stack</h2>
+              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">Technology Stack</h2>
               <p className="mt-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">Enterprise-Grade Technology Foundation</p>
             </motion.div>
-            <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            {/* 3×2 Icon Card Grid */}
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { area: "Web Platform", tech: "React / Next.js / ASP.NET MVC", desc: "Server-side rendering for optimal performance and SEO" },
-                { area: "Mobile Apps", tech: "React Native", desc: "Cross-platform native experience with single codebase" },
-                { area: "Backend Services", tech: ".NET Core, Firebase", desc: "Scalable microservices with real-time capabilities" },
-                { area: "Infrastructure", tech: "Azure DevOps, CI/CD", desc: "Automated deployment pipelines and monitoring" },
-                { area: "Integrations", tech: "Payment Gateways, Delivery APIs, Coupon Engine", desc: "Seamless third-party service connectivity" },
+                {
+                  title: "React",
+                  subtitle: "Frontend Framework",
+                  desc: "Delivering fast, dynamic, and responsive user interfaces for web and mobile platforms with a component-driven architecture.",
+                  glowColor: "rgba(97,218,251,0.18)",
+                  borderHover: "rgba(97,218,251,0.5)",
+                  logo: "/clients/react-logo.svg",
+                  logoAlt: "React logo",
+                  logoBg: false,
+                },
+                {
+                  title: ".NET",
+                  subtitle: "Backend Framework",
+                  desc: "Powering enterprise-grade business logic, APIs, integrations, and platform operations with high performance and scalability.",
+                  glowColor: "rgba(95,90,220,0.18)",
+                  borderHover: "rgba(95,90,220,0.5)",
+                  logo: "/clients/net-logo.svg",
+                  logoAlt: ".NET 8 logo",
+                  logoBg: false,
+                },
+                {
+                  title: "Microsoft SQL Server",
+                  subtitle: "Relational Database",
+                  desc: "Providing secure, reliable, and highly optimized data storage for transactional and business-critical workloads.",
+                  glowColor: "rgba(204,52,52,0.18)",
+                  borderHover: "rgba(204,52,52,0.5)",
+                  logo: "/clients/sql-logo.svg",
+                  logoAlt: "Microsoft SQL Server logo",
+                  logoBg: false,
+                },
+                {
+                  title: "Azure DevOps",
+                  subtitle: "CI/CD & DevOps Platform",
+                  desc: "Automating deployments, release pipelines, source control, and development workflows for faster delivery.",
+                  glowColor: "rgba(0,120,212,0.18)",
+                  borderHover: "rgba(0,120,212,0.5)",
+                  logo: "/clients/azure-logo.svg",
+                  logoAlt: "Azure DevOps logo",
+                  logoBg: false,
+                },
+                {
+                  title: "Docker",
+                  subtitle: "Containerization",
+                  desc: "Packaging applications into portable containers ensuring consistent environments across development, staging, and production.",
+                  glowColor: "rgba(13,183,237,0.18)",
+                  borderHover: "rgba(13,183,237,0.5)",
+                  logo: "/clients/docker-logo.svg",
+                  logoAlt: "Docker logo",
+                  logoBg: false,
+                },
+                {
+                  title: "MyFatoorah",
+                  subtitle: "Payment Gateway",
+                  desc: "Enabling secure online payments, local payment methods, and seamless checkout experiences across the platform.",
+                  glowColor: "rgba(0,168,107,0.18)",
+                  borderHover: "rgba(0,168,107,0.5)",
+                  logo: "/clients/myFatoorah-logo.jpeg",
+                  logoAlt: "MyFatoorah logo",
+                  logoBg: true,
+                },
               ].map((item, i) => (
-                <motion.div key={item.area} initial="hidden" whileInView="visible" viewport={{ once: true }}
-                  variants={fadeUp(i * 0.06)}
-                  className="rounded-2xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] p-5">
-                  <p className="mb-0.5 text-sm font-bold text-[var(--color-brand-blue)]">{item.area}</p>
-                  <p className="mb-2 text-xs font-semibold text-[var(--color-text-primary)]">{item.tech}</p>
-                  <p className="text-xs leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+                <motion.div
+                  key={item.title}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp(i * 0.07)}
+                  className="group relative flex flex-col rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+                  style={{
+                    ["--card-glow" as string]: item.glowColor,
+                    ["--card-border" as string]: item.borderHover,
+                  }}
+                >
+                  {/* Hover glow */}
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{ boxShadow: `0 0 32px ${item.glowColor}, inset 0 0 20px ${item.glowColor}` }}
+                  />
+                  <div className="relative z-10 flex flex-col h-full">
+                    {/* Logo */}
+                    <div
+                      className={`mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] transition-all duration-300 ${item.logoBg ? "bg-white p-1" : "bg-[var(--color-bg-glass-strong)]"}`}
+                      style={{ boxShadow: `0 2px 16px ${item.glowColor}` }}
+                    >
+                      <Image
+                        src={item.logo}
+                        alt={item.logoAlt}
+                        width={40}
+                        height={40}
+                        className="h-10 w-10 object-contain select-none"
+                      />
+                    </div>
+                    {/* Title & Subtitle */}
+                    <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.title}</p>
+                    <p className="mt-0.5 mb-3 text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: item.borderHover }}>{item.subtitle}</p>
+                    {/* Description */}
+                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] flex-1">{item.desc}</p>
+                  </div>
                 </motion.div>
-              ))}
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {[["Reliable", "99.9% uptime with redundant systems"], ["Scalable", "Cloud-native architecture handles traffic spikes"], ["Secure", "Industry-standard encryption and compliance"]].map(([t, d]) => (
-                <div key={t} className="flex items-start gap-3 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-4">
-                  <span className="mt-0.5 text-[var(--color-brand-blue)]">✓</span>
-                  <div><p className="text-sm font-bold text-[var(--color-text-primary)]">{t}</p><p className="text-xs text-[var(--color-text-muted)]">{d}</p></div>
-                </div>
               ))}
             </div>
           </div>
