@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ChallengeSolutionSection } from "../../components/ChallengeSolutionSection";
 import { Header } from "../../sections/Header";
@@ -19,122 +19,6 @@ const fadeUp = (delay = 0) => ({
     transition: { duration: 0.2, ease: "easeOut" as const, delay: Math.min(delay, 0.04) },
   },
 });
-
-type IconName =
-  | "cloud"
-  | "container"
-  | "credit-card"
-  | "database"
-  | "eye"
-  | "layers"
-  | "server"
-  | "shopping-cart"
-  | "sparkles"
-  | "tags"
-  | "truck"
-  | "users"
-  | "workflow"
-  | "zap";
-
-function AppIcon({ name, className = "h-6 w-6" }: { name: IconName; className?: string }) {
-  const common = {
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.8,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-  };
-
-  const paths: Record<IconName, ReactNode> = {
-    cloud: <path d="M17.5 18H7.2a4.2 4.2 0 0 1-.7-8.34A5.8 5.8 0 0 1 17.2 7.7 4.2 4.2 0 0 1 17.5 18Z" />,
-    container: (
-      <>
-        <path d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z" />
-        <path d="M4 7.5v9L12 21l8-4.5v-9" />
-        <path d="M12 12v9" />
-      </>
-    ),
-    "credit-card": (
-      <>
-        <rect x="3" y="5" width="18" height="14" rx="2.5" />
-        <path d="M3 10h18M7 15h4" />
-      </>
-    ),
-    database: (
-      <>
-        <ellipse cx="12" cy="6" rx="7" ry="3" />
-        <path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6" />
-        <path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6" />
-      </>
-    ),
-    eye: (
-      <>
-        <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" />
-        <circle cx="12" cy="12" r="3" />
-      </>
-    ),
-    layers: (
-      <>
-        <path d="m12 3 9 5-9 5-9-5 9-5Z" />
-        <path d="m3 12 9 5 9-5M3 16l9 5 9-5" />
-      </>
-    ),
-    server: (
-      <>
-        <rect x="4" y="4" width="16" height="7" rx="2" />
-        <rect x="4" y="13" width="16" height="7" rx="2" />
-        <path d="M8 7.5h.01M8 16.5h.01M12 7.5h4M12 16.5h4" />
-      </>
-    ),
-    "shopping-cart": (
-      <>
-        <path d="M4 5h2l2 10h10l2-7H7" />
-        <circle cx="10" cy="20" r="1.5" />
-        <circle cx="17" cy="20" r="1.5" />
-      </>
-    ),
-    sparkles: (
-      <>
-        <path d="m12 3 1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7L12 3Z" />
-        <path d="m5 14 .9 2.1L8 17l-2.1.9L5 20l-.9-2.1L2 17l2.1-.9L5 14ZM19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14Z" />
-      </>
-    ),
-    tags: (
-      <>
-        <path d="M4 5v6.2c0 .5.2 1 .6 1.4l7.8 7.8a2 2 0 0 0 2.8 0l5.2-5.2a2 2 0 0 0 0-2.8L12.6 4.6A2 2 0 0 0 11.2 4H5a1 1 0 0 0-1 1Z" />
-        <circle cx="8" cy="8" r="1.2" />
-      </>
-    ),
-    truck: (
-      <>
-        <path d="M3 7h11v10H3zM14 11h3.5l2.5 3v3h-6z" />
-        <circle cx="7" cy="19" r="1.5" />
-        <circle cx="17" cy="19" r="1.5" />
-      </>
-    ),
-    users: (
-      <>
-        <path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
-        <circle cx="9.5" cy="7" r="4" />
-        <path d="M21 21v-2a3.5 3.5 0 0 0-2.8-3.4M16.5 3.4a4 4 0 0 1 0 7.2" />
-      </>
-    ),
-    workflow: (
-      <>
-        <rect x="3" y="4" width="6" height="6" rx="1.5" />
-        <rect x="15" y="14" width="6" height="6" rx="1.5" />
-        <path d="M9 7h3a3 3 0 0 1 3 3v1M15 17h-3a3 3 0 0 1-3-3v-1" />
-      </>
-    ),
-    zap: <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />,
-  };
-
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...common}>
-      {paths[name]}
-    </svg>
-  );
-}
 
 function TechBrandIcon({ name }: { name: string }) {
   const logoMap: Record<string, { src: string; whiteBg?: boolean }> = {
@@ -163,229 +47,48 @@ function TechBrandIcon({ name }: { name: string }) {
   );
 }
 
-const challengeCards = [
-  {
-    title: "Fragmented Systems",
-    desc: "Data scattered across multiple disconnected platforms leading to inconsistencies.",
-    icon: "layers" as const,
-    color: "text-sky-400",
-    bg: "bg-sky-500/10",
-    border: "border-sky-500/20",
-  },
-  {
-    title: "Manual Processes",
-    desc: "High dependency on manual work and spreadsheets causing human error and delays.",
-    icon: "workflow" as const,
-    color: "text-orange-400",
-    bg: "bg-orange-500/10",
-    border: "border-orange-500/20",
-  },
-  {
-    title: "Limited Visibility",
-    desc: "Lack of real-time insights into operations and overall business performance.",
-    icon: "eye" as const,
-    color: "text-pink-400",
-    bg: "bg-pink-500/10",
-    border: "border-pink-500/20",
-  },
-  {
-    title: "Complex Pricing",
-    desc: "Difficulty managing dynamic pricing rules and discounts across regions.",
-    icon: "tags" as const,
-    color: "text-purple-400",
-    bg: "bg-purple-500/10",
-    border: "border-purple-500/20",
-  },
-];
-
 const challengeSolutionPairs = [
   {
-    beforeLead: "Fragmented Systems",
-    beforeRest: "created operational silos across multiple disconnected tools and systems.",
-    afterLead: "Unified Platform",
-    afterRest: "centralized all core operations into a single ecosystem.",
+    number: "01",
+    challengeTitle: "Fragmented Systems",
+    challengeDescription: "Operations were scattered across multiple disconnected tools, causing data silos and inconsistent information.",
+    challengeIcon: "list" as const,
+    solutionTitle: "Unified Platform",
+    solutionDescription: "We centralized vendors, orders, inventory, and pricing into one integrated platform for complete operational clarity.",
+    solutionIcon: "layers" as const,
+    solutionAccent: "purple" as const,
   },
   {
-    beforeLead: "Manual Processes",
-    beforeRest: "relied heavily on repetitive tasks that slowed operations and increased errors.",
-    afterLead: "Workflow Automation",
-    afterRest: "streamlined repetitive tasks, reduced errors, and improved operational efficiency.",
+    number: "02",
+    challengeTitle: "Manual Processes",
+    challengeDescription: "Repetitive manual tasks slowed down operations and led to increased errors and operational costs.",
+    challengeIcon: "clock" as const,
+    solutionTitle: "Workflow Automation",
+    solutionDescription: "We automated key workflows and approvals, reducing manual effort and improving speed, accuracy, and efficiency.",
+    solutionIcon: "zap" as const,
+    solutionAccent: "blue" as const,
   },
   {
-    beforeLead: "Limited Visibility",
-    beforeRest: "made it difficult to monitor performance and access real-time business insights.",
-    afterLead: "Real-Time Analytics",
-    afterRest: "provided instant visibility into key metrics and business performance.",
+    number: "03",
+    challengeTitle: "Limited Visibility",
+    challengeDescription: "Lack of real-time insights and reporting made it difficult to monitor performance and make informed decisions.",
+    challengeIcon: "eye" as const,
+    solutionTitle: "Real-Time Analytics",
+    solutionDescription: "We delivered real-time dashboards and reports that provide instant visibility into key metrics and business performance.",
+    solutionIcon: "chart" as const,
+    solutionAccent: "green" as const,
   },
   {
-    beforeLead: "Complex Pricing",
-    beforeRest: "required significant manual effort to manage discounts, promotions, and pricing rules.",
-    afterLead: "Dynamic Pricing Engine",
-    afterRest: "enabled flexible pricing, promotions, and discount management at scale.",
+    number: "04",
+    challengeTitle: "Complex Pricing",
+    challengeDescription: "Managing discounts, promotions, and pricing rules required significant manual effort and time.",
+    challengeIcon: "tag" as const,
+    solutionTitle: "Dynamic Pricing Engine",
+    solutionDescription: "We built a flexible pricing engine that automates rules, promotions, and discounts at scale with complete control.",
+    solutionIcon: "sliders" as const,
+    solutionAccent: "orange" as const,
   },
 ];
-
-function ChallengeCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [slidesPerView, setSlidesPerView] = useState(1);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const slideRefs = useRef<(HTMLElement | null)[]>([]);
-  const rafRef = useRef<number | null>(null);
-
-  const getStep = useCallback(() => {
-    const first = slideRefs.current[0];
-    const second = slideRefs.current[1];
-    if (!first) return 0;
-    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
-  }, []);
-
-  const totalSlides = challengeCards.length;
-  const maxIndex = Math.max(0, totalSlides - slidesPerView);
-  const safeIndex = Math.min(activeIndex, maxIndex);
-
-  const scrollToIndex = useCallback(
-    (index: number, behavior: ScrollBehavior = "smooth") => {
-      const viewport = viewportRef.current;
-      const step = getStep();
-      if (!viewport || !step) return;
-      viewport.scrollTo({ left: index * step, behavior });
-    },
-    [getStep],
-  );
-
-  useEffect(() => {
-    const update = () => {
-      const nextSlidesPerView = window.innerWidth >= 640 ? 2 : 1;
-      setSlidesPerView(nextSlidesPerView);
-      setActiveIndex((current) => {
-        const nextMaxIndex = Math.max(0, challengeCards.length - nextSlidesPerView);
-        const next = Math.min(current, nextMaxIndex);
-        if (next !== current) {
-          window.requestAnimationFrame(() => scrollToIndex(next, "auto"));
-        }
-        return next;
-      });
-    };
-
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [scrollToIndex]);
-
-  useEffect(() => {
-    return () => {
-      if (rafRef.current !== null) {
-        window.cancelAnimationFrame(rafRef.current);
-      }
-    };
-  }, []);
-
-  const navigate = useCallback(
-    (dir: -1 | 1) => {
-      setActiveIndex((index) => {
-        const next = Math.min(maxIndex, Math.max(0, index + dir));
-        scrollToIndex(next);
-        return next;
-      });
-    },
-    [maxIndex, scrollToIndex],
-  );
-
-  const handleScroll = useCallback(() => {
-    if (rafRef.current !== null) {
-      window.cancelAnimationFrame(rafRef.current);
-    }
-
-    rafRef.current = window.requestAnimationFrame(() => {
-      const viewport = viewportRef.current;
-      const step = getStep();
-      if (!viewport || !step) return;
-
-      const nextIndex = Math.min(maxIndex, Math.max(0, Math.round(viewport.scrollLeft / step)));
-      setActiveIndex(nextIndex);
-    });
-  }, [getStep, maxIndex]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        navigate(-1);
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        navigate(1);
-      }
-    },
-    [navigate],
-  );
-
-  return (
-    <>
-      <div
-        ref={viewportRef}
-        className="-mx-4 min-w-0 touch-pan-x overflow-x-auto overscroll-x-contain px-4 pb-2 outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6 lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0"
-        role="region"
-        aria-label="Challenge cards carousel"
-        aria-roledescription="carousel"
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onScroll={handleScroll}
-      >
-        <div className="flex snap-x snap-proximity gap-4 lg:grid lg:grid-cols-4 lg:snap-none">
-          {challengeCards.map((item, i) => (
-            <motion.article
-              ref={(node) => {
-                slideRefs.current[i] = node;
-              }}
-              key={item.title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp(i * 0.06)}
-              className="min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-6 transition-all hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto"
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`Challenge ${i + 1} of ${totalSlides}: ${item.title}`}
-            >
-              <div className="mb-4 flex items-center gap-3">
-                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${item.border} ${item.bg} ${item.color}`}>
-                  <AppIcon name={item.icon} className="h-5 w-5" />
-                </div>
-                <h3 className="text-base font-bold leading-snug text-[var(--color-text-primary)]">{item.title}</h3>
-              </div>
-              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden" role="group" aria-label="Challenge slider navigation">
-        <SliderArrow direction="prev" disabled={safeIndex === 0} onClick={() => navigate(-1)} label="Previous challenge" />
-
-        <div className="flex items-center justify-center gap-2.5" aria-label="Challenge slides">
-          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => {
-                setActiveIndex(idx);
-                scrollToIndex(idx);
-              }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${idx === safeIndex
-                  ? "w-8 bg-[var(--color-brand-blue)]"
-                  : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
-                }`}
-              aria-label={`Go to challenge slide ${idx + 1}`}
-              aria-current={idx === safeIndex ? "true" : undefined}
-            />
-          ))}
-        </div>
-
-        <SliderArrow direction="next" disabled={safeIndex === maxIndex} onClick={() => navigate(1)} label="Next challenge" />
-      </div>
-    </>
-  );
-}
 
 function SliderArrow({
   direction,
@@ -450,9 +153,9 @@ const initiatives = [
   },
   {
     n: "04",
-    title: "Analytics & Reporting",
-    desc: "Real-time dashboards and actionable insights.",
-    image: "/clients/pricingAndDiscounts.svg",
+    title: "Vendor Wallet",
+    desc: "Secure wallet system for receiving payments, managing balances, and withdrawals.",
+    image: "/clients/walletManagement.svg",
   },
 ];
 
@@ -649,7 +352,7 @@ function TechStackCarousel() {
                   <TechBrandIcon name={item.name} />
                 </div>
                 <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.name}</p>
-                <p className="mt-0.5 mb-3 text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: item.accentColor }}>{item.category}</p>
+                <p className="mt-0.5 mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">{item.category}</p>
                 <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
               </div>
             </motion.article>
@@ -882,7 +585,7 @@ function ResultsSection() {
         <SectionHeader
           label="Outcomes"
           title="Impact & Results"
-          desc="Measurable business outcomes across multiple dimensions, demonstrating the tangible value of the TAAS model in accelerating digital transformation."
+          desc="Measurable business outcomes across multiple dimensions, demonstrating the tangible value of a unified B2B e-commerce platform built for operational scale."
           className="max-w-3xl"
         />
 
@@ -1035,7 +738,7 @@ export default function OrdersAndMoreCaseStudy() {
             <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="mb-6 lg:hidden">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TAAS</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Total Control · One Platform</span>
               </div>
               <h1 className="text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
                 Orders and More
@@ -1049,7 +752,7 @@ export default function OrdersAndMoreCaseStudy() {
               <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="order-2 min-w-0 lg:order-1">
                 <div className="mb-4 hidden items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 lg:inline-flex">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TAAS</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Total Control · One Platform</span>
                 </div>
                 <h1 className="mb-4 hidden text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:block lg:text-6xl">
                   Orders and More
@@ -1058,14 +761,14 @@ export default function OrdersAndMoreCaseStudy() {
                   Your All-in-One B2B E-Commerce Platform
                 </p>
                 <p className="mb-6 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80 lg:mb-8">
-                  A unified e-commerce operations platform empowering businesses to manage vendors, orders, pricing, and fulfillment from one place.
+                  A modern B2B e-commerce platform specifically engineered for wholesalers, retailers, and enterprise merchants who demand operational excellence without compromise.
                 </p>
 
                 <div className="mb-6 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3 lg:mb-8">
                   {[
-                    { label: "E-Commerce", value: "Platform" },
-                    { label: "TAAS", value: "Model" },
-                    { label: "Full-Stack", value: "Delivery" },
+                    { label: "Built for Scale", value: "500-50,000 SKUs" },
+                    { label: "End-to-End Control", value: "Single Dashboard" },
+                    { label: "Modular Design", value: "Activate What You Need" },
                   ].map((item) => (
                     <div key={item.label} className="flex min-w-0 flex-col">
                       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">{item.label}</span>
@@ -1076,10 +779,10 @@ export default function OrdersAndMoreCaseStudy() {
 
                 <div className="flex flex-wrap gap-3">
                   <Link href="/contact" className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl">
-                    Start a Partnership
+                    Schedule Demo
                   </Link>
-                  <a href="#results" className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-2.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
-                    See Results ↓
+                  <a href="/docs/Orders-and-More-2026%201.pdf" className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-2.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
+                    Learn More
                   </a>
                 </div>
               </motion.div>
@@ -1091,19 +794,7 @@ export default function OrdersAndMoreCaseStudy() {
           </div>
         </section>
 
-        <ChallengeSolutionSection
-          pairs={challengeSolutionPairs}
-          mobile={
-            <>
-              <SectionHeader
-                label="The Challenge"
-                title="The Challenge"
-                desc="Orders & More faced operational inefficiencies, fragmented systems, and slow processes that limited their growth in a competitive market."
-              />
-              <ChallengeCarousel />
-            </>
-          }
-        />
+        <ChallengeSolutionSection pairs={challengeSolutionPairs} />
 
         <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="pointer-events-none absolute right-[10%] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />

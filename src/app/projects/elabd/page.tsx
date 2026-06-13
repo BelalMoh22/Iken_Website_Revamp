@@ -6,11 +6,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "next-themes";
 import { Code2, Network, Rocket, Wallet, type LucideIcon } from "lucide-react";
 
 import { Header } from "../../sections/Header";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
 import { ContactSection } from "../../sections/ContactSection";
+import { useMounted } from "../../hooks/useMounted";
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 1, y: 0 },
@@ -22,29 +24,29 @@ const initiatives = [
     id: 1,
     n: "01",
     title: "E-Commerce Flow Optimization",
-    desc: "Upgraded catalog management and checkout to improve platform stability, page load speeds, and customer satisfaction.",
+    desc: "Redesigned product catalog management and streamlined checkout experience, resulting in improved platform stability, faster page loads, and measurably higher customer satisfaction scores.",
     image: "/clients/elabd-frame.svg"
   },
   {
     id: 2,
     n: "02",
     title: "Learning Management System",
-    desc: "Developed a custom internal training platform for HR and Sales to efficiently upskill employees and track their professional development.",
+    desc: "Custom-built LMS designed specifically for internal training programs, enabling HR and Sales teams to upskill employees efficiently and track professional development progress.",
     image: "/clients/elabd-lms.svg"
   },
   {
     id: 3,
     n: "03",
     title: "Coupon & Discount Management",
-    desc: "Created an advanced promotional system for targeted, seasonal, and loyalty discounts aimed at boosting conversion rates and customer retention.",
+    desc: "Sophisticated promotional campaign system enabling targeted offers, seasonal discounts, and loyalty rewards that drive conversion rates and customer retention.",
     image: "/clients/elabd-coupons.svg"
   },
   {
     id: 4,
     n: "04",
-    title: "Multi-Department Collaboration",
-    desc: "Provided cross-functional technology support across HR, Sales, Marketing, and Customer Success to unify digital operations.",
-    image: "/clients/elabd-coupons.svg"
+    title: "Corporate Website Development",
+    desc: "Designed a comprehensive corporate website presenting the company's history, products, values, and brand story through a modern digital experience.",
+    image: "/clients/coperateWebsite.svg"
   }
 ];
 
@@ -54,6 +56,23 @@ const roleCards: { title: string; desc: string; icon: LucideIcon }[] = [
   { title: "Fast Delivery", desc: "Continuous delivery with agile release cycles and rapid feature deployment", icon: Rocket },
   { title: "Cost Efficiency", desc: "Full platform ownership from development to optimization - no full-time hiring costs", icon: Wallet },
 ];
+
+function ElAbdLogo({ className = "h-12 w-auto" }: { className?: string }) {
+  const { theme } = useTheme();
+  const mounted = useMounted();
+  const src = mounted && theme === "dark" ? "/clients/alabd-dark.svg" : "/clients/alabd-light.svg";
+
+  return (
+    <Image
+      src={src}
+      alt="ELAbd Patisserie brand logo"
+      width={168}
+      height={64}
+      className={`${className} object-contain`}
+      style={{ width: "auto" }}
+    />
+  );
+}
 
 function CarouselArrow({
   direction,
@@ -830,7 +849,7 @@ export default function ElAbdCaseStudy() {
                     </div>
                     {/* Title & Subtitle */}
                     <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.title}</p>
-                    <p className="mt-0.5 mb-3 text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: item.borderHover }}>{item.subtitle}</p>
+                    <p className="mt-0.5 mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">{item.subtitle}</p>
                     {/* Description */}
                     <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] flex-1">{item.desc}</p>
                   </div>
@@ -842,25 +861,45 @@ export default function ElAbdCaseStudy() {
 
         {/* ── TESTIMONIAL ── */}
         <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
-          <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
-              <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+          <div className="site-container">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
+              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em]">Voice from ELAbd</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Partnership</span>
               </div>
-              <blockquote className="mt-6 text-2xl font-semibold leading-relaxed text-[var(--color-text-primary)] sm:text-3xl">
-                "Partnering with IKEN Technology gave us speed, flexibility, and top-tier e-commerce expertise.{" "}
-                <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
-                  They are not just a vendor — they are part of our team.
-                </span>"
-              </blockquote>
-              <div className="mt-8 flex items-center justify-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-white p-1">
-                  <Image src="/clients/alabd-light.svg" alt="ELAbd Patisserie brand logo" width={48} height={48} className="h-10 w-10 object-contain" />
+              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">What Our Client Says</h2>
+              <p className="mt-2 text-[var(--color-text-secondary)]">Trusted by leading companies across multiple industries.</p>
+            </motion.div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(0.08)}
+              className="relative overflow-hidden rounded-[28px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 shadow-2xl backdrop-blur-md sm:p-6 lg:p-8"
+            >
+              <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
+              <div className="relative z-10 grid gap-6 md:grid-cols-[0.85fr_1.25fr] md:items-center lg:gap-10">
+                <div className="overflow-hidden rounded-[24px] border border-[var(--color-border-light)] bg-[var(--color-bg-main)]/70">
+                  <Image
+                    src="/testimonials/mohammed-assem.png"
+                    alt="Temporary testimonial portrait"
+                    width={520}
+                    height={620}
+                    className="h-full max-h-[420px] w-full object-cover object-top"
+                  />
                 </div>
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-[var(--color-text-primary)]">ELAbd Leadership</p>
-                  <p className="text-xs text-[var(--color-text-muted)]">ELAbd Patisserie, Egypt</p>
+                <div>
+                  <div className="mb-5 text-7xl font-black leading-none text-[var(--color-brand-blue)]/20">“</div>
+                  <blockquote className="text-xl font-semibold leading-relaxed text-[var(--color-text-primary)] sm:text-2xl">
+                    “Partnering with IKEN Technology gave us speed, flexibility, and top-tier e-commerce expertise. They are not just a vendor — they are part of our team.”
+                  </blockquote>
+                  <div className="mt-8 flex flex-wrap items-end justify-between gap-5">
+                    <div>
+                      <p className="text-base font-bold text-[var(--color-text-primary)]">ELAbd Leadership</p>
+                      <p className="mt-1 text-sm text-[var(--color-text-muted)]">ELAbd Patisserie, Egypt</p>
+                    </div>
+                    <ElAbdLogo className="h-14 w-auto" />
+                  </div>
                 </div>
               </div>
             </motion.div>
