@@ -42,7 +42,7 @@ const services = [
   },
 ];
 
-function ServiceCard({ s, priority = false }: { s: (typeof services)[0]; priority?: boolean }) {
+function ServiceCard({ s }: { s: (typeof services)[0] }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = () => setIsExpanded((expanded) => !expanded);
@@ -72,7 +72,6 @@ function ServiceCard({ s, priority = false }: { s: (typeof services)[0]; priorit
         className={`h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${
           isExpanded ? "scale-[1.04]" : ""
         }`}
-        priority={priority}
         quality={100}
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.01)_0%,rgba(2,6,23,0.08)_46%,rgba(2,6,23,0.54)_100%)]" />
@@ -354,7 +353,7 @@ export function ServicesSection() {
                     aria-roledescription="slide"
                     aria-label={`Slide ${i + 1} of ${totalSlides}: ${s.tag}`}
                   >
-                    <ServiceCard s={s} priority={i < 2} />
+                    <ServiceCard s={s} />
                   </div>
                 ))}
               </div>

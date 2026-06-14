@@ -99,6 +99,29 @@ select:focus-visible {
     padding-block: 3rem;
   }
 
+  .project-showcase-shadow {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .project-showcase-shadow::before {
+    content: "";
+    position: absolute;
+    inset: 8% 7% 5%;
+    z-index: -1;
+    border-radius: 1.75rem;
+    background: linear-gradient(135deg, rgba(0, 76, 153, 0.18), rgba(14, 165, 233, 0.12));
+    filter: blur(30px);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .dark .project-showcase-shadow::before {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(59, 130, 246, 0.16));
+    filter: blur(36px);
+    opacity: 0.95;
+  }
+
   @media (min-width: 640px) {
     .site-container {
       padding-inline: 1.5rem;

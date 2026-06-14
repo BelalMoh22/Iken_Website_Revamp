@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -14,14 +14,30 @@ export function Navbar() {
   const mounted = useMounted();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const updateScrollState = () => {
+      rafRef.current = null;
+      setIsScrolled((current) => {
+        const next = window.scrollY > 20;
+        return current === next ? current : next;
+      });
     };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const handleScroll = () => {
+      if (rafRef.current !== null) return;
+      rafRef.current = window.requestAnimationFrame(updateScrollState);
+    };
+
+    updateScrollState();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, []);
 
   const useDarkLogo = mounted && theme === "dark";
@@ -51,17 +67,16 @@ export function Navbar() {
               }}
               className="group flex items-center outline-none"
             >
-              <Image
-                src="/iken-logo-new.png"
-                alt="IKEN Technology"
-                width={120}
-                height={40}
-                priority
-                className={`h-auto w-[90px] min-[360px]:w-[105px] sm:w-[112px] lg:w-[120px] object-contain transition-all group-hover:opacity-80 ${
-                  useDarkLogo ? "brightness-0 invert" : ""
-                }`}
-                style={{ height: "auto" }}
-              />
+              <span className="relative block h-[34px] w-[90px] transition-all group-hover:opacity-80 min-[360px]:h-[40px] min-[360px]:w-[105px] sm:h-[43px] sm:w-[112px] lg:h-[46px] lg:w-[120px]">
+                <Image
+                  src="/iken-logo-new.png"
+                  alt="IKEN Technology"
+                  fill
+                  priority
+                  sizes="(max-width: 359px) 90px, (max-width: 639px) 105px, (max-width: 1023px) 112px, 120px"
+                  className={`object-contain ${useDarkLogo ? "brightness-0 invert" : ""}`}
+                />
+              </span>
             </Link>
           </div>
 

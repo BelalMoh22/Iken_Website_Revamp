@@ -64,17 +64,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <div className="flex flex-col gap-6">
               {/* Header */}
               <div className="flex items-center justify-between pb-2">
-                <Image
-                  src="/iken-logo-new.png"
-                  alt="IKEN Technology"
-                  width={100}
-                  height={32}
-                  priority
-                  className={`h-8 w-auto object-contain ${
-                    theme === "dark" ? "brightness-0 invert" : ""
-                  }`}
-                  style={{ width: "auto", height: "auto" }}
-                />
+                <span className="relative block h-8 w-[84px]">
+                  <Image
+                    src="/iken-logo-new.png"
+                    alt="IKEN Technology"
+                    fill
+                    sizes="100px"
+                    className={`object-contain ${theme === "dark" ? "brightness-0 invert" : ""}`}
+                  />
+                </span>
                 <div className="flex items-center gap-3">
                   <ThemeToggle />
                   <button

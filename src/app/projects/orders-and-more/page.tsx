@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -517,7 +517,7 @@ function InitiativeShowcase({
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto w-full max-w-[760px] lg:-my-10"
+      className="relative mx-auto w-full max-w-[860px] lg:-my-10 xl:max-w-[920px]"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -531,13 +531,12 @@ function InitiativeShowcase({
               alt=""
               width={1}
               height={1}
-              priority
               aria-hidden="true"
             />
           ))}
       </div>
 
-      <div className="relative flex h-[24rem] items-center justify-center overflow-hidden sm:h-[30rem] lg:h-[42rem] xl:h-[45rem]">
+      <div className="relative flex h-[25rem] items-center justify-center overflow-hidden sm:h-[32rem] lg:h-[44rem] xl:h-[48rem]">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIndex}
@@ -556,15 +555,15 @@ function InitiativeShowcase({
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="flex h-full w-full items-center justify-center"
+              className="project-showcase-shadow flex h-full w-full items-center justify-center"
             >
               <Image
                 src={activeImage}
                 alt={`${activeInitiative.title} visual`}
-                width={1000}
-                height={770}
-                className="pointer-events-none h-auto w-full max-w-[760px] select-none object-contain"
-                priority
+                width={1800}
+                height={1395}
+                sizes="(min-width: 1280px) 920px, (min-width: 1024px) 860px, 100vw"
+                className="pointer-events-none h-auto w-full max-w-[860px] select-none object-contain xl:max-w-[920px]"
               />
             </motion.div>
           </motion.div>
@@ -697,18 +696,37 @@ function ResultsSection() {
 }
 
 export default function OrdersAndMoreCaseStudy() {
+  const shouldReduceMotion = useReducedMotion();
+  const initiativesSectionRef = useRef<HTMLElement>(null);
   const [activeInitiativeIndex, setActiveInitiativeIndex] = useState(0);
   const [isInitiativePaused, setIsInitiativePaused] = useState(false);
+  const [isInitiativeVisible, setIsInitiativeVisible] = useState(false);
 
   useEffect(() => {
-    if (isInitiativePaused) return;
+    const section = initiativesSectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      const frame = window.requestAnimationFrame(() => setIsInitiativeVisible(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInitiativeVisible(entry.isIntersecting),
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion || isInitiativePaused || !isInitiativeVisible) return;
 
     const timer = window.setInterval(() => {
       setActiveInitiativeIndex((current) => (current + 1) % initiatives.length);
     }, 3000);
 
     return () => window.clearInterval(timer);
-  }, [isInitiativePaused, activeInitiativeIndex]);
+  }, [isInitiativePaused, isInitiativeVisible, shouldReduceMotion]);
 
   const handleInitiativeClick = (index: number) => {
     setActiveInitiativeIndex(index);
@@ -796,7 +814,7 @@ export default function OrdersAndMoreCaseStudy() {
 
         <ChallengeSolutionSection pairs={challengeSolutionPairs} />
 
-        <section className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section ref={initiativesSectionRef} className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
           <div className="pointer-events-none absolute right-[10%] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />
           <div className="site-container relative z-10">
             <SectionHeader

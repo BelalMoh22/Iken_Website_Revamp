@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 
 import { Providers } from "./providers";
@@ -7,14 +7,18 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { ScrollStabilizer } from "./components/ScrollStabilizer";
 import "./globals.css";
 
-const manropeSans = Manrope({
+const manropeSans = localFont({
+  src: "./fonts/manrope-latin.woff2",
   variable: "--font-manrope-sans",
-  subsets: ["latin"],
+  weight: "200 800",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "./fonts/geist-mono-latin.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: "100 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

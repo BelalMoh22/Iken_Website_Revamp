@@ -224,7 +224,13 @@ function ChallengeSolutionRow({ pair, index }: { pair: ChallengeSolutionPair; in
   );
 }
 
-export function ChallengeSolutionSection({ pairs }: { pairs: ChallengeSolutionPair[] }) {
+export function ChallengeSolutionSection({
+  pairs,
+  subtitle = "Replacing disconnected systems and manual processes with a centralized platform that streamlines and scales operations.",
+}: {
+  pairs: ChallengeSolutionPair[];
+  subtitle?: string;
+}) {
   return (
     <section className="relative scroll-mt-28 overflow-hidden border-b border-[var(--color-border-light)] bg-[var(--color-bg-main)] py-14 text-[var(--color-text-primary)] lg:py-20">
       {/* Subtle top glow */}
@@ -241,7 +247,7 @@ export function ChallengeSolutionSection({ pairs }: { pairs: ChallengeSolutionPa
             From Challenge to Solution
           </h2>
           <p className="mx-auto mt-2.5 max-w-[620px] text-sm leading-relaxed text-[var(--color-text-secondary)]">
-            Replacing disconnected systems and manual processes with a centralized platform that streamlines and scales operations.
+            {subtitle}
           </p>
         </div>
 

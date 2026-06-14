@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const featuredClients = [
   { name: "EFG Hermes", logo: "/clients/efg-dark.png", lightLogo: "/clients/efg-light.png", alt: "EFG Hermes logo" },
@@ -69,25 +69,45 @@ const cardVariants = {
 };
 
 export function TrustedCompaniesSection() {
+  const shouldReduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
   const [isLogoPaused, setIsLogoPaused] = useState(false);
   const [isTestimonialPaused, setIsTestimonialPaused] = useState(false);
+  const [isSectionVisible, setIsSectionVisible] = useState(false);
 
   // Mobile Logo Slider state - showing 2x2 grid (4 logos at a time)
   const [logoPageIndex, setLogoPageIndex] = useState(0);
   const totalLogoPages = Math.ceil(featuredClients.length / 4);
 
   useEffect(() => {
-    if (isLogoPaused) return;
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      const frame = window.requestAnimationFrame(() => setIsSectionVisible(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsSectionVisible(entry.isIntersecting),
+      { threshold: 0.2 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion || isLogoPaused || !isSectionVisible) return;
 
     const logoTimer = setInterval(() => {
       setLogoPageIndex((prev) => (prev + 1) % totalLogoPages);
     }, 2000);
     return () => clearInterval(logoTimer);
-  }, [isLogoPaused, totalLogoPages]);
+  }, [isLogoPaused, isSectionVisible, shouldReduceMotion, totalLogoPages]);
 
-  const getVisibleLogos = () => {
+  const visibleLogos = useMemo(() => {
     const startIndex = logoPageIndex * 4;
     const logos = [];
     for (let i = 0; i < 4; i++) {
@@ -95,9 +115,7 @@ export function TrustedCompaniesSection() {
       logos.push(featuredClients[targetIndex]);
     }
     return logos;
-  };
-  const visibleLogos = getVisibleLogos();
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  }, [logoPageIndex]);
 
   const stopTimer = useCallback(() => {
     if (timerRef.current) {
@@ -107,17 +125,17 @@ export function TrustedCompaniesSection() {
   }, []);
 
   const startTimer = useCallback(() => {
-    if (isTestimonialPaused) return;
+    if (shouldReduceMotion || isTestimonialPaused || !isSectionVisible) return;
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setSlideDirection(1);
       setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 6000);
-  }, [isTestimonialPaused]);
+  }, [isSectionVisible, isTestimonialPaused, shouldReduceMotion]);
 
   // Auto-advance
   useEffect(() => {
-    if (isTestimonialPaused) {
+    if (shouldReduceMotion || isTestimonialPaused || !isSectionVisible) {
       stopTimer();
       return;
     }
@@ -126,7 +144,7 @@ export function TrustedCompaniesSection() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isTestimonialPaused, startTimer, stopTimer]);
+  }, [isSectionVisible, isTestimonialPaused, shouldReduceMotion, startTimer, stopTimer]);
 
   const handleNext = () => {
     setSlideDirection(1);
@@ -142,6 +160,7 @@ export function TrustedCompaniesSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="clients"
       className="scroll-section home-section-y relative overflow-hidden bg-[var(--color-bg-main)]"
     >
@@ -315,7 +334,6 @@ export function TrustedCompaniesSection() {
                       fill
                       sizes="(max-width: 1024px) 100vw, 35vw"
                       className="object-contain object-center"
-                      priority
                     />
                     {/* Soft fade for horizontal split (desktop only) */}
                     <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-16 bg-gradient-to-l from-[rgba(248,250,252,0.98)] to-transparent lg:block dark:from-[rgba(3,7,18,0.98)]" />

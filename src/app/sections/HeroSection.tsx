@@ -143,16 +143,6 @@ export function HeroSection() {
           </motion.h1>
         </div>
 
-        {/* Supporting Line / Eyebrow */}
-        {/* <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.32 }}
-          className="mb-8 max-w-2xl text-[10px] min-[390px]:text-[11px] md:text-[12px] font-bold uppercase tracking-[0.24em] sm:tracking-[0.35em] text-[var(--color-text-brand)] opacity-90"
-        >
-          For startups and enterprises that need reliable product delivery
-        </motion.p> */}
-
         <motion.p
           initial={false}
           animate={{ opacity: 1, y: 0 }}
@@ -183,22 +173,6 @@ export function HeroSection() {
             View Work
           </a>
         </motion.div>
-
-        {/* <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mb-8 flex flex-wrap items-center justify-center gap-2"
-        >
-          {["Trusted by 50+ clients", "Weekly sprint demos", "Senior-led teams"].map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]"
-            >
-              {item}
-            </span>
-          ))}
-        </motion.div> */}
 
         <motion.div
           initial={false}

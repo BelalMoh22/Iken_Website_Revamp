@@ -1,13 +1,20 @@
-.carousel :global(.slick-track) {
+.carousel {
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+
+.track {
   display: flex !important;
   align-items: center;
+  gap: 0;
+  padding-inline: max(0.25rem, calc((100% - 420px) / 2));
 }
 
-.carousel :global(.slick-list) {
-  overflow: hidden;
-}
-
-.carousel :global(.slick-slide) {
+.slide {
+  width: min(420px, 100%);
+  flex: 0 0 min(420px, 100%);
+  scroll-snap-align: center;
+  padding: 0.5rem 0.75rem;
   opacity: 0.66;
   transition:
     opacity 280ms ease,
@@ -15,7 +22,7 @@
     filter 320ms ease;
 }
 
-.carousel :global(.slick-slide) .card {
+.slide .card {
   transform: scale(0.88);
   transform-origin: center center;
   filter: blur(4px);
@@ -28,11 +35,11 @@
     opacity 280ms ease;
 }
 
-.carousel :global(.slick-slide.slick-center) {
+.activeSlide {
   opacity: 1;
 }
 
-.carousel :global(.slick-slide.slick-center) .card {
+.activeSlide .card {
   transform: scale(0.96);
   filter: blur(0);
   background: var(--color-bg-card) !important;
@@ -40,26 +47,27 @@
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14) !important;
 }
 
-@supports selector(.x:has(+ .y)) {
-  .carousel :global(.slick-slide:has(+ .slick-center)) .card {
-    transform: perspective(900px) rotateY(24deg) scale(0.88);
-  }
+.prevSlide .card {
+  transform: perspective(900px) rotateY(24deg) scale(0.88);
+}
 
-  .carousel :global(.slick-center + .slick-slide) .card {
-    transform: perspective(900px) rotateY(-24deg) scale(0.88);
-  }
+.nextSlide .card {
+  transform: perspective(900px) rotateY(-24deg) scale(0.88);
 }
 
 @media (max-width: 767px) {
-  .carousel :global(.slick-list) {
+  .track {
     padding-inline: 0.25rem;
   }
 
-  .carousel :global(.slick-slide) {
+  .slide {
+    flex-basis: 100%;
+    width: 100%;
+    padding-inline: 0.5rem;
     opacity: 1;
   }
 
-  .carousel :global(.slick-slide) .card {
+  .slide .card {
     transform: none;
     filter: none;
     background: var(--color-bg-card) !important;
@@ -70,7 +78,7 @@
 }
 
 @media (max-width: 380px) {
-  .carousel :global(.slick-list) {
+  .track {
     padding-inline: 0.125rem;
   }
 }

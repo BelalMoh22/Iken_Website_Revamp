@@ -1,14 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import type { MouseEvent } from "react";
-import Slider, { type Settings } from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import styles from "./ProjectsSection.module.css";
 
@@ -46,60 +41,95 @@ const products: Product[] = [
 ];
 
 export function ProjectsSection() {
-  const router = useRouter();
-  const sliderRef = useRef<Slider | null>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const rafRef = useRef<number | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const handleCaseStudyNavigate = (
-    e: MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-    router.push(href);
-  };
+  const getStep = useCallback(() => {
+    const first = slideRefs.current[0];
+    const second = slideRefs.current[1];
+    if (!first) return 0;
+    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+  }, []);
 
-  const settings: Settings = {
-    infinite: true,
-    speed: 520,
-    cssEase: "cubic-bezier(0.22, 1, 0.36, 1)",
-    arrows: false,
-    dots: false,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    pauseOnHover: true,
-    pauseOnFocus: true,
-    centerMode: true,
-    centerPadding: "0px",
-    variableWidth: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    beforeChange: (_, next) => setCurrentSlide(next),
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          centerPadding: "0px",
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          centerPadding: "0px",
-          variableWidth: true,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          centerMode: false,
-          variableWidth: false,
-          centerPadding: "0px",
-        },
-      },
-    ],
-  };
+  const scrollToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+      viewport.scrollTo({ left: index * step, behavior });
+    },
+    [getStep],
+  );
+
+  const goToSlide = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const next = (index + products.length) % products.length;
+      setCurrentSlide(next);
+      scrollToIndex(next, behavior);
+    },
+    [scrollToIndex],
+  );
+
+  const handleScroll = useCallback(() => {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+    }
+
+    rafRef.current = window.requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      const step = getStep();
+      if (!viewport || !step) return;
+
+      const nextIndex = Math.min(
+        products.length - 1,
+        Math.max(0, Math.round(viewport.scrollLeft / step)),
+      );
+      setCurrentSlide(nextIndex);
+    });
+  }, [getStep]);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || typeof IntersectionObserver === "undefined") {
+      const frame = window.requestAnimationFrame(() => setIsVisible(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.35 },
+    );
+
+    observer.observe(viewport);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion || isPaused || !isVisible) return;
+
+    const timer = window.setInterval(() => {
+      setCurrentSlide((current) => {
+        const next = (current + 1) % products.length;
+        scrollToIndex(next);
+        return next;
+      });
+    }, 3000);
+
+    return () => window.clearInterval(timer);
+  }, [isPaused, isVisible, scrollToIndex, shouldReduceMotion]);
 
   return (
     <motion.section
@@ -131,13 +161,40 @@ export function ProjectsSection() {
           </div>
         </div>
 
-        <div className={`${styles.carousel} site-container mx-auto w-full max-w-7xl px-0 sm:px-2`}>
-          <Slider ref={sliderRef} {...settings}>
-            {products.map((project) => (
+        <div className="site-container mx-auto w-full max-w-7xl px-0 sm:px-2">
+          <div
+            ref={viewportRef}
+            className={`${styles.carousel} overflow-x-auto scroll-smooth outline-none [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden`}
+            role="region"
+            aria-label="Projects carousel"
+            aria-roledescription="carousel"
+            tabIndex={0}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onFocus={() => setIsPaused(true)}
+            onBlur={() => setIsPaused(false)}
+            onScroll={handleScroll}
+          >
+            <div className={styles.track}>
+              {products.map((project, idx) => {
+                const prevIndex = (currentSlide - 1 + products.length) % products.length;
+                const nextIndex = (currentSlide + 1) % products.length;
+                const isActive = idx === currentSlide;
+                const isPrev = idx === prevIndex;
+                const isNext = idx === nextIndex;
+
+                return (
               <div
                 key={project.title}
-                className="px-2 py-2 sm:px-3"
-                style={{ width: 420 }}
+                ref={(node) => {
+                  slideRefs.current[idx] = node;
+                }}
+                className={`${styles.slide} ${
+                  isActive ? styles.activeSlide : ""
+                } ${isPrev ? styles.prevSlide : ""} ${isNext ? styles.nextSlide : ""}`}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`Slide ${idx + 1} of ${products.length}: ${project.title}`}
               >
                 <article className={`${styles.card} relative mx-auto w-full max-w-[min(360px,calc(100vw-3rem))] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)] sm:max-w-[360px]`}>
                   <div className="relative h-64 overflow-hidden">
@@ -170,9 +227,6 @@ export function ProjectsSection() {
                     {project.href && (
                       <Link
                         href={project.href}
-                        onClick={(e) =>
-                          handleCaseStudyNavigate(e, project.href!)
-                        }
                         className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
                       >
                         View Case Study
@@ -181,13 +235,15 @@ export function ProjectsSection() {
                   </div>
                 </article>
               </div>
-            ))}
-          </Slider>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         <div className="site-container mt-6 flex flex-wrap items-center justify-center gap-4 px-1 sm:mt-8 sm:px-0" role="group" aria-label="Project slider navigation">
           <button
-            onClick={() => sliderRef.current?.slickPrev()}
+            onClick={() => goToSlide(currentSlide - 1)}
             className="group flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
             aria-label="Previous project"
           >
@@ -211,7 +267,7 @@ export function ProjectsSection() {
               <button
                 key={project.title}
                 type="button"
-                onClick={() => sliderRef.current?.slickGoTo(idx)}
+                onClick={() => goToSlide(idx)}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   idx === currentSlide
                     ? "w-8 bg-[var(--color-brand-blue)]"
@@ -224,7 +280,7 @@ export function ProjectsSection() {
           </div>
 
           <button
-            onClick={() => sliderRef.current?.slickNext()}
+            onClick={() => goToSlide(currentSlide + 1)}
             className="group flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brand-blue)] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-blue)]/80 hover:shadow-[0_2px_14px_var(--color-brand-blue-glow)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-blue)]/50"
             aria-label="Next project"
           >

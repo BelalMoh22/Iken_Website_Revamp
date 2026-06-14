@@ -18,8 +18,6 @@ export default function Home() {
 
         <ServicesSection />
 
-        {/* <ModelsSection /> */}
-
         <ProjectsSection />
 
         <TrustedCompaniesSection />

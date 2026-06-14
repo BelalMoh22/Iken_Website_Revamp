@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const pillars = [
   {
@@ -56,12 +56,15 @@ function PillarGlyph({ kind }: { kind: string }) {
 }
 
 export function AboutSection() {
+  const shouldReduceMotion = useReducedMotion();
   const IMAGE_TRANSITION_SECONDS = 0.62;
   const SLIDE_HOLD_MS = 2000;
   const AUTO_ROTATE_MS = Math.round(IMAGE_TRANSITION_SECONDS * 1000) + SLIDE_HOLD_MS;
 
+  const sectionRef = useRef<HTMLElement>(null);
   const [imageIndex, setImageIndex] = useState(0);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [isSectionVisible, setIsSectionVisible] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const switchToIndex = useCallback((idx: number) => {
@@ -70,6 +73,7 @@ export function AboutSection() {
   }, []);
 
   const restartAutoRotate = useCallback(() => {
+    if (shouldReduceMotion || !isSectionVisible) return;
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setImageIndex((prev) => {
@@ -78,7 +82,7 @@ export function AboutSection() {
         return next;
       });
     }, AUTO_ROTATE_MS);
-  }, [AUTO_ROTATE_MS]);
+  }, [AUTO_ROTATE_MS, isSectionVisible, shouldReduceMotion]);
 
   const stopAutoRotate = useCallback(() => {
     if (timerRef.current) {
@@ -93,11 +97,32 @@ export function AboutSection() {
   };
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      const frame = window.requestAnimationFrame(() => setIsSectionVisible(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsSectionVisible(entry.isIntersecting),
+      { threshold: 0.2 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion || !isSectionVisible) {
+      stopAutoRotate();
+      return;
+    }
+
     restartAutoRotate();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [restartAutoRotate]);
+  }, [isSectionVisible, restartAutoRotate, shouldReduceMotion, stopAutoRotate]);
 
   const renderFeatureCards = () => (
     <div className="mt-5 flex flex-col gap-1.5">
@@ -181,7 +206,6 @@ export function AboutSection() {
                 alt=""
                 width={1}
                 height={1}
-                priority
                 unoptimized={p.image === "/service/long-term-scalability-growing-products.png"}
                 aria-hidden="true"
               />
@@ -247,6 +271,7 @@ export function AboutSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="about"
       className="scroll-section relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] pt-4 pb-10 sm:pt-8 sm:pb-12 lg:pt-[4.5rem] lg:pb-[4.5rem]"
       aria-labelledby="about-title"
