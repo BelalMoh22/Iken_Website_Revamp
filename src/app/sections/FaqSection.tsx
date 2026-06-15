@@ -18,13 +18,13 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
 
       <div className="site-container relative home-section-y">
         {showHeader ? (
-          <div className="mb-8 flex flex-col items-center text-center sm:mb-10">
+          <div className="section-header flex flex-col items-center text-center">
             <motion.div
               initial={{ opacity: 1, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]"
+              className="section-eyebrow"
             >
               <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">FAQ</span>
@@ -34,7 +34,7 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.2, delay: 0 }}
-              className="mb-4 text-3xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-4xl md:text-5xl"
+              className="text-3xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-4xl md:text-5xl"
             >
               Frequently Asked{" "}
               <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
@@ -46,14 +46,14 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.2, delay: 0 }}
-              className="max-w-2xl text-base leading-relaxed text-[var(--color-text-secondary)]"
+              className="section-subtitle mx-auto"
             >
               We believe in transparent product partnerships. Here are answers to the most common questions about working with IKEN Technology.
             </motion.p>
           </div>
         ) : null}
 
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             const panelId = `faq-panel-${index}`;
@@ -66,7 +66,7 @@ export function FaqSection({ showHeader = true }: { showHeader?: boolean }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.2, delay: 0 }}
-                className="mb-4"
+                className=""
               >
                 <div
                   className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 ${

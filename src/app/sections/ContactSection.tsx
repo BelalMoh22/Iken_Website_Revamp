@@ -59,7 +59,7 @@ export function ContactSection() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-border-light)] to-transparent" />
 
       <div className="site-container relative home-section-y">
-        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div className="section-header grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-8">
           <motion.div {...fadeUp(0)}>
             <div className="mb-4 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
               <span className="h-3.5 w-3.5 rounded-[4px] bg-[var(--color-brand-blue)] shadow-[0_0_8px_var(--color-brand-blue-glow)]" />
@@ -83,7 +83,7 @@ export function ContactSection() {
           </motion.div>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-gap md:grid-cols-2 lg:grid-cols-3">
           {contactItems.map((item, index) => (
             <motion.a
               {...fadeUp(0.06 * index)}
@@ -91,7 +91,7 @@ export function ContactSection() {
               href={item.href}
               target={item.href.startsWith("http") ? "_blank" : undefined}
               rel="noreferrer"
-              className="group flex min-h-[136px] flex-col gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:shadow-[0_12px_30px_var(--color-brand-blue-glow)]"
+              className="card-pad group flex min-h-[136px] flex-col gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] hover:shadow-[0_12px_30px_var(--color-brand-blue-glow)]"
             >
               <div key={`${item.label}-icon`} className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-cyan-glow)]">
                 {item.icon}
@@ -104,7 +104,7 @@ export function ContactSection() {
           ))}
         </div>
 
-        <div className="mt-10 grid gap-8 border-t border-[var(--color-border-light)] pt-8 md:grid-cols-3">
+        <div className="mt-10 grid gap-8 border-t border-[var(--color-border-light)] pt-8 md:grid-cols-3 lg:mt-12 lg:pt-10">
           <motion.div {...fadeUp(0)}>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Quick Links</p>
             <div className="grid gap-2 text-sm text-[var(--color-text-secondary)]">

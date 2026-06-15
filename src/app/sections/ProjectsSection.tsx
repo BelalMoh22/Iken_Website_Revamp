@@ -147,7 +147,7 @@ export function ProjectsSection() {
       </div>
 
       <div className="relative z-10">
-        <div className="site-container mx-auto mb-8 flex max-w-7xl flex-col items-center justify-between gap-5 sm:mb-10 md:flex-row md:items-end">
+        <div className="site-container section-header mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 md:flex-row md:items-end">
           <div className="space-y-3 text-center md:text-left">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
               Selected Projects
@@ -204,6 +204,8 @@ export function ProjectsSection() {
                           src={project.logo}
                           alt={project.title}
                           fill
+                          sizes="(max-width: 767px) min(360px, calc(100vw - 3rem)), 360px"
+                          loading="lazy"
                           className="object-contain p-8"
                         />
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(248,250,252,0.08)_100%)]" />
@@ -214,6 +216,8 @@ export function ProjectsSection() {
                           src={project.image}
                           alt={project.title}
                           fill
+                          sizes="(max-width: 767px) min(360px, calc(100vw - 3rem)), 360px"
+                          loading="lazy"
                           className="object-cover scale-[1.08] origin-center"
                         />
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.18)_100%)]" />
@@ -300,7 +304,7 @@ export function ProjectsSection() {
           </button>
         </div>
 
-        <p className="site-container mx-auto mt-8 max-w-4xl px-0 text-center text-base font-medium leading-relaxed text-[var(--color-text-secondary)] sm:mt-10 sm:text-xl">
+        <p className="site-container mx-auto mt-8 max-w-4xl px-0 text-center text-base font-medium leading-relaxed text-[var(--color-text-secondary)] md:mt-10 sm:text-xl">
           We engineer high-performance digital products and scalable platforms
           that deliver measurable business impact—from rapid-growth startups to
           global enterprises.

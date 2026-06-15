@@ -38,9 +38,9 @@ export function IndustriesSection({ showHeader = true }: { showHeader?: boolean 
             viewport={{ once: true, amount: 0.2 }}
             variants={fade}
             transition={{ duration: 0.45 }}
-            className="mb-8 text-center sm:mb-10"
+            className="section-header text-center"
           >
-            <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+            <div className="section-eyebrow">
               <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">Industries We Serve</span>
             </div>
@@ -50,13 +50,13 @@ export function IndustriesSection({ showHeader = true }: { showHeader?: boolean 
                 Every Sector
               </span>
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[var(--color-text-secondary)]">
+            <p className="section-subtitle mx-auto">
               Our services cater to a wide range of industries, from healthcare and finance to e-commerce and automotive, delivering measurable improvements in operations and efficiency.
             </p>
           </motion.div>
         ) : null}
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-gap sm:grid-cols-2 lg:grid-cols-3">
           {sectors.map((item) => (
             <motion.div
               key={item.title}
@@ -65,7 +65,7 @@ export function IndustriesSection({ showHeader = true }: { showHeader?: boolean 
               viewport={{ once: true, amount: 0.1 }}
               variants={fade}
               transition={{ duration: 0.2, delay: 0 }}
-              className="group relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] p-6 transition-all duration-300 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+              className="card-pad group relative overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] transition-all duration-300 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
             >
               <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl" />

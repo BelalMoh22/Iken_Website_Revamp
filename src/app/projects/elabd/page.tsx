@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-unescaped-entities */
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -16,7 +16,15 @@ import { useMounted } from "../../hooks/useMounted";
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" as const, delay: Math.min(delay, 0.04) } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeOut" as const,
+      delay: Math.min(delay, 0.04),
+    },
+  },
 });
 
 const initiatives = [
@@ -25,69 +33,77 @@ const initiatives = [
     n: "01",
     title: "E-Commerce Flow Optimization",
     desc: "Redesigned product catalog management and streamlined checkout experience, resulting in improved platform stability, faster page loads, and measurably higher customer satisfaction scores.",
-    image: "/clients/elabd-ecommerce.svg"
+    image: "/clients/elabd-ecommerce.svg",
   },
   {
     id: 2,
     n: "02",
     title: "Learning Management System",
     desc: "Custom-built LMS designed specifically for internal training programs, enabling HR and Sales teams to upskill employees efficiently and track professional development progress.",
-    image: "/clients/elabd-lms.svg"
+    image: "/clients/elabd-lms.svg",
   },
   {
     id: 3,
     n: "03",
     title: "Coupon & Discount Management",
     desc: "Sophisticated promotional campaign system enabling targeted offers, seasonal discounts, and loyalty rewards that drive conversion rates and customer retention.",
-    image: "/clients/elabd-coupons.svg"
+    image: "/clients/elabd-coupons.svg",
   },
   {
     id: 4,
     n: "04",
     title: "Corporate Website Development",
     desc: "Designed a comprehensive corporate website presenting the company's history, products, values, and brand story through a modern digital experience.",
-    image: "/clients/coperateWebsite.svg"
-  }
+    image: "/clients/coperateWebsite.svg",
+  },
 ];
 
 const challengeSolutionPairs = [
   {
     number: "01",
     challengeTitle: "Unstable Digital Commerce Experience",
-    challengeDescription: "ElAbd needed to improve the reliability and usability of its digital ordering experience as online demand grew.",
+    challengeDescription:
+      "ElAbd needed to improve the reliability and usability of its digital ordering experience as online demand grew.",
     challengeIcon: "list" as const,
     solutionTitle: "Optimized Customer Journey",
-    solutionDescription: "IKEN improved the product browsing and checkout flow to create a faster, smoother, and more dependable e-commerce experience.",
+    solutionDescription:
+      "IKEN improved the product browsing and checkout flow to create a faster, smoother, and more dependable e-commerce experience.",
     solutionIcon: "layers" as const,
     solutionAccent: "purple" as const,
   },
   {
     number: "02",
     challengeTitle: "Limited Internal Digital Enablement",
-    challengeDescription: "HR and Sales teams needed a more structured way to train employees and track professional development across the organization.",
+    challengeDescription:
+      "HR and Sales teams needed a more structured way to train employees and track professional development across the organization.",
     challengeIcon: "clock" as const,
     solutionTitle: "Scalable Training Infrastructure",
-    solutionDescription: "IKEN delivered a digital learning foundation that helped internal teams upskill employees and monitor training progress more efficiently.",
+    solutionDescription:
+      "IKEN delivered a digital learning foundation that helped internal teams upskill employees and monitor training progress more efficiently.",
     solutionIcon: "zap" as const,
     solutionAccent: "blue" as const,
   },
   {
     number: "03",
     challengeTitle: "Slow Campaign Execution",
-    challengeDescription: "Marketing and sales promotions required more flexibility to support targeted offers, seasonal campaigns, and loyalty-driven growth.",
+    challengeDescription:
+      "Marketing and sales promotions required more flexibility to support targeted offers, seasonal campaigns, and loyalty-driven growth.",
     challengeIcon: "tag" as const,
     solutionTitle: "Configurable Promotion Operations",
-    solutionDescription: "IKEN enabled ElAbd to manage campaigns with more control, making promotions easier to launch, adjust, and scale.",
+    solutionDescription:
+      "IKEN enabled ElAbd to manage campaigns with more control, making promotions easier to launch, adjust, and scale.",
     solutionIcon: "sliders" as const,
     solutionAccent: "orange" as const,
   },
   {
     number: "04",
     challengeTitle: "Disconnected Department Workflows",
-    challengeDescription: "Technology needs extended beyond e-commerce, with HR, Sales, Marketing, Operations, and Customer Success requiring aligned digital support.",
+    challengeDescription:
+      "Technology needs extended beyond e-commerce, with HR, Sales, Marketing, Operations, and Customer Success requiring aligned digital support.",
     challengeIcon: "eye" as const,
     solutionTitle: "Embedded TaaS Collaboration",
-    solutionDescription: "IKEN operated as an integrated technology partner, supporting multiple departments through a dedicated team aligned with ElAbd’s business priorities.",
+    solutionDescription:
+      "IKEN operated as an integrated technology partner, supporting multiple departments through a dedicated team aligned with ElAbd’s business priorities.",
     solutionIcon: "chart" as const,
     solutionAccent: "green" as const,
   },
@@ -96,7 +112,10 @@ const challengeSolutionPairs = [
 function ElAbdLogo({ className = "h-12 w-auto" }: { className?: string }) {
   const { theme } = useTheme();
   const mounted = useMounted();
-  const src = mounted && theme === "dark" ? "/clients/alabd-dark.svg" : "/clients/alabd-light.svg";
+  const src =
+    mounted && theme === "dark"
+      ? "/clients/alabd-dark.svg"
+      : "/clients/alabd-light.svg";
 
   return (
     <Image
@@ -104,12 +123,12 @@ function ElAbdLogo({ className = "h-12 w-auto" }: { className?: string }) {
       alt="ELAbd Patisserie brand logo"
       width={168}
       height={64}
+      loading="lazy"
       className={`${className} object-contain`}
       style={{ width: "auto" }}
     />
   );
 }
-
 
 export default function ElAbdCaseStudy() {
   const shouldReduceMotion = useReducedMotion();
@@ -121,7 +140,9 @@ export default function ElAbdCaseStudy() {
   useEffect(() => {
     const section = initiativesSectionRef.current;
     if (!section || typeof IntersectionObserver === "undefined") {
-      const frame = window.requestAnimationFrame(() => setIsInitiativeVisible(true));
+      const frame = window.requestAnimationFrame(() =>
+        setIsInitiativeVisible(true),
+      );
       return () => window.cancelAnimationFrame(frame);
     }
 
@@ -155,44 +176,63 @@ export default function ElAbdCaseStudy() {
       <Header />
 
       <main className="relative z-10">
-
         {/* ── HERO ── */}
-        <section id="hero" className="relative overflow-hidden border-b border-[var(--color-border-light)] pb-12 pt-6 sm:pb-16 sm:pt-8 lg:pb-28 lg:pt-10">
+        <section
+          id="hero"
+          className="section-hero-y relative overflow-hidden border-b border-[var(--color-border-light)]"
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,var(--color-brand-blue-glow),transparent)]" />
           <div className="site-container">
             <Breadcrumbs />
 
             {/* Mobile-only: badge + heading above the image */}
-            <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="mb-6 lg:hidden">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp(0)}
+              className="mb-6 lg:hidden"
+            >
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TaaS</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                  Case Study · TaaS
+                </span>
               </div>
               <h1 className="text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-                IKEN × ELAbd
+                ELAbd
               </h1>
               <p className="mt-4 text-xl font-semibold leading-snug text-[var(--color-text-secondary)] sm:text-2xl">
                 A Strategic TaaS Partnership Driving Digital Growth
               </p>
             </motion.div>
 
-            <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
+            <div className="grid items-center gap-8 md:gap-10 lg:grid-cols-2 lg:gap-12">
               {/* Text column — below image on mobile (order-2), left on desktop (lg:order-1) */}
-              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="order-2 min-w-0 lg:order-1">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeUp(0)}
+                className="order-2 min-w-0 lg:order-1"
+              >
                 {/* Desktop-only badge + heading */}
                 <div className="mb-4 hidden items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 lg:inline-flex">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Case Study · TaaS</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                    Case Study · TaaS
+                  </span>
                 </div>
                 <h1 className="mb-4 hidden text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:block lg:text-6xl">
-                  IKEN × ELAbd
+                  ELAbd
                 </h1>
                 <p className="mb-5 hidden text-xl font-semibold leading-snug text-[var(--color-text-secondary)] sm:text-2xl lg:mb-6 lg:block">
                   A Strategic TaaS Partnership Driving Digital Growth
                 </p>
 
                 <p className="mb-6 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80 lg:mb-8">
-                  ELAbd — Egypt's most celebrated pastry brand — partnered with IKEN Technology as their dedicated development arm, establishing a full TaaS model to accelerate digital transformation.
+                  ELAbd — Egypt's most celebrated pastry brand — partnered with
+                  IKEN Technology as their dedicated development arm,
+                  establishing a full TaaS model to accelerate digital
+                  transformation.
                 </p>
 
                 <div className="mb-6 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3 lg:mb-8">
@@ -202,17 +242,27 @@ export default function ElAbdCaseStudy() {
                     { label: "Full-Stack", value: "Delivery" },
                   ].map((item) => (
                     <div key={item.label} className="flex min-w-0 flex-col">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">{item.label}</span>
-                      <span className="mt-1 text-sm font-bold text-[var(--color-text-primary)]">{item.value}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                        {item.label}
+                      </span>
+                      <span className="mt-1 text-sm font-bold text-[var(--color-text-primary)]">
+                        {item.value}
+                      </span>
                     </div>
                   ))}
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/contact" className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl">
+                  <Link
+                    href="/contact"
+                    className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl"
+                  >
                     Start a Partnership
                   </Link>
-                  <a href="#results" className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-2.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
+                  <a
+                    href="#results"
+                    className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-2.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+                  >
                     See Results ↓
                   </a>
                 </div>
@@ -220,12 +270,21 @@ export default function ElAbdCaseStudy() {
 
               {/* Image column — on top on mobile (order-1), right on desktop (lg:order-2) */}
               <div className="order-1 lg:order-2">
-                <motion.div initial="hidden" animate="visible" variants={fadeUp(0.12)} className="relative mx-auto w-full max-w-[640px]">
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={fadeUp(0.12)}
+                  className="relative mx-auto w-full max-w-[640px]"
+                >
                   <div className="absolute -inset-8 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
                   <div className="relative">
                     <motion.div
                       animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                       className="select-none"
                     >
                       <Image
@@ -235,6 +294,7 @@ export default function ElAbdCaseStudy() {
                         height={615}
                         className="h-auto w-full object-contain drop-shadow-2xl"
                         priority
+                        sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), (max-width: 1279px) 50vw, 640px"
                       />
                     </motion.div>
                   </div>
@@ -245,10 +305,16 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── FROM CHALLENGE TO SOLUTION ── */}
-        <ChallengeSolutionSection pairs={challengeSolutionPairs} subtitle="Turning ElAbd’s digital growth needs into scalable platforms, smoother operations, and embedded technology delivery." />
+        <ChallengeSolutionSection
+          pairs={challengeSolutionPairs}
+          subtitle="Turning ElAbd’s digital growth needs into scalable platforms, smoother operations, and embedded technology delivery."
+        />
 
         {/* ── KEY INITIATIVES ── */}
-        <section ref={initiativesSectionRef} className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section
+          ref={initiativesSectionRef}
+          className="section-y relative overflow-hidden border-b border-[var(--color-border-light)]"
+        >
           {/* Subtle soft lighting glows behind right image */}
           <div className="pointer-events-none absolute inset-0 z-0">
             <div className="absolute right-[10%] top-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />
@@ -261,18 +327,20 @@ export default function ElAbdCaseStudy() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp(0)}
-              className="mb-8 lg:mb-12"
+              className="section-header"
             >
-              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+              <div className="section-eyebrow">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Delivered</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                  Delivered
+                </span>
               </div>
               <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight">
                 Key Initiatives
               </h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-center">
+            <div className="grid grid-cols-1 items-center gap-8 md:gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16">
               {/* Left Side (Content & Cards Stack) - order-2 on mobile, lg:order-1 on desktop */}
               <div className="w-full lg:col-span-7 xl:col-span-6 flex flex-col justify-center order-2 lg:order-1">
                 <div
@@ -290,20 +358,29 @@ export default function ElAbdCaseStudy() {
                         viewport={{ once: true }}
                         variants={fadeUp(i * 0.05)}
                         onClick={() => setActiveCard(i)}
-                        className={`group flex gap-4 sm:gap-5 rounded-[20px] border p-4 sm:p-5 cursor-pointer select-none transition-all duration-300 ${isActive
-                          ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)] scale-[1.02]"
-                          : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
-                          }`}
+                        className={`card-pad group flex gap-4 rounded-[20px] border cursor-pointer select-none transition-all duration-300 sm:gap-5 ${
+                          isActive
+                            ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)] scale-[1.02]"
+                            : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
+                        }`}
                       >
-                        <span className={`mt-0.5 text-3xl sm:text-4xl font-black tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 ${isActive
-                          ? "text-[var(--color-brand-blue)]/55"
-                          : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
-                          }`}>
+                        <span
+                          className={`mt-0.5 text-3xl sm:text-4xl font-black tracking-tight tabular-nums select-none shrink-0 transition-colors duration-300 ${
+                            isActive
+                              ? "text-[var(--color-brand-blue)]/55"
+                              : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
+                          }`}
+                        >
                           {item.n}
                         </span>
                         <div className="flex flex-col">
-                          <h3 className={`mb-1 text-base sm:text-[17px] font-bold transition-colors duration-300 ${isActive ? "text-[var(--color-text-brand)]" : "text-[var(--color-text-primary)]"
-                            }`}>
+                          <h3
+                            className={`mb-1 text-base sm:text-[17px] font-bold transition-colors duration-300 ${
+                              isActive
+                                ? "text-[var(--color-text-brand)]"
+                                : "text-[var(--color-text-primary)]"
+                            }`}
+                          >
                             {item.title}
                           </h3>
                           <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85 max-w-[480px]">
@@ -355,7 +432,8 @@ export default function ElAbdCaseStudy() {
                           alt={initiatives[activeCard].title}
                           width={1600}
                           height={1216}
-                          sizes="(min-width: 1280px) 620px, (min-width: 1024px) 50vw, (min-width: 640px) 620px, 100vw"
+                          sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) 620px, (max-width: 1279px) 50vw, 620px"
+                          loading="lazy"
                           className="w-full h-auto max-h-full object-contain select-none pointer-events-none"
                         />
                       </motion.div>
@@ -368,37 +446,83 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TAAS TEAM ── */}
-        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section className="section-y border-b border-[var(--color-border-light)]">
           <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
-              <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(0)}
+              className="section-header"
+            >
+              <div className="section-eyebrow">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em]">Team Composition</span>
+                <span className="text-xs font-semibold uppercase tracking-[0.18em]">
+                  Team Composition
+                </span>
               </div>
-              <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">TaaS Model in Action</h2>
-              <p className="mt-3 max-w-2xl text-[var(--color-text-secondary)]">
-                Our dedicated team operates with the same priorities and urgency as internal staff — enabling flexible scaling based on project demands and business cycles.
+              <h2 className="text-3xl font-bold text-[var(--color-text-primary)] sm:text-4xl">
+                TaaS Model in Action
+              </h2>
+              <p className="section-subtitle max-w-2xl">
+                Our dedicated team operates with the same priorities and urgency
+                as internal staff — enabling flexible scaling based on project
+                demands and business cycles.
               </p>
             </motion.div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-gap sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { role: "Developers", desc: "Full-stack engineers building robust, scalable solutions" },
-                { role: "UI/UX Designers", desc: "Creating intuitive, beautiful user experiences" },
-                { role: "QA Engineers", desc: "Ensuring reliability through comprehensive testing" },
-                { role: "Product Managers", desc: "Aligning technology with business objectives" },
-                { role: "DevOps", desc: "Maintaining secure, performant infrastructure" },
+                {
+                  role: "Developers",
+                  desc: "Full-stack engineers building robust, scalable solutions",
+                },
+                {
+                  role: "UI/UX Designers",
+                  desc: "Creating intuitive, beautiful user experiences",
+                },
+                {
+                  role: "QA Engineers",
+                  desc: "Ensuring reliability through comprehensive testing",
+                },
+                {
+                  role: "Product Managers",
+                  desc: "Aligning technology with business objectives",
+                },
+                {
+                  role: "DevOps",
+                  desc: "Maintaining secure, performant infrastructure",
+                },
               ].map((item, i) => (
-                <motion.div key={item.role} initial="hidden" whileInView="visible" viewport={{ once: true }}
+                <motion.div
+                  key={item.role}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
                   variants={fadeUp(i * 0.07)}
-                  className="flex items-start gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5">
+                  className="card-pad flex items-start gap-3 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)]"
+                >
                   <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeLinecap="round" /><circle cx="12" cy="7" r="4" />
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                    >
+                      <path
+                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="12" cy="7" r="4" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-[var(--color-text-primary)]">{item.role}</p>
-                    <p className="text-xs text-[var(--color-text-secondary)]">{item.desc}</p>
+                    <p className="text-sm font-bold text-[var(--color-text-primary)]">
+                      {item.role}
+                    </p>
+                    <p className="text-xs text-[var(--color-text-secondary)]">
+                      {item.desc}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -407,7 +531,10 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── IMPACT & RESULTS ── */}
-        <section id="results" className="scroll-section relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section
+          id="results"
+          className="scroll-section section-y relative overflow-hidden border-b border-[var(--color-border-light)]"
+        >
           {/* Subtle soft lighting glows behind right dashboard */}
           <div className="pointer-events-none absolute inset-0 z-0">
             <div className="absolute right-[5%] bottom-[10%] h-[450px] w-[450px] rounded-full bg-[var(--color-brand-cyan-glow)] opacity-[0.35] blur-[120px]" />
@@ -420,30 +547,50 @@ export default function ElAbdCaseStudy() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp(0)}
-              className="mb-8 lg:mb-12 max-w-3xl"
+              className="section-header max-w-3xl"
             >
-              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+              <div className="section-eyebrow">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Outcomes</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                  Outcomes
+                </span>
               </div>
-              <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight mb-4">
+              <h2 className="text-3xl font-black text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px] leading-tight tracking-tight">
                 Impact &amp; Results
               </h2>
-              <p className="text-sm sm:text-base leading-relaxed text-[var(--color-text-secondary)] opacity-85">
-                Measurable business outcomes across multiple dimensions, demonstrating the tangible value of the TaaS model in accelerating digital transformation.
+              <p className="section-subtitle text-sm opacity-85 sm:text-base">
+                Measurable business outcomes across multiple dimensions,
+                demonstrating the tangible value of the TaaS model in
+                accelerating digital transformation.
               </p>
             </motion.div>
 
             {/* Split layout: metrics grid on left, chart on right */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-stretch">
+            <div className="grid grid-cols-1 items-stretch gap-8 md:gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16">
               {/* Left Side (2x2 Metric Cards Grid) */}
               <div className="w-full lg:col-span-6 xl:col-span-5">
-                <div className="grid grid-cols-2 gap-4 sm:gap-5 h-full">
+                <div className="grid h-full grid-cols-2 gap-4 md:gap-6">
                   {[
-                    { v: "45%", l: "Faster Time-to-Market", sub: "New features deployed in half the time" },
-                    { v: "30%", l: "Order Volume Increase", sub: "Following UI/UX enhancements and platform optimization" },
-                    { v: "5+", l: "Departments Supported", sub: "E-Commerce, HR, Sales, Marketing, Operations" },
-                    { v: "200+", l: "Employees Trained", sub: "Internal staff upskilled through the custom LMS" },
+                    {
+                      v: "45%",
+                      l: "Faster Time-to-Market",
+                      sub: "New features deployed in half the time",
+                    },
+                    {
+                      v: "30%",
+                      l: "Order Volume Increase",
+                      sub: "Following UI/UX enhancements and platform optimization",
+                    },
+                    {
+                      v: "5+",
+                      l: "Departments Supported",
+                      sub: "E-Commerce, HR, Sales, Marketing, Operations",
+                    },
+                    {
+                      v: "200+",
+                      l: "Employees Trained",
+                      sub: "Internal staff upskilled through the custom LMS",
+                    },
                   ].map((item, i) => (
                     <motion.div
                       key={item.l}
@@ -451,7 +598,7 @@ export default function ElAbdCaseStudy() {
                       whileInView="visible"
                       viewport={{ once: true }}
                       variants={fadeUp(i * 0.05)}
-                      className="group flex flex-col items-center justify-center text-center rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 backdrop-blur-md p-4 sm:p-5 min-h-[140px] sm:min-h-[160px] h-full transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.06)]"
+                      className="card-pad group flex min-h-[140px] h-full flex-col items-center justify-center rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.06)] sm:min-h-[160px]"
                     >
                       <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-3xl sm:text-4xl font-black text-transparent select-none transition-transform duration-300 group-hover:scale-105">
                         {item.v}
@@ -474,7 +621,7 @@ export default function ElAbdCaseStudy() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full flex flex-col justify-between rounded-[24px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/40 backdrop-blur-md p-5 sm:p-6 md:p-7 relative overflow-hidden group hover:border-[var(--color-border-brand)]/40 transition-all duration-300 shadow-xl"
+                  className="card-pad group relative flex w-full flex-col justify-between overflow-hidden rounded-[24px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/40 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-[var(--color-border-brand)]/40"
                 >
                   {/* Subtle inner background glow */}
                   <div className="absolute -right-20 -top-20 w-48 h-48 bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.05] blur-3xl rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-700" />
@@ -507,11 +654,22 @@ export default function ElAbdCaseStudy() {
                       {/* Bars Container */}
                       <div className="absolute left-8 right-0 bottom-0 top-0 flex justify-around items-end">
                         {[
-                          { label: "Feature Delivery Speed", before: 50, after: 80 },
+                          {
+                            label: "Feature Delivery Speed",
+                            before: 50,
+                            after: 80,
+                          },
                           { label: "Platform Uptime", before: 65, after: 99 },
-                          { label: "Customer Satisfaction", before: 72, after: 89 },
+                          {
+                            label: "Customer Satisfaction",
+                            before: 72,
+                            after: 89,
+                          },
                         ].map((data) => (
-                          <div key={data.label} className="flex flex-col items-center relative w-1/3 h-full justify-end group/bar">
+                          <div
+                            key={data.label}
+                            className="flex flex-col items-center relative w-1/3 h-full justify-end group/bar"
+                          >
                             {/* Visual Grouped Bars */}
                             <div className="flex items-end gap-1.5 sm:gap-2.5 h-full w-full justify-center pb-[2px]">
                               {/* Before Bar */}
@@ -519,7 +677,11 @@ export default function ElAbdCaseStudy() {
                                 initial={{ height: "0%" }}
                                 whileInView={{ height: `${data.before}%` }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                                transition={{
+                                  duration: 0.95,
+                                  ease: [0.16, 1, 0.3, 1],
+                                  delay: 0.1,
+                                }}
                                 className="w-3.5 sm:w-5 md:w-6 bg-slate-400/20 dark:bg-slate-700/35 rounded-t-[4px] transition-all duration-300 group-hover/bar:bg-slate-400/30 dark:group-hover/bar:bg-slate-700/50"
                               />
                               {/* After Bar */}
@@ -527,7 +689,11 @@ export default function ElAbdCaseStudy() {
                                 initial={{ height: "0%" }}
                                 whileInView={{ height: `${data.after}%` }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                                transition={{
+                                  duration: 0.95,
+                                  ease: [0.16, 1, 0.3, 1],
+                                  delay: 0.2,
+                                }}
                                 className="w-3.5 sm:w-5 md:w-6 bg-gradient-to-t from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] rounded-t-[4px] shadow-[0_0_15px_rgba(14,165,233,0.1)] transition-all duration-300 group-hover/bar:brightness-110 group-hover/bar:shadow-[0_0_20px_rgba(14,165,233,0.2)]"
                               />
                             </div>
@@ -543,7 +709,10 @@ export default function ElAbdCaseStudy() {
                         { label: "Platform Uptime" },
                         { label: "Customer Satisfaction" },
                       ].map((data) => (
-                        <div key={data.label} className="w-1/3 text-center px-1">
+                        <div
+                          key={data.label}
+                          className="w-1/3 text-center px-1"
+                        >
                           <span className="text-[10px] sm:text-xs font-semibold text-[var(--color-text-muted)] line-clamp-2 sm:line-clamp-none leading-snug">
                             {data.label}
                           </span>
@@ -570,19 +739,31 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TECH STACK ── */}
-        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section className="section-y border-b border-[var(--color-border-light)]">
           <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(0)}
+              className="section-header"
+            >
               <div className="mb-2 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em]">Technology</span>
+                <span className="text-xs font-semibold uppercase tracking-[0.18em]">
+                  Technology
+                </span>
               </div>
-              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">Technology Stack</h2>
-              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">Enterprise-Grade Technology Foundation</p>
+              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">
+                Technology Stack
+              </h2>
+              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
+                Enterprise-Grade Technology Foundation
+              </p>
             </motion.div>
 
             {/* 3×2 Icon Card Grid */}
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-gap sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   title: "React",
@@ -660,7 +841,9 @@ export default function ElAbdCaseStudy() {
                   {/* Hover glow */}
                   <div
                     className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    style={{ boxShadow: `0 0 32px ${item.glowColor}, inset 0 0 20px ${item.glowColor}` }}
+                    style={{
+                      boxShadow: `0 0 32px ${item.glowColor}, inset 0 0 20px ${item.glowColor}`,
+                    }}
                   />
                   <div className="relative z-10 flex flex-col h-full">
                     {/* Logo */}
@@ -673,14 +856,21 @@ export default function ElAbdCaseStudy() {
                         alt={item.logoAlt}
                         width={40}
                         height={40}
+                        loading="lazy"
                         className="h-10 w-10 object-contain select-none"
                       />
                     </div>
                     {/* Title & Subtitle */}
-                    <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.title}</p>
-                    <p className="mt-0.5 mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">{item.subtitle}</p>
+                    <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">
+                      {item.title}
+                    </p>
+                    <p className="mt-0.5 mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">
+                      {item.subtitle}
+                    </p>
                     {/* Description */}
-                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] flex-1">{item.desc}</p>
+                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)] flex-1">
+                      {item.desc}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -689,22 +879,34 @@ export default function ElAbdCaseStudy() {
         </section>
 
         {/* ── TESTIMONIAL ── */}
-        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section className="section-y border-b border-[var(--color-border-light)]">
           <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(0)}
+              className="section-header"
+            >
               <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Partnership</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">
+                  Partnership
+                </span>
               </div>
-              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">What Our Client Says</h2>
-              <p className="mt-2 text-[var(--color-text-secondary)]">Trusted by leading companies across multiple industries.</p>
+              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">
+                What Our Client Says
+              </h2>
+              <p className="mt-2 text-[var(--color-text-secondary)]">
+                Trusted by leading companies across multiple industries.
+              </p>
             </motion.div>
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp(0.08)}
-              className="relative overflow-hidden rounded-[28px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 shadow-2xl backdrop-blur-md sm:p-6 lg:p-8"
+              className="card-pad relative overflow-hidden rounded-[28px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-2xl backdrop-blur-md"
             >
               <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
               <div className="relative z-10 grid gap-6 md:grid-cols-[0.85fr_1.25fr] md:items-center lg:gap-10">
@@ -714,54 +916,32 @@ export default function ElAbdCaseStudy() {
                     alt="Temporary testimonial portrait"
                     width={520}
                     height={620}
+                    sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1023px) 35vw, 360px"
+                    loading="lazy"
                     className="h-full max-h-[420px] w-full object-cover object-top"
                   />
                 </div>
                 <div>
-                  <div className="mb-5 text-7xl font-black leading-none text-[var(--color-brand-blue)]/20">“</div>
+                  <div className="mb-5 text-7xl font-black leading-none text-[var(--color-brand-blue)]/20">
+                    “
+                  </div>
                   <blockquote className="text-xl font-semibold leading-relaxed text-[var(--color-text-primary)] sm:text-2xl">
-                    “Partnering with IKEN Technology gave us speed, flexibility, and top-tier e-commerce expertise. They are not just a vendor — they are part of our team.”
+                    “Partnering with IKEN Technology gave us speed, flexibility,
+                    and top-tier e-commerce expertise. They are not just a
+                    vendor — they are part of our team.”
                   </blockquote>
                   <div className="mt-8 flex flex-wrap items-end justify-between gap-5">
                     <div>
-                      <p className="text-base font-bold text-[var(--color-text-primary)]">ELAbd Leadership</p>
-                      <p className="mt-1 text-sm text-[var(--color-text-muted)]">ELAbd Patisserie, Egypt</p>
+                      <p className="text-base font-bold text-[var(--color-text-primary)]">
+                        ELAbd Leadership
+                      </p>
+                      <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+                        ELAbd Patisserie, Egypt
+                      </p>
                     </div>
                     <ElAbdLogo className="h-14 w-auto" />
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── CTA ── */}
-        <section className="py-12 sm:py-16 lg:py-28">
-          <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
-              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-blue)]">Ready?</p>
-              <h2 className="mb-5 text-3xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-                Let's Create Your{" "}
-                <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
-                  Digital Future
-                </span>
-              </h2>
-              <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-[var(--color-text-secondary)]">
-                The ELAbd–IKEN partnership demonstrates what's possible when innovative technology meets strategic collaboration. Whether you're beginning your digital transformation journey or looking to accelerate existing initiatives, the TaaS model offers a proven path to success.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/contact"
-                  className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl">
-                  Get Started Today
-                </Link>
-                <Link href="/"
-                  className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
-                  Learn More
-                </Link>
-              </div>
-              <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-[var(--color-text-secondary)]">
-                <a href="mailto:contact@iken.tech" className="transition hover:text-[var(--color-text-primary)]">contact@iken.tech</a>
-                <a href="https://wa.me/201050500017" className="transition hover:text-[var(--color-text-primary)]">(+20) 105 0500017</a>
               </div>
             </motion.div>
           </div>
@@ -772,4 +952,3 @@ export default function ElAbdCaseStudy() {
     </div>
   );
 }
-

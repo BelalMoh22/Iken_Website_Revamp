@@ -68,7 +68,8 @@ function ServiceCard({ s }: { s: (typeof services)[0] }) {
         src={s.image}
         alt={s.tag}
         fill
-        sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1279px) calc((100vw - 6.5rem) / 2), 430px"
+        sizes="(max-width: 389px) min(74vw, 280px), (max-width: 639px) min(70vw, 300px), (max-width: 767px) min(52vw, 320px), (max-width: 1023px) min(42vw, 336px), (max-width: 1279px) calc((100vw - 6.5rem) / 2), 430px"
+        loading="lazy"
         className={`h-full w-full object-cover object-center transition-transform duration-700 ease-out transform-gpu group-hover:scale-[1.04] group-focus-visible:scale-[1.04] ${
           isExpanded ? "scale-[1.04]" : ""
         }`}
@@ -307,7 +308,7 @@ export function ServicesSection() {
         <div className="grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-start lg:gap-10 xl:gap-12">
           <div className="flex items-start">
             <div className="w-full max-w-[31rem] pt-1">
-              <div className="mb-6 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+              <div className="section-eyebrow">
                 <span className="inline-block h-2.5 w-2.5 rounded-full bg-current" aria-hidden="true" />
                 <span className="text-xs font-bold uppercase tracking-[0.22em]">
                   Our Expertise
@@ -321,7 +322,7 @@ export function ServicesSection() {
                 </span>
               </h2>
 
-              <p className="m-0 mt-5 max-w-[27rem] text-base leading-[1.75] text-[var(--color-text-secondary)] sm:text-lg">
+              <p className="section-subtitle max-w-[27rem] sm:text-lg">
                 Scalable engineering teams and strategic product development
                 to transform your business goals into digital reality. Built for
                 modern performance and growth.

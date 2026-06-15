@@ -10,12 +10,12 @@ export default function SectorsPage() {
     <div className="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       <Header />
       <main>
-        <section className="relative overflow-hidden bg-[var(--color-bg-main)] py-10 sm:py-14 lg:py-16">
+        <section className="section-hero-y relative overflow-hidden bg-[var(--color-bg-main)]">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,var(--color-brand-blue-glow),transparent_35%),radial-gradient(circle_at_90%_10%,var(--color-brand-cyan-glow),transparent_30%)]" />
           <div className="site-container relative">
             <Breadcrumbs />
             <div className="max-w-3xl">
-              <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+              <div className="section-eyebrow">
                 <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
                 <span className="text-xs font-semibold uppercase tracking-[0.18em]">Sectors</span>
               </div>
@@ -25,10 +25,10 @@ export default function SectorsPage() {
                   sector realities
                 </span>
               </h1>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--color-text-secondary)] sm:mt-5">
+              <p className="section-subtitle">
                 IKEN supports teams across finance, automotive, commerce, events, logistics, and healthcare with product engineering shaped around each operating environment.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
+              <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-px"

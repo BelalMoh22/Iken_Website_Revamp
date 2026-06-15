@@ -16,30 +16,45 @@ const fadeUp = (delay = 0) => ({
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.2, ease: "easeOut" as const, delay: Math.min(delay, 0.04) },
+    transition: {
+      duration: 0.2,
+      ease: "easeOut" as const,
+      delay: Math.min(delay, 0.04),
+    },
   },
 });
 
 function TechBrandIcon({ name }: { name: string }) {
   const logoMap: Record<string, { src: string; whiteBg?: boolean }> = {
-    "React": { src: "/clients/react-logo.svg" },
+    React: { src: "/clients/react-logo.svg" },
     ".NET": { src: "/clients/net-logo.svg" },
     "Microsoft SQL Server": { src: "/clients/sql-logo.svg" },
     "Azure DevOps": { src: "/clients/azure-logo.svg" },
-    "Docker": { src: "/clients/docker-logo.svg" },
-    "MyFatoorah": { src: "/clients/myFatoorah-logo.jpeg", whiteBg: true },
+    Docker: { src: "/clients/docker-logo.svg" },
+    MyFatoorah: { src: "/clients/myFatoorah-logo.jpeg", whiteBg: true },
   };
 
   const entry = logoMap[name];
-  if (!entry) return <div className="text-5xl font-black leading-none text-[#635bff]" aria-hidden="true">?</div>;
+  if (!entry)
+    return (
+      <div
+        className="text-5xl font-black leading-none text-[#635bff]"
+        aria-hidden="true"
+      >
+        ?
+      </div>
+    );
 
   return (
-    <div className={`flex h-10 w-10 items-center justify-center${entry.whiteBg ? " rounded-md bg-white p-0.5" : ""}`}>
+    <div
+      className={`flex h-10 w-10 items-center justify-center${entry.whiteBg ? " rounded-md bg-white p-0.5" : ""}`}
+    >
       <Image
         src={entry.src}
         alt={`${name} logo`}
         width={40}
         height={40}
+        loading="lazy"
         className="h-10 w-10 object-contain select-none"
         aria-hidden="true"
       />
@@ -51,40 +66,48 @@ const challengeSolutionPairs = [
   {
     number: "01",
     challengeTitle: "Fragmented Systems",
-    challengeDescription: "Operations were scattered across multiple disconnected tools, causing data silos and inconsistent information.",
+    challengeDescription:
+      "Operations were scattered across multiple disconnected tools, causing data silos and inconsistent information.",
     challengeIcon: "list" as const,
     solutionTitle: "Unified Platform",
-    solutionDescription: "We centralized vendors, orders, inventory, and pricing into one integrated platform for complete operational clarity.",
+    solutionDescription:
+      "We centralized vendors, orders, inventory, and pricing into one integrated platform for complete operational clarity.",
     solutionIcon: "layers" as const,
     solutionAccent: "purple" as const,
   },
   {
     number: "02",
     challengeTitle: "Manual Processes",
-    challengeDescription: "Repetitive manual tasks slowed down operations and led to increased errors and operational costs.",
+    challengeDescription:
+      "Repetitive manual tasks slowed down operations and led to increased errors and operational costs.",
     challengeIcon: "clock" as const,
     solutionTitle: "Workflow Automation",
-    solutionDescription: "We automated key workflows and approvals, reducing manual effort and improving speed, accuracy, and efficiency.",
+    solutionDescription:
+      "We automated key workflows and approvals, reducing manual effort and improving speed, accuracy, and efficiency.",
     solutionIcon: "zap" as const,
     solutionAccent: "blue" as const,
   },
   {
     number: "03",
     challengeTitle: "Limited Visibility",
-    challengeDescription: "Lack of real-time insights and reporting made it difficult to monitor performance and make informed decisions.",
+    challengeDescription:
+      "Lack of real-time insights and reporting made it difficult to monitor performance and make informed decisions.",
     challengeIcon: "eye" as const,
     solutionTitle: "Real-Time Analytics",
-    solutionDescription: "We delivered real-time dashboards and reports that provide instant visibility into key metrics and business performance.",
+    solutionDescription:
+      "We delivered real-time dashboards and reports that provide instant visibility into key metrics and business performance.",
     solutionIcon: "chart" as const,
     solutionAccent: "green" as const,
   },
   {
     number: "04",
     challengeTitle: "Complex Pricing",
-    challengeDescription: "Managing discounts, promotions, and pricing rules required significant manual effort and time.",
+    challengeDescription:
+      "Managing discounts, promotions, and pricing rules required significant manual effort and time.",
     challengeIcon: "tag" as const,
     solutionTitle: "Dynamic Pricing Engine",
-    solutionDescription: "We built a flexible pricing engine that automates rules, promotions, and discounts at scale with complete control.",
+    solutionDescription:
+      "We built a flexible pricing engine that automates rules, promotions, and discounts at scale with complete control.",
     solutionIcon: "sliders" as const,
     solutionAccent: "orange" as const,
   },
@@ -108,10 +131,11 @@ function SliderArrow({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${isPrev
+      className={`inline-flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] ${
+        isPrev
           ? "border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:enabled:-translate-y-0.5 hover:enabled:border-[var(--color-border-brand)] hover:enabled:text-[var(--color-text-primary)] disabled:cursor-not-allowed disabled:opacity-35"
           : "border-transparent bg-[var(--color-brand-blue)] text-white shadow-md shadow-[var(--color-brand-blue-glow)] hover:enabled:-translate-y-0.5 hover:enabled:shadow-lg hover:enabled:shadow-[var(--color-brand-blue-glow)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
-        }`}
+      }`}
       aria-label={label}
     >
       <svg
@@ -160,10 +184,26 @@ const initiatives = [
 ];
 
 const metrics = [
-  { v: "45%", l: "Faster Time-to-Market", sub: "New features deployed in half the time" },
-  { v: "30%", l: "Order Volume Increase", sub: "Following UI/UX enhancements and platform optimization" },
-  { v: "5+", l: "Departments Supported", sub: "E-Commerce, HR, Sales, Marketing, Operations" },
-  { v: "200+", l: "Employees Trained", sub: "Internal staff upskilled through the custom LMS" },
+  {
+    v: "45%",
+    l: "Faster Time-to-Market",
+    sub: "New features deployed in half the time",
+  },
+  {
+    v: "30%",
+    l: "Order Volume Increase",
+    sub: "Following UI/UX enhancements and platform optimization",
+  },
+  {
+    v: "5+",
+    l: "Departments Supported",
+    sub: "E-Commerce, HR, Sales, Marketing, Operations",
+  },
+  {
+    v: "200+",
+    l: "Employees Trained",
+    sub: "Internal staff upskilled through the custom LMS",
+  },
 ];
 
 const chartData = [
@@ -293,7 +333,10 @@ function TechStackCarousel() {
       const step = getStep();
       if (!viewport || !step) return;
 
-      const nextIndex = Math.min(maxIndex, Math.max(0, Math.round(viewport.scrollLeft / step)));
+      const nextIndex = Math.min(
+        maxIndex,
+        Math.max(0, Math.round(viewport.scrollLeft / step)),
+      );
       setActiveIndex(nextIndex);
     });
   }, [getStep, maxIndex]);
@@ -323,7 +366,7 @@ function TechStackCarousel() {
         onKeyDown={handleKeyDown}
         onScroll={handleScroll}
       >
-        <div className="flex snap-x snap-proximity gap-4 lg:grid lg:grid-cols-3 lg:snap-none">
+        <div className="flex snap-x snap-proximity gap-4 md:gap-6 lg:grid lg:grid-cols-3 lg:gap-8 lg:snap-none">
           {techStack.map((item, i) => (
             <motion.article
               ref={(node) => {
@@ -334,7 +377,7 @@ function TechStackCarousel() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp(i * 0.05)}
-              className="group relative min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto"
+              className="card-pad group relative min-w-0 shrink-0 basis-[82%] snap-start rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)] sm:basis-[calc((100%-1rem)/2)] lg:basis-auto"
               role="group"
               aria-roledescription="slide"
               aria-label={`Technology ${i + 1} of ${totalSlides}: ${item.name}`}
@@ -342,7 +385,9 @@ function TechStackCarousel() {
               {/* Brand-coloured hover glow */}
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                style={{ boxShadow: `0 0 28px ${item.glowColor}, inset 0 0 16px ${item.glowColor}` }}
+                style={{
+                  boxShadow: `0 0 28px ${item.glowColor}, inset 0 0 16px ${item.glowColor}`,
+                }}
               />
               <div className="relative z-10">
                 <div
@@ -351,19 +396,37 @@ function TechStackCarousel() {
                 >
                   <TechBrandIcon name={item.name} />
                 </div>
-                <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">{item.name}</p>
-                <p className="mt-0.5 mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">{item.category}</p>
-                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{item.desc}</p>
+                <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">
+                  {item.name}
+                </p>
+                <p className="mt-0.5 mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">
+                  {item.category}
+                </p>
+                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                  {item.desc}
+                </p>
               </div>
             </motion.article>
           ))}
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-4 lg:hidden" role="group" aria-label="Technology slider navigation">
-        <SliderArrow direction="prev" disabled={safeIndex === 0} onClick={() => navigate(-1)} label="Previous technology" />
+      <div
+        className="mt-6 flex items-center justify-center gap-4 lg:hidden"
+        role="group"
+        aria-label="Technology slider navigation"
+      >
+        <SliderArrow
+          direction="prev"
+          disabled={safeIndex === 0}
+          onClick={() => navigate(-1)}
+          label="Previous technology"
+        />
 
-        <div className="flex items-center justify-center gap-2.5" aria-label="Technology slides">
+        <div
+          className="flex items-center justify-center gap-2.5"
+          aria-label="Technology slides"
+        >
           {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
             <button
               key={idx}
@@ -372,17 +435,23 @@ function TechStackCarousel() {
                 setActiveIndex(idx);
                 scrollToIndex(idx);
               }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${idx === safeIndex
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === safeIndex
                   ? "w-8 bg-[var(--color-brand-blue)]"
                   : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
-                }`}
+              }`}
               aria-label={`Go to technology slide ${idx + 1}`}
               aria-current={idx === safeIndex ? "true" : undefined}
             />
           ))}
         </div>
 
-        <SliderArrow direction="next" disabled={safeIndex === maxIndex} onClick={() => navigate(1)} label="Next technology" />
+        <SliderArrow
+          direction="next"
+          disabled={safeIndex === maxIndex}
+          onClick={() => navigate(1)}
+          label="Next technology"
+        />
       </div>
     </>
   );
@@ -400,15 +469,23 @@ function SectionHeader({
   className?: string;
 }) {
   return (
-    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className={`mb-8 lg:mb-12 ${className}`}>
-      <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={fadeUp(0)}
+      className={`section-header ${className}`}
+    >
+      <div className="section-eyebrow">
         <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-        <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{label}</span>
+        <span className="text-[11px] font-bold uppercase tracking-[0.2em]">
+          {label}
+        </span>
       </div>
       <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">
         {title}
       </h2>
-      <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85 sm:text-base">
+      <p className="section-subtitle max-w-3xl text-sm opacity-85 sm:text-base">
         {desc}
       </p>
     </motion.div>
@@ -418,7 +495,10 @@ function SectionHeader({
 function OrdersLogo({ className = "h-12 w-auto" }: { className?: string }) {
   const { theme } = useTheme();
   const mounted = useMounted();
-  const src = mounted && theme === "dark" ? "/clients/o-and-m-dark.svg" : "/clients/o-and-m-light.svg";
+  const src =
+    mounted && theme === "dark"
+      ? "/clients/o-and-m-dark.svg"
+      : "/clients/o-and-m-light.svg";
 
   return (
     <Image
@@ -426,6 +506,7 @@ function OrdersLogo({ className = "h-12 w-auto" }: { className?: string }) {
       alt="Orders & More logo"
       width={168}
       height={64}
+      loading="lazy"
       className={`${className} object-contain`}
       style={{ width: "auto" }}
     />
@@ -434,7 +515,12 @@ function OrdersLogo({ className = "h-12 w-auto" }: { className?: string }) {
 
 function HeroMockup() {
   return (
-    <motion.div initial="hidden" animate="visible" variants={fadeUp(0.12)} className="relative mx-auto w-full max-w-[640px]">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={fadeUp(0.12)}
+      className="relative mx-auto w-full max-w-[640px]"
+    >
       <div className="absolute -inset-8 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
       <div className="relative">
         <motion.div
@@ -453,49 +539,11 @@ function HeroMockup() {
             height={1500}
             className="h-auto w-full object-contain drop-shadow-2xl"
             priority
+            sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), (max-width: 1279px) 50vw, 640px"
           />
         </motion.div>
       </div>
     </motion.div>
-  );
-}
-
-function DemoCtaSection() {
-  return (
-    <section className="py-12 sm:py-16 lg:py-28">
-      <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)}>
-          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-blue)]">Ready?</p>
-          <h2 className="mb-5 text-3xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-            Transform Your{" "}
-            <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
-              E-Commerce Operations
-            </span>
-          </h2>
-          <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-[var(--color-text-secondary)]">
-            The best way to understand the power of Orders and More is to see it in action. Book a personalized demo and discover how the platform can address your specific business challenges.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/contact"
-              className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl"
-            >
-              Schedule Demo
-            </Link>
-            <a
-              href="/docs/Orders-and-More-2026%201.pdf"
-              className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-8 py-3.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
-            >
-              Learn More
-            </a>
-          </div>
-          <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-[var(--color-text-secondary)]">
-            <a href="mailto:contact@iken.tech" className="transition hover:text-[var(--color-text-primary)]">contact@iken.tech</a>
-            <a href="https://wa.me/201050500017" className="transition hover:text-[var(--color-text-primary)]">(+20) 105 0500017</a>
-          </div>
-        </motion.div>
-      </div>
-    </section>
   );
 }
 
@@ -509,7 +557,8 @@ function InitiativeShowcase({
   onMouseLeave: () => void;
 }) {
   const activeInitiative = initiatives[activeIndex];
-  const activeImage = activeInitiative.image || "/clients/pricingAndDiscounts.svg";
+  const activeImage =
+    activeInitiative.image || "/clients/pricingAndDiscounts.svg";
 
   return (
     <motion.div
@@ -521,21 +570,6 @@ function InitiativeShowcase({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div className="pointer-events-none absolute h-px w-px opacity-0">
-        {initiatives
-          .filter((initiative) => Boolean(initiative.image))
-          .map((initiative) => (
-            <Image
-              key={initiative.title}
-              src={initiative.image || "/clients/pricingAndDiscounts.svg"}
-              alt=""
-              width={1}
-              height={1}
-              aria-hidden="true"
-            />
-          ))}
-      </div>
-
       <div className="relative flex h-[25rem] items-center justify-center overflow-hidden sm:h-[32rem] lg:h-[44rem] xl:h-[48rem]">
         <AnimatePresence mode="wait">
           <motion.div
@@ -562,7 +596,8 @@ function InitiativeShowcase({
                 alt={`${activeInitiative.title} visual`}
                 width={1800}
                 height={1395}
-                sizes="(min-width: 1280px) 920px, (min-width: 1024px) 860px, 100vw"
+                sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), (max-width: 1279px) 860px, 920px"
+                loading="lazy"
                 className="pointer-events-none h-auto w-full max-w-[860px] select-none object-contain xl:max-w-[920px]"
               />
             </motion.div>
@@ -575,7 +610,10 @@ function InitiativeShowcase({
 
 function ResultsSection() {
   return (
-    <section id="results" className="scroll-section relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
+    <section
+      id="results"
+      className="scroll-section section-y relative overflow-hidden border-b border-[var(--color-border-light)]"
+    >
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute right-[5%] bottom-[10%] h-[450px] w-[450px] rounded-full bg-[var(--color-brand-cyan-glow)] opacity-[0.35] blur-[120px]" />
       </div>
@@ -588,9 +626,9 @@ function ResultsSection() {
           className="max-w-3xl"
         />
 
-        <div className="grid grid-cols-1 items-stretch gap-10 lg:grid-cols-12 lg:gap-16 xl:gap-20">
+        <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12 lg:gap-12 xl:gap-16">
           <div className="w-full lg:col-span-6 xl:col-span-5">
-            <div className="grid h-full grid-cols-2 gap-4 sm:gap-5">
+            <div className="grid h-full grid-cols-2 gap-4 md:gap-6">
               {metrics.map((item, i) => (
                 <motion.div
                   key={item.l}
@@ -598,7 +636,7 @@ function ResultsSection() {
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={fadeUp(i * 0.05)}
-                  className="group flex min-h-[150px] flex-col items-center justify-center rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 p-4 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.06)] sm:min-h-[170px] sm:p-5"
+                  className="card-pad group flex min-h-[150px] flex-col items-center justify-center rounded-[20px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.06)] sm:min-h-[170px]"
                 >
                   <span className="select-none bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-3xl font-black text-transparent transition-transform duration-300 group-hover:scale-105 sm:text-4xl">
                     {item.v}
@@ -620,7 +658,7 @@ function ResultsSection() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="group relative flex w-full flex-col justify-between overflow-hidden rounded-[24px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/40 p-5 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-[var(--color-border-brand)]/40 sm:p-6 md:p-7"
+              className="card-pad group relative flex w-full flex-col justify-between overflow-hidden rounded-[24px] border border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/40 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-[var(--color-border-brand)]/40"
             >
               <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-gradient-to-tr from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] opacity-[0.05] blur-3xl transition-transform duration-700 group-hover:scale-125" />
 
@@ -634,7 +672,11 @@ function ResultsSection() {
                 <div className="relative mt-2 min-h-[220px] w-full flex-1 pl-8 pr-2 sm:min-h-[240px]">
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 top-0 pl-8">
                     {[100, 80, 60, 40, 20].map((val) => (
-                      <div key={val} className="absolute left-8 right-0 flex items-center border-t border-[var(--color-border-light)]/40" style={{ bottom: `${val}%` }}>
+                      <div
+                        key={val}
+                        className="absolute left-8 right-0 flex items-center border-t border-[var(--color-border-light)]/40"
+                        style={{ bottom: `${val}%` }}
+                      >
                         <span className="absolute -left-8 w-6 -translate-y-1/2 select-none pr-1 text-right text-[10px] font-bold tabular-nums text-[var(--color-text-muted)] sm:text-[11px]">
                           {val}
                         </span>
@@ -644,20 +686,31 @@ function ResultsSection() {
 
                   <div className="absolute bottom-0 left-8 right-0 top-0 flex items-end justify-around">
                     {chartData.map((data) => (
-                      <div key={data.label} className="group/bar relative flex h-full w-1/3 flex-col items-center justify-end">
+                      <div
+                        key={data.label}
+                        className="group/bar relative flex h-full w-1/3 flex-col items-center justify-end"
+                      >
                         <div className="flex h-full w-full items-end justify-center gap-1.5 pb-[2px] sm:gap-2.5">
                           <motion.div
                             initial={{ height: "0%" }}
                             whileInView={{ height: `${data.before}%` }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                            transition={{
+                              duration: 0.95,
+                              ease: [0.16, 1, 0.3, 1],
+                              delay: 0.1,
+                            }}
                             className="w-3.5 rounded-t-[4px] bg-slate-400/20 transition-all duration-300 group-hover/bar:bg-slate-400/30 dark:bg-slate-700/35 dark:group-hover/bar:bg-slate-700/50 sm:w-5 md:w-6"
                           />
                           <motion.div
                             initial={{ height: "0%" }}
                             whileInView={{ height: `${data.after}%` }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                            transition={{
+                              duration: 0.95,
+                              ease: [0.16, 1, 0.3, 1],
+                              delay: 0.2,
+                            }}
                             className="w-3.5 rounded-t-[4px] bg-gradient-to-t from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] shadow-[0_0_15px_rgba(14,165,233,0.1)] transition-all duration-300 group-hover/bar:brightness-110 group-hover/bar:shadow-[0_0_20px_rgba(14,165,233,0.2)] sm:w-5 md:w-6"
                           />
                         </div>
@@ -705,7 +758,9 @@ export default function OrdersAndMoreCaseStudy() {
   useEffect(() => {
     const section = initiativesSectionRef.current;
     if (!section || typeof IntersectionObserver === "undefined") {
-      const frame = window.requestAnimationFrame(() => setIsInitiativeVisible(true));
+      const frame = window.requestAnimationFrame(() =>
+        setIsInitiativeVisible(true),
+      );
       return () => window.cancelAnimationFrame(frame);
     }
 
@@ -719,7 +774,8 @@ export default function OrdersAndMoreCaseStudy() {
   }, []);
 
   useEffect(() => {
-    if (shouldReduceMotion || isInitiativePaused || !isInitiativeVisible) return;
+    if (shouldReduceMotion || isInitiativePaused || !isInitiativeVisible)
+      return;
 
     const timer = window.setInterval(() => {
       setActiveInitiativeIndex((current) => (current + 1) % initiatives.length);
@@ -742,21 +798,46 @@ export default function OrdersAndMoreCaseStudy() {
       <Header />
 
       <main className="relative z-10">
-        <section id="hero" className="relative overflow-hidden border-b border-[var(--color-border-light)] pb-12 pt-6 sm:pb-16 sm:pt-8 lg:pb-28 lg:pt-10">
+        <section
+          id="hero"
+          className="section-hero-y relative overflow-hidden border-b border-[var(--color-border-light)]"
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,var(--color-brand-blue-glow),transparent)]" />
           <div className="site-container">
-            <nav className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]" aria-label="Breadcrumb">
-              <Link href="/" className="transition hover:text-[var(--color-text-brand)]">Home</Link>
+            <nav
+              className="mb-8 flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]"
+              aria-label="Breadcrumb"
+            >
+              <Link
+                href="/"
+                className="transition hover:text-[var(--color-text-brand)]"
+              >
+                Home
+              </Link>
               <span className="opacity-30">/</span>
-              <Link href="/#work" className="transition hover:text-[var(--color-text-brand)]">Projects</Link>
+              <Link
+                href="/#work"
+                className="transition hover:text-[var(--color-text-brand)]"
+              >
+                Projects
+              </Link>
               <span className="opacity-30">/</span>
-              <span className="font-bold text-[var(--color-text-primary)]">Orders And More</span>
+              <span className="font-bold text-[var(--color-text-primary)]">
+                Orders And More
+              </span>
             </nav>
 
-            <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="mb-6 lg:hidden">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp(0)}
+              className="mb-6 lg:hidden"
+            >
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Total Control · One Platform</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                  Total Control · One Platform
+                </span>
               </div>
               <h1 className="text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
                 Orders and More
@@ -766,11 +847,18 @@ export default function OrdersAndMoreCaseStudy() {
               </p>
             </motion.div>
 
-            <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
-              <motion.div initial="hidden" animate="visible" variants={fadeUp(0)} className="order-2 min-w-0 lg:order-1">
+            <div className="grid items-center gap-8 md:gap-10 lg:grid-cols-2 lg:gap-12">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeUp(0)}
+                className="order-2 min-w-0 lg:order-1"
+              >
                 <div className="mb-4 hidden items-center gap-2 rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-3.5 py-1.5 lg:inline-flex">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand-blue)]" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">Total Control · One Platform</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                    Total Control · One Platform
+                  </span>
                 </div>
                 <h1 className="mb-4 hidden text-4xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-5xl lg:block lg:text-6xl">
                   Orders and More
@@ -779,27 +867,42 @@ export default function OrdersAndMoreCaseStudy() {
                   Your All-in-One B2B E-Commerce Platform
                 </p>
                 <p className="mb-6 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] opacity-80 lg:mb-8">
-                  A modern B2B e-commerce platform specifically engineered for wholesalers, retailers, and enterprise merchants who demand operational excellence without compromise.
+                  A modern B2B e-commerce platform specifically engineered for
+                  wholesalers, retailers, and enterprise merchants who demand
+                  operational excellence without compromise.
                 </p>
 
                 <div className="mb-6 grid gap-4 border-l-2 border-[var(--color-brand-blue)] pl-4 min-[380px]:grid-cols-3 lg:mb-8">
                   {[
                     { label: "Built for Scale", value: "500-50,000 SKUs" },
                     { label: "End-to-End Control", value: "Single Dashboard" },
-                    { label: "Modular Design", value: "Activate What You Need" },
+                    {
+                      label: "Modular Design",
+                      value: "Activate What You Need",
+                    },
                   ].map((item) => (
                     <div key={item.label} className="flex min-w-0 flex-col">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">{item.label}</span>
-                      <span className="mt-1 text-sm font-bold text-[var(--color-text-primary)]">{item.value}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-text-brand)]">
+                        {item.label}
+                      </span>
+                      <span className="mt-1 text-sm font-bold text-[var(--color-text-primary)]">
+                        {item.value}
+                      </span>
                     </div>
                   ))}
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                  <Link href="/contact" className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl">
+                  <Link
+                    href="/contact"
+                    className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-px hover:shadow-xl"
+                  >
                     Schedule Demo
                   </Link>
-                  <a href="/docs/Orders-and-More-2026%201.pdf" className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-2.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]">
+                  <a
+                    href="/docs/Orders-and-More-2026%201.pdf"
+                    className="rounded-full border border-[var(--color-border-light)] bg-[var(--color-bg-glass)] px-6 py-2.5 text-sm font-bold text-[var(--color-text-primary)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+                  >
                     Learn More
                   </a>
                 </div>
@@ -814,7 +917,10 @@ export default function OrdersAndMoreCaseStudy() {
 
         <ChallengeSolutionSection pairs={challengeSolutionPairs} />
 
-        <section ref={initiativesSectionRef} className="relative overflow-hidden border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section
+          ref={initiativesSectionRef}
+          className="section-y relative overflow-hidden border-b border-[var(--color-border-light)]"
+        >
           <div className="pointer-events-none absolute right-[10%] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[var(--color-brand-blue-glow)] opacity-[0.4] blur-[130px]" />
           <div className="site-container relative z-10">
             <SectionHeader
@@ -822,7 +928,7 @@ export default function OrdersAndMoreCaseStudy() {
               title="What We Focused On"
               desc="We designed a robust platform that centralizes operations and drives efficiency at scale."
             />
-            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.9fr_1.3fr] lg:gap-12 xl:gap-16">
+            <div className="grid grid-cols-1 items-center gap-8 md:gap-10 lg:grid-cols-[0.9fr_1.3fr] lg:gap-12 xl:gap-16">
               <div className="order-2 flex w-full flex-col justify-center lg:order-1">
                 <div className="w-full max-w-[560px] space-y-4 md:space-y-5">
                   {initiatives.map((item, i) => {
@@ -837,20 +943,35 @@ export default function OrdersAndMoreCaseStudy() {
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={fadeUp(i * 0.05)}
-                        className={`group flex w-full gap-4 rounded-[20px] border p-4 text-left backdrop-blur-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] sm:gap-5 sm:p-5 ${isActive
+                        className={`card-pad group flex w-full gap-4 rounded-[20px] border text-left backdrop-blur-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-main)] sm:gap-5 ${
+                          isActive
                             ? "border-[var(--color-brand-blue)]/35 bg-[var(--color-bg-glass-strong)]/70 shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
                             : "border-[var(--color-border-light)]/60 bg-[var(--color-bg-card)]/50 hover:-translate-y-0.5 hover:border-[var(--color-brand-blue)]/30 hover:bg-[var(--color-bg-glass-strong)]/60 hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]"
-                          }`}
+                        }`}
                         aria-pressed={isActive}
                       >
-                        <span className={`mt-0.5 shrink-0 select-none text-3xl font-black tabular-nums tracking-tight transition-colors duration-300 sm:text-4xl ${isActive ? "text-[var(--color-brand-blue)]/55" : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
-                          }`}>
+                        <span
+                          className={`mt-0.5 shrink-0 select-none text-3xl font-black tabular-nums tracking-tight transition-colors duration-300 sm:text-4xl ${
+                            isActive
+                              ? "text-[var(--color-brand-blue)]/55"
+                              : "text-[var(--color-brand-blue)]/20 group-hover:text-[var(--color-brand-blue)]/40"
+                          }`}
+                        >
                           {item.n}
                         </span>
                         <div>
-                          <h3 className={`mb-1 text-base font-bold transition-colors duration-300 sm:text-[17px] ${isActive ? "text-[var(--color-text-brand)]" : "text-[var(--color-text-primary)]"
-                            }`}>{item.title}</h3>
-                          <p className="max-w-[480px] text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85">{item.desc}</p>
+                          <h3
+                            className={`mb-1 text-base font-bold transition-colors duration-300 sm:text-[17px] ${
+                              isActive
+                                ? "text-[var(--color-text-brand)]"
+                                : "text-[var(--color-text-primary)]"
+                            }`}
+                          >
+                            {item.title}
+                          </h3>
+                          <p className="max-w-[480px] text-sm leading-relaxed text-[var(--color-text-secondary)] opacity-85">
+                            {item.desc}
+                          </p>
                         </div>
                       </motion.button>
                     );
@@ -870,21 +991,35 @@ export default function OrdersAndMoreCaseStudy() {
 
         <ResultsSection />
 
-        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section className="section-y border-b border-[var(--color-border-light)]">
           <div className="site-container">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp(0)} className="mb-8 lg:mb-12">
-              <div className="mb-2.5 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp(0)}
+              className="section-header"
+            >
+              <div className="section-eyebrow">
                 <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Technology</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em]">
+                  Technology
+                </span>
               </div>
-              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">Technology Stack</h2>
-              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">Our dedicated team operates with the same priorities and urgency as internal staff — enabling flexible scaling based on project demands and business cycles.</p>
+              <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[42px]">
+                Technology Stack
+              </h2>
+              <p className="section-subtitle text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
+                Our dedicated team operates with the same priorities and urgency
+                as internal staff — enabling flexible scaling based on project
+                demands and business cycles.
+              </p>
             </motion.div>
             <TechStackCarousel />
           </div>
         </section>
 
-        <section className="border-b border-[var(--color-border-light)] py-12 lg:py-20">
+        <section className="section-y border-b border-[var(--color-border-light)]">
           <div className="site-container">
             <SectionHeader
               label="Partnership"
@@ -897,7 +1032,7 @@ export default function OrdersAndMoreCaseStudy() {
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp(0.08)}
-              className="relative overflow-hidden rounded-[28px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 shadow-2xl backdrop-blur-md sm:p-6 lg:p-8"
+              className="card-pad relative overflow-hidden rounded-[28px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-2xl backdrop-blur-md"
             >
               <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[var(--color-brand-blue-glow)] blur-3xl" />
               <div className="relative z-10 grid gap-6 md:grid-cols-[0.85fr_1.25fr] md:items-center lg:gap-10">
@@ -907,18 +1042,29 @@ export default function OrdersAndMoreCaseStudy() {
                     alt="Mohammed Assem"
                     width={520}
                     height={620}
+                    sizes="(max-width: 767px) calc(100vw - 2rem), (max-width: 1023px) 35vw, 360px"
+                    loading="lazy"
                     className="h-full max-h-[420px] w-full object-cover object-top"
                   />
                 </div>
                 <div>
-                  <div className="mb-5 text-7xl font-black leading-none text-[var(--color-brand-blue)]/20">“</div>
+                  <div className="mb-5 text-7xl font-black leading-none text-[var(--color-brand-blue)]/20">
+                    “
+                  </div>
                   <blockquote className="text-xl font-semibold leading-relaxed text-[var(--color-text-primary)] sm:text-2xl">
-                    “IKEN Technology has truly exceeded our expectations. Their customized software solutions have streamlined our operations and provided a significant boost in productivity.”
+                    “IKEN Technology has truly exceeded our expectations. Their
+                    customized software solutions have streamlined our
+                    operations and provided a significant boost in
+                    productivity.”
                   </blockquote>
                   <div className="mt-8 flex flex-wrap items-end justify-between gap-5">
                     <div>
-                      <p className="text-base font-bold text-[var(--color-text-primary)]">Mohammed Assem</p>
-                      <p className="mt-1 text-sm text-[var(--color-text-muted)]">CTO & Co-founder, Balad</p>
+                      <p className="text-base font-bold text-[var(--color-text-primary)]">
+                        Mohammed Assem
+                      </p>
+                      <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+                        CTO & Co-founder, Balad
+                      </p>
                     </div>
                     <div className="rounded-2xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 py-3">
                       <OrdersLogo className="h-9 w-auto" />
@@ -929,8 +1075,6 @@ export default function OrdersAndMoreCaseStudy() {
             </motion.div>
           </div>
         </section>
-
-        <DemoCtaSection />
       </main>
 
       <ContactSection />

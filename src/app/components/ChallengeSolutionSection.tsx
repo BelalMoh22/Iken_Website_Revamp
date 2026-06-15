@@ -136,7 +136,7 @@ function ChallengeSolutionRow({ pair, index }: { pair: ChallengeSolutionPair; in
       viewport={{ once: true, margin: "-80px" }}
       variants={fadeUp}
       transition={{ delay: index * 0.04 }}
-      className="group overflow-hidden rounded-[22px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-4 text-left shadow-sm transition-all duration-300 hover:border-[var(--color-border-brand)] sm:p-5 lg:grid lg:min-h-[108px] lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-8 lg:rounded-2xl lg:px-9 lg:py-6"
+      className="card-pad group overflow-hidden rounded-[22px] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] text-left shadow-sm transition-all duration-300 hover:border-[var(--color-border-brand)] lg:grid lg:min-h-[108px] lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-8 lg:rounded-2xl"
     >
       <div className="lg:hidden">
         <div className="mb-4 flex items-center">
@@ -232,27 +232,27 @@ export function ChallengeSolutionSection({
   subtitle?: string;
 }) {
   return (
-    <section className="relative scroll-mt-28 overflow-hidden border-b border-[var(--color-border-light)] bg-[var(--color-bg-main)] py-14 text-[var(--color-text-primary)] lg:py-20">
+    <section className="section-y relative scroll-mt-28 overflow-hidden border-b border-[var(--color-border-light)] bg-[var(--color-bg-main)] text-[var(--color-text-primary)]">
       {/* Subtle top glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,var(--color-brand-blue-glow),transparent_60%)] opacity-60" />
 
       <div className="site-container relative z-10">
         {/* Header */}
-        <div className="mx-auto mb-10 max-w-3xl text-center lg:mb-12">
-          <div className="mb-2 inline-flex items-center justify-center gap-2 text-[var(--color-text-brand)]">
+        <div className="section-header mx-auto max-w-3xl text-center">
+          <div className="section-eyebrow justify-center">
             <span className="inline-flex h-3 w-3 rounded-[2px] bg-[var(--color-brand-blue)]" />
             <span className="text-[11px] font-bold uppercase tracking-[0.2em]">OUR APPROACH</span>
           </div>
           <h2 className="text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-[36px]">
             From Challenge to Solution
           </h2>
-          <p className="mx-auto mt-2.5 max-w-[620px] text-sm leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="section-subtitle mx-auto max-w-[620px] text-sm">
             {subtitle}
           </p>
         </div>
 
         {/* Rows - enlarged to max-w-[1200px] */}
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-3.5 lg:gap-4">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-4 md:gap-5">
           {pairs.map((pair, index) => (
             <ChallengeSolutionRow key={pair.number} pair={pair} index={index} />
           ))}

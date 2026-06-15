@@ -198,19 +198,6 @@ export function AboutSection() {
         onMouseLeave={restartAutoRotate}
       >
         <div className="relative overflow-hidden rounded-[1.5rem] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_4px_14px_rgba(0,0,0,0.06)] dark:shadow-[0_6px_18px_rgba(0,0,0,0.22)]">
-          <div className="pointer-events-none absolute h-px w-px opacity-0">
-            {pillars.map((p) => (
-              <Image
-                key={p.title}
-                src={p.image}
-                alt=""
-                width={1}
-                height={1}
-                unoptimized={p.image === "/service/long-term-scalability-growing-products.png"}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
           <AnimatePresence mode="sync" initial={false}>
             <motion.div
               key={imageIndex}
@@ -224,8 +211,8 @@ export function AboutSection() {
                 src={pillars[imageIndex].image}
                 alt={pillars[imageIndex].title}
                 fill
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                unoptimized={pillars[imageIndex].image === "/service/long-term-scalability-growing-products.png"}
+                sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), (max-width: 1279px) 55vw, 704px"
+                loading="lazy"
                 className="object-cover"
               />
             </motion.div>
@@ -273,7 +260,7 @@ export function AboutSection() {
     <section
       ref={sectionRef}
       id="about"
-      className="scroll-section relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)] pt-4 pb-10 sm:pt-8 sm:pb-12 lg:pt-[4.5rem] lg:pb-[4.5rem]"
+      className="scroll-section section-y relative m-0 w-full overflow-hidden bg-[linear-gradient(180deg,var(--color-bg-main)_0%,var(--color-bg-card)_52%,var(--color-bg-main)_100%)]"
       aria-labelledby="about-title"
     >
       <motion.div
@@ -293,7 +280,7 @@ export function AboutSection() {
       <div className="site-container">
         <div
           id="why-iken"
-          className="relative mx-auto grid max-w-[78rem] items-center gap-8 sm:gap-9 lg:grid-cols-[0.9fr_1.1fr] lg:gap-9"
+          className="relative mx-auto grid max-w-[78rem] items-center gap-8 md:gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_88%_16%,var(--color-brand-blue-glow),transparent_52%)] opacity-35" />
 
@@ -304,14 +291,14 @@ export function AboutSection() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="relative z-10"
           >
-            <div className="inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+            <div className="section-eyebrow">
               <span className="h-3.5 w-3.5 rounded-[4px] bg-[var(--color-brand-blue)] shadow-[0_0_8px_var(--color-brand-blue-glow)]" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.2em]">About IKEN</span>
             </div>
 
             <h2
               id="about-title"
-              className="mt-3 max-w-[17ch] text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:max-w-[16ch] sm:text-[2.1rem] lg:text-[2.35rem]"
+              className="max-w-[17ch] text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:max-w-[16ch] sm:text-[2.1rem] lg:text-[2.35rem]"
             >
               Why Companies{" "}
               <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
@@ -319,7 +306,7 @@ export function AboutSection() {
               </span>
             </h2>
 
-            <div className="mt-5 lg:hidden">
+            <div className="mt-6 lg:hidden">
               {renderShowcase()}
             </div>
 
@@ -328,7 +315,7 @@ export function AboutSection() {
             </p>
 
             <div className="lg:hidden">
-              <p className="mt-3 max-w-[48ch] text-sm leading-relaxed text-[var(--color-text-secondary)] sm:text-[15px]">
+              <p className="section-subtitle max-w-[48ch] text-sm sm:text-[15px]">
                 IKEN Technology empowers businesses with reliable, scalable digital solutions built by experts and delivered with speed, precision, and measurable impact.
               </p>
               {renderFeatureCards()}
@@ -337,7 +324,7 @@ export function AboutSection() {
 
             <div className="hidden lg:block">
               {renderFeatureCards()}
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center gap-3 md:mt-8">
                 <Link
                   href="/contact"
                   className="rounded-full bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"

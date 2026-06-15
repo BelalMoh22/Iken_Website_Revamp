@@ -174,11 +174,11 @@ export default function ContactPage() {
       <Header />
 
       {/* Page content */}
-      <main className="site-container relative z-10 py-10 lg:py-16">
+      <main className="site-container section-hero-y relative z-10">
         <Breadcrumbs />
         {/* Page title */}
-        <div className="mb-8 max-w-2xl lg:mb-10">
-          <div className="mb-3 inline-flex items-center gap-2 text-[var(--color-text-brand)]">
+        <div className="section-header max-w-2xl">
+          <div className="section-eyebrow">
             <span className="inline-flex h-3.5 w-3.5 rounded-[3px] bg-[var(--color-brand-blue)]" />
             <span className="text-xs font-semibold uppercase tracking-[0.18em]">Get In Touch</span>
           </div>
@@ -188,14 +188,14 @@ export default function ContactPage() {
               Something Great
             </span>
           </h1>
-          <p className="mt-4 text-base leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="section-subtitle">
             Ready to start your next project? Fill in the form and our team will get back to you within 24 hours.
           </p>
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr]">
+        <div className="grid grid-gap lg:grid-cols-[1fr_1.5fr]">
           {/* Left — Contact info */}
-          <div className="space-y-4">
+          <div className="space-y-5 md:space-y-6">
             {contactInfo.map((item) =>
               item.href ? (
                 <a
@@ -203,7 +203,7 @@ export default function ContactPage() {
                   href={item.href}
                   target={item.href.startsWith("http") ? "_blank" : undefined}
                   rel="noreferrer"
-                  className="group flex items-start gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
+                  className="card-pad group flex items-start gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] transition-all hover:border-[var(--color-border-brand)] hover:bg-[var(--color-bg-glass-strong)]"
                 >
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)] transition-colors group-hover:bg-[var(--color-brand-blue-glow)]">
                     {item.icon}
@@ -216,7 +216,7 @@ export default function ContactPage() {
               ) : (
                 <div
                   key={item.label}
-                  className="flex items-start gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5"
+                  className="card-pad flex items-start gap-4 rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)]"
                 >
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]">
                     {item.icon}
@@ -230,7 +230,7 @@ export default function ContactPage() {
             )}
 
             {/* Social */}
-            <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5">
+            <div className="card-pad rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)]">
               <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-text-muted)]">Follow Us</p>
               <div className="flex gap-3">
                 {socials.map((s) => (
@@ -250,7 +250,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right — Form */}
-          <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] p-5 sm:p-8">
+          <div className="card-pad rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)]">
             {submitted ? (
               <div className="flex h-full flex-col items-center justify-center py-16 text-center">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-brand-blue-glow)] text-[var(--color-text-brand)]">
@@ -271,8 +271,8 @@ export default function ContactPage() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
+              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+                <div className="grid gap-5 md:gap-6 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
                       Full Name <span className="text-[var(--color-brand-blue)]">*</span>
@@ -302,7 +302,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid gap-5 md:gap-6 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-text-muted)]">
                       Company

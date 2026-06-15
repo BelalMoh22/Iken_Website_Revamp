@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+
+import { useMounted } from "../hooks/useMounted";
 
 const featuredClients = [
   { name: "EFG Hermes", logo: "/clients/efg-dark.png", lightLogo: "/clients/efg-light.png", alt: "EFG Hermes logo" },
@@ -69,6 +72,8 @@ const cardVariants = {
 };
 
 export function TrustedCompaniesSection() {
+  const { theme } = useTheme();
+  const mounted = useMounted();
   const shouldReduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -80,7 +85,24 @@ export function TrustedCompaniesSection() {
 
   // Mobile Logo Slider state - showing 2x2 grid (4 logos at a time)
   const [logoPageIndex, setLogoPageIndex] = useState(0);
+  const [useMobileLogoLayout, setUseMobileLogoLayout] = useState(false);
   const totalLogoPages = Math.ceil(featuredClients.length / 4);
+  const getLogoSrc = useCallback(
+    (client: (typeof featuredClients)[number]) =>
+      mounted && theme === "dark" ? client.logo : client.lightLogo || client.logo,
+    [mounted, theme],
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const updateLogoLayout = () => setUseMobileLogoLayout(mediaQuery.matches);
+
+    updateLogoLayout();
+    mediaQuery.addEventListener("change", updateLogoLayout);
+    return () => mediaQuery.removeEventListener("change", updateLogoLayout);
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -188,18 +210,18 @@ export function TrustedCompaniesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mx-auto flex flex-col items-center text-center"
+          className="section-header mx-auto flex flex-col items-center text-center"
         >
           <span className="text-[12px] font-medium uppercase tracking-[4px] text-[var(--color-brand-blue)]">
             PARTNERSHIP
           </span>
-          <h2 className="mt-4 text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
+          <h2 className="mt-3 text-[1.78rem] font-semibold leading-[1.08] tracking-tight text-[var(--color-text-primary)] sm:text-[2.1rem] lg:text-[2.35rem]">
             Trusted by{" "}
             <span className="bg-gradient-to-r from-[var(--color-brand-blue)] to-[var(--color-brand-cyan)] bg-clip-text text-transparent">
               Leading Companies
             </span>
           </h2>
-          <p className="mt-5 max-w-[700px] text-[15px] font-medium leading-relaxed text-[var(--color-text-secondary)] opacity-80 md:text-[16px]">
+          <p className="section-subtitle mx-auto max-w-[700px] font-medium opacity-80 md:text-[16px]">
             Discover how industry leaders leverage our solutions to transform operations and accelerate growth.
           </p>
         </motion.div>
@@ -210,89 +232,74 @@ export function TrustedCompaniesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
-          className="mx-auto mt-8 w-full max-w-6xl sm:mt-10 lg:mt-16"
+          className="mx-auto w-full max-w-6xl"
         >
-          {/* Desktop/Tablet Grid View */}
-          <div className="hidden sm:grid sm:grid-cols-3 sm:gap-x-14 sm:gap-y-10 lg:grid-cols-5 lg:gap-x-10 lg:gap-y-10 place-items-center">
-            {featuredClients.map((client) => (
-              <motion.div
-                key={client.name}
-                variants={cardVariants}
-                whileHover={{ scale: 1.03 }}
-                className="group relative flex aspect-[2/1] w-full max-w-[160px] items-center justify-center transition-all duration-300"
-              >
-                <div className="absolute inset-0 rounded-xl bg-[var(--color-brand-blue)] opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-10" />
-
-                <div className="relative flex h-full w-full items-center justify-center">
-                  <div className={`relative transition-transform duration-500 ease-out group-hover:scale-105 ${client.customSize || "h-full w-full"}`}>
-                    {/* Dark Mode Logo */}
-                    <Image
-                      src={client.logo}
-                      alt={client.alt}
-                      fill
-                      sizes="(max-width: 640px) 40vw, (max-width: 1024px) 25vw, 160px"
-                      className="hidden object-contain opacity-70 transition-all duration-300 group-hover:opacity-100 dark:block"
-                    />
-                    {/* Light Mode Logo */}
-                    <Image
-                      src={client.lightLogo || client.logo}
-                      alt={client.alt}
-                      fill
-                      sizes="(max-width: 640px) 40vw, (max-width: 1024px) 25vw, 160px"
-                      className="block object-contain opacity-70 transition-all duration-300 group-hover:opacity-100 dark:hidden"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Mobile Slider View (2x2 grid of logos visible at a time) */}
-          <div
-            className="block sm:hidden relative w-full overflow-hidden px-2 py-4"
-            onMouseEnter={() => setIsLogoPaused(true)}
-            onMouseLeave={() => setIsLogoPaused(false)}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={logoPageIndex}
-                initial={{ opacity: 1, x: 0 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
-                className="grid grid-cols-2 grid-rows-2 place-items-center gap-x-8 gap-y-6"
-              >
-                {visibleLogos.map((client, idx) => (
-                  <div
-                    key={`${client.name}-${idx}`}
-                    className="group relative flex aspect-[2/1] w-full max-w-[130px] items-center justify-center transition-all duration-300"
-                  >
-                    <div className="relative flex h-full w-full items-center justify-center">
-                      <div className={`relative transition-transform duration-500 ease-out ${client.customSize || "h-full w-full"}`}>
-                        {/* Dark Mode Logo */}
-                        <Image
-                          src={client.logo}
-                          alt={client.alt}
-                          fill
-                          sizes="40vw"
-                          className="hidden object-contain opacity-70 transition-all duration-300 group-hover:opacity-100 dark:block"
-                        />
-                        {/* Light Mode Logo */}
-                        <Image
-                          src={client.lightLogo || client.logo}
-                          alt={client.alt}
-                          fill
-                          sizes="40vw"
-                          className="block object-contain opacity-70 transition-all duration-300 group-hover:opacity-100 dark:hidden"
-                        />
+          {!mounted ? (
+            <div className="min-h-[10.5rem] sm:min-h-[22rem] lg:min-h-[12.5rem]" aria-hidden="true" />
+          ) : useMobileLogoLayout ? (
+            <div
+              className="relative block w-full overflow-hidden px-2 py-4"
+              onMouseEnter={() => setIsLogoPaused(true)}
+              onMouseLeave={() => setIsLogoPaused(false)}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={logoPageIndex}
+                  initial={{ opacity: 1, x: 0 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="grid grid-cols-2 grid-rows-2 place-items-center gap-x-8 gap-y-6"
+                >
+                  {visibleLogos.map((client, idx) => (
+                    <div
+                      key={`${client.name}-${idx}`}
+                      className="group relative flex aspect-[2/1] w-full max-w-[130px] items-center justify-center transition-all duration-300"
+                    >
+                      <div className="relative flex h-full w-full items-center justify-center">
+                        <div className={`relative transition-transform duration-500 ease-out ${client.customSize || "h-full w-full"}`}>
+                          <Image
+                            src={getLogoSrc(client)}
+                            alt={client.alt}
+                            fill
+                            sizes="40vw"
+                            loading="lazy"
+                            className="object-contain opacity-70 transition-all duration-300 group-hover:opacity-100"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          ) : (
+            <div className="grid place-items-center gap-x-14 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10 lg:gap-y-10">
+              {featuredClients.map((client) => (
+                <motion.div
+                  key={client.name}
+                  variants={cardVariants}
+                  whileHover={{ scale: 1.03 }}
+                  className="group relative flex aspect-[2/1] w-full max-w-[160px] items-center justify-center transition-all duration-300"
+                >
+                  <div className="absolute inset-0 rounded-xl bg-[var(--color-brand-blue)] opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-10" />
 
-          </div>
+                  <div className="relative flex h-full w-full items-center justify-center">
+                    <div className={`relative transition-transform duration-500 ease-out group-hover:scale-105 ${client.customSize || "h-full w-full"}`}>
+                      <Image
+                        src={getLogoSrc(client)}
+                        alt={client.alt}
+                        fill
+                        sizes="(max-width: 1024px) 25vw, 160px"
+                        loading="lazy"
+                        className="object-contain opacity-70 transition-all duration-300 group-hover:opacity-100"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Testimonial Card */}
@@ -302,7 +309,7 @@ export function TrustedCompaniesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.2, ease: "easeOut", delay: 0 }}
-          className="scroll-section mx-auto mt-8 w-full max-w-6xl sm:mt-10 lg:mt-[50px]"
+          className="scroll-section mx-auto mt-8 w-full max-w-6xl md:mt-10 lg:mt-12"
           onMouseEnter={() => setIsTestimonialPaused(true)}
           onMouseLeave={() => setIsTestimonialPaused(false)}
         >
@@ -333,6 +340,7 @@ export function TrustedCompaniesSection() {
                       alt={TESTIMONIALS[currentIndex].name}
                       fill
                       sizes="(max-width: 1024px) 100vw, 35vw"
+                      loading="lazy"
                       className="object-contain object-center"
                     />
                     {/* Soft fade for horizontal split (desktop only) */}
@@ -341,7 +349,7 @@ export function TrustedCompaniesSection() {
                 </div>
 
                 {/* Right Side: Quote & Content */}
-                <div className="relative z-20 flex w-full flex-1 flex-col justify-between p-5 sm:p-10 lg:px-14 lg:py-12 xl:px-[56px] xl:py-12">
+                <div className="relative z-20 flex w-full flex-1 flex-col justify-between p-5 sm:p-8 lg:p-12 xl:px-14">
                   {/* Quote Icon */}
                   <motion.div
                     initial={{ opacity: 1, x: 0 }}
