@@ -11,7 +11,7 @@ const pillars = [
     desc: "Expert engineers focused on scalable architecture and clean delivery.",
     short: "Execution quality you can trust from day one.",
     strip: "ENGINEERED FOR LONG-TERM SCALABILITY",
-    image: "/service/senior-engineering-scalable-architecture.png",
+    image: "/service/senior-engineering-scalable-architecture-showcase.webp",
     icon: "engineering",
   },
   {
@@ -19,7 +19,7 @@ const pillars = [
     desc: "Lean processes that reduce delivery time without sacrificing quality.",
     short: "Results that directly impact your revenue.",
     strip: "BUILT FOR FAST PRODUCT DELIVERY",
-    image: "/service/fast-execution-lean-delivery.png",
+    image: "/service/fast-execution-lean-delivery-showcase.webp",
     icon: "execution",
   },
   {
@@ -27,7 +27,7 @@ const pillars = [
     desc: "We build solutions aligned with business goals and user needs.",
     short: "Built around outcomes, not just output.",
     strip: "SOLUTIONS DESIGNED FOR BUSINESS GROWTH",
-    image: "/service/product-mindset-business-user-needs.png",
+    image: "/service/product-mindset-business-user-needs-showcase.webp",
     icon: "product",
   },
   {
@@ -35,7 +35,7 @@ const pillars = [
     desc: "Systems designed to evolve with growing teams and products.",
     short: "Architecture that grows with your business.",
     strip: "TECHNOLOGY THAT SUPPORTS REAL BUSINESS IMPACT",
-    image: "/service/long-term-scalability-growing-products.png",
+    image: "/service/long-term-scalability-growing-products-showcase.webp",
     icon: "scalability",
   },
 ];
@@ -198,25 +198,31 @@ export function AboutSection() {
         onMouseLeave={restartAutoRotate}
       >
         <div className="relative overflow-hidden rounded-[1.5rem] border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_4px_14px_rgba(0,0,0,0.06)] dark:shadow-[0_6px_18px_rgba(0,0,0,0.22)]">
-          <AnimatePresence mode="sync" initial={false}>
-            <motion.div
-              key={imageIndex}
-              initial={{ opacity: 1, scale: 1, x: 0 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 1.01, x: -10 }}
-              transition={{ duration: IMAGE_TRANSITION_SECONDS, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 will-change-transform will-change-opacity"
-            >
-              <Image
-                src={pillars[imageIndex].image}
-                alt={pillars[imageIndex].title}
-                fill
-                sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), (max-width: 1279px) 55vw, 704px"
-                loading="lazy"
-                className="object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
+          {pillars.map((pillar, idx) => {
+            const isActive = idx === imageIndex;
+
+            return (
+              <motion.div
+                key={pillar.title}
+                initial={false}
+                animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 1.01, x: isActive ? 0 : -10 }}
+                transition={{ duration: IMAGE_TRANSITION_SECONDS, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 will-change-transform will-change-opacity"
+                aria-hidden={!isActive}
+              >
+                <Image
+                  src={pillar.image}
+                  alt={pillar.title}
+                  fill
+                  sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), (max-width: 1279px) 55vw, 704px"
+                  priority={idx === 0}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  unoptimized
+                  className="object-cover"
+                />
+              </motion.div>
+            );
+          })}
 
           <div className="relative h-[18.5rem] sm:h-[22rem] lg:h-[31rem]" />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,12,24,0.02)_24%,rgba(4,12,24,0.12)_58%,rgba(4,12,24,0.54)_100%)]" />
