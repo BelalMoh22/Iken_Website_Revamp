@@ -490,8 +490,8 @@ function DemoCtaSection() {
             </a>
           </div>
           <div className="mt-10 flex flex-wrap justify-center gap-8 text-sm text-[var(--color-text-secondary)]">
-            <a href="mailto:mustafa@iken.tech" className="transition hover:text-[var(--color-text-primary)]">mustafa@iken.tech</a>
-            <a href="https://wa.me/201050549994" className="transition hover:text-[var(--color-text-primary)]">(+20) 10 5054 9994</a>
+            <a href="mailto:contact@iken.tech" className="transition hover:text-[var(--color-text-primary)]">contact@iken.tech</a>
+            <a href="https://wa.me/201050500017" className="transition hover:text-[var(--color-text-primary)]">(+20) 105 0500017</a>
           </div>
         </motion.div>
       </div>
