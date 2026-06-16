@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { revisitInternalLink } from "../utils/revisitInternalLink";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 1, y: 0 },
@@ -11,6 +12,15 @@ const fadeUp = (delay = 0) => ({
 });
 
 export function ContactSection() {
+  const quickLinks = [
+    { label: "Services", href: "/#services" },
+    { label: "Projects", href: "/#work" },
+    { label: "Clients", href: "/#clients" },
+    { label: "Contact", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Sectors", href: "/sectors" },
+  ];
+
   const contactItems = [
     {
       label: "Address",
@@ -108,12 +118,20 @@ export function ContactSection() {
           <motion.div {...fadeUp(0)}>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-brand)]">Quick Links</p>
             <div className="grid gap-2 text-sm text-[var(--color-text-secondary)]">
-              <Link href="/#services" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Services</Link>
-              <Link href="/#work" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Projects</Link>
-              <Link href="/#clients" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Clients</Link>
-              <Link href="/#contact" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Contact</Link>
-              <Link href="/faq" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">FAQ</Link>
-              <Link href="/sectors" className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]">Sectors</Link>
+              {quickLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={(event) => {
+                    if (revisitInternalLink(item.href)) {
+                      event.preventDefault();
+                    }
+                  }}
+                  className="inline-flex w-fit transition hover:text-[var(--color-text-primary)]"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </motion.div>
 

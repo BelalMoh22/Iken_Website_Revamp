@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import styles from "./ProjectsSection.module.css";
 
@@ -40,39 +40,148 @@ const products: Product[] = [
   },
 ];
 
+const loopBuffer = 2;
+const getWrappedIndex = (index: number) =>
+  ((index % products.length) + products.length) % products.length;
+
 export function ProjectsSection() {
   const shouldReduceMotion = useReducedMotion();
   const viewportRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const rafRef = useRef<number | null>(null);
+  const snapTimerRef = useRef<number | null>(null);
+  const targetDisplayIndexRef = useRef<number | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentDisplayIndex, setCurrentDisplayIndex] = useState(loopBuffer);
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+
+  const loopedProducts = useMemo(
+    () =>
+      Array.from({ length: products.length + loopBuffer * 2 }, (_, idx) => {
+        const productIndex = getWrappedIndex(idx - loopBuffer);
+        return {
+          project: products[productIndex],
+          productIndex,
+        };
+      }),
+    [],
+  );
 
   const getStep = useCallback(() => {
     const first = slideRefs.current[0];
     const second = slideRefs.current[1];
     if (!first) return 0;
-    return second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+    if (first.offsetWidth < 100) return 0;
+    const step = second ? second.offsetLeft - first.offsetLeft : first.offsetWidth;
+    return step > 100 ? step : first.offsetWidth;
   }, []);
 
-  const scrollToIndex = useCallback(
+  const scrollToDisplayIndex = useCallback(
     (index: number, behavior: ScrollBehavior = "smooth") => {
       const viewport = viewportRef.current;
       const step = getStep();
-      if (!viewport || !step) return;
+      if (!viewport || !step) return false;
+      if (behavior === "auto") {
+        viewport.style.scrollSnapType = "none";
+        viewport.scrollLeft = index * step;
+        return true;
+      }
+      viewport.style.scrollSnapType = "none";
       viewport.scrollTo({ left: index * step, behavior });
+      return true;
     },
     [getStep],
   );
 
+  const restoreScrollSnap = useCallback(() => {
+    const viewport = viewportRef.current;
+    if (viewport) {
+      viewport.style.scrollSnapType = "";
+    }
+  }, []);
+
+  const restoreScrollSnapAfterJump = useCallback(() => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(restoreScrollSnap);
+    });
+  }, [restoreScrollSnap]);
+
+  const normalizeLoopPosition = useCallback(() => {
+    const viewport = viewportRef.current;
+    const step = getStep();
+    if (!viewport || !step) return;
+
+    const displayIndex = Math.round(viewport.scrollLeft / step);
+    const isSettled = Math.abs(viewport.scrollLeft - displayIndex * step) < 1;
+    if (!isSettled) return;
+
+    if (displayIndex < loopBuffer) {
+      const normalizedDisplayIndex = displayIndex + products.length;
+      scrollToDisplayIndex(normalizedDisplayIndex, "auto");
+      setCurrentDisplayIndex(normalizedDisplayIndex);
+    } else if (displayIndex >= loopBuffer + products.length) {
+      const normalizedDisplayIndex = displayIndex - products.length;
+      scrollToDisplayIndex(normalizedDisplayIndex, "auto");
+      setCurrentDisplayIndex(normalizedDisplayIndex);
+    }
+  }, [getStep, scrollToDisplayIndex]);
+
+  const finishProgrammaticScroll = useCallback(
+    (displayIndex: number) => {
+      targetDisplayIndexRef.current = null;
+
+      let normalizedDisplayIndex = displayIndex;
+      if (displayIndex < loopBuffer) {
+        normalizedDisplayIndex = displayIndex + products.length;
+      } else if (displayIndex >= loopBuffer + products.length) {
+        normalizedDisplayIndex = displayIndex - products.length;
+      }
+
+      if (normalizedDisplayIndex !== displayIndex) {
+        scrollToDisplayIndex(normalizedDisplayIndex, "auto");
+      }
+
+      setCurrentDisplayIndex(normalizedDisplayIndex);
+      restoreScrollSnapAfterJump();
+    },
+    [restoreScrollSnapAfterJump, scrollToDisplayIndex],
+  );
+
   const goToSlide = useCallback(
     (index: number, behavior: ScrollBehavior = "smooth") => {
-      const next = (index + products.length) % products.length;
+      const next = getWrappedIndex(index);
+      const isWrappingForward =
+        currentSlide === products.length - 1 && next === 0;
+      const isWrappingBackward =
+        currentSlide === 0 && next === products.length - 1;
+      const displayIndex = isWrappingForward
+        ? loopBuffer + products.length
+        : isWrappingBackward
+          ? loopBuffer - 1
+          : loopBuffer + next;
+
       setCurrentSlide(next);
-      scrollToIndex(next, behavior);
+      setCurrentDisplayIndex(displayIndex);
+      targetDisplayIndexRef.current =
+        isWrappingForward || isWrappingBackward ? displayIndex : null;
+      scrollToDisplayIndex(displayIndex, behavior);
+
+      if (behavior === "auto" && targetDisplayIndexRef.current !== null) {
+        finishProgrammaticScroll(displayIndex);
+      }
+
+      if (behavior !== "auto" && targetDisplayIndexRef.current === null) {
+        if (snapTimerRef.current !== null) {
+          window.clearTimeout(snapTimerRef.current);
+        }
+        snapTimerRef.current = window.setTimeout(() => {
+          restoreScrollSnap();
+          snapTimerRef.current = null;
+        }, 450);
+      }
     },
-    [scrollToIndex],
+    [currentSlide, finishProgrammaticScroll, restoreScrollSnap, scrollToDisplayIndex],
   );
 
   const handleScroll = useCallback(() => {
@@ -85,18 +194,50 @@ export function ProjectsSection() {
       const step = getStep();
       if (!viewport || !step) return;
 
-      const nextIndex = Math.min(
-        products.length - 1,
-        Math.max(0, Math.round(viewport.scrollLeft / step)),
-      );
+      const displayIndex = Math.round(viewport.scrollLeft / step);
+      const targetDisplayIndex = targetDisplayIndexRef.current;
+      if (targetDisplayIndex !== null) {
+        const isSettled =
+          Math.abs(viewport.scrollLeft - targetDisplayIndex * step) < 4;
+        if (isSettled) {
+          finishProgrammaticScroll(targetDisplayIndex);
+        }
+        return;
+      }
+
+      const nextIndex = getWrappedIndex(displayIndex - loopBuffer);
+      setCurrentDisplayIndex(displayIndex);
       setCurrentSlide(nextIndex);
+      normalizeLoopPosition();
     });
-  }, [getStep]);
+  }, [finishProgrammaticScroll, getStep, normalizeLoopPosition]);
+
+  useLayoutEffect(() => {
+    let frame = 0;
+
+    const initializePosition = () => {
+      const didScroll = scrollToDisplayIndex(loopBuffer, "auto");
+      if (didScroll) {
+        setCurrentDisplayIndex(loopBuffer);
+        restoreScrollSnapAfterJump();
+        return;
+      }
+
+      frame = window.requestAnimationFrame(initializePosition);
+    };
+
+    frame = window.requestAnimationFrame(initializePosition);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [restoreScrollSnapAfterJump, scrollToDisplayIndex]);
 
   useEffect(() => {
     return () => {
       if (rafRef.current !== null) {
         window.cancelAnimationFrame(rafRef.current);
+      }
+      if (snapTimerRef.current !== null) {
+        window.clearTimeout(snapTimerRef.current);
       }
     };
   }, []);
@@ -121,15 +262,11 @@ export function ProjectsSection() {
     if (shouldReduceMotion || isPaused || !isVisible) return;
 
     const timer = window.setInterval(() => {
-      setCurrentSlide((current) => {
-        const next = (current + 1) % products.length;
-        scrollToIndex(next);
-        return next;
-      });
+      goToSlide(currentSlide + 1);
     }, 3000);
 
     return () => window.clearInterval(timer);
-  }, [isPaused, isVisible, scrollToIndex, shouldReduceMotion]);
+  }, [currentSlide, goToSlide, isPaused, isVisible, shouldReduceMotion]);
 
   return (
     <motion.section
@@ -176,16 +313,14 @@ export function ProjectsSection() {
             onScroll={handleScroll}
           >
             <div className={styles.track}>
-              {products.map((project, idx) => {
-                const prevIndex = (currentSlide - 1 + products.length) % products.length;
-                const nextIndex = (currentSlide + 1) % products.length;
-                const isActive = idx === currentSlide;
-                const isPrev = idx === prevIndex;
-                const isNext = idx === nextIndex;
+              {loopedProducts.map(({ project, productIndex }, idx) => {
+                const isActive = idx === currentDisplayIndex;
+                const isPrev = idx === currentDisplayIndex - 1;
+                const isNext = idx === currentDisplayIndex + 1;
 
                 return (
               <div
-                key={project.title}
+                key={`${project.title}-${idx}`}
                 ref={(node) => {
                   slideRefs.current[idx] = node;
                 }}
@@ -194,7 +329,7 @@ export function ProjectsSection() {
                 } ${isPrev ? styles.prevSlide : ""} ${isNext ? styles.nextSlide : ""}`}
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`Slide ${idx + 1} of ${products.length}: ${project.title}`}
+                aria-label={`Slide ${productIndex + 1} of ${products.length}: ${project.title}`}
               >
                 <article className={`${styles.card} relative mx-auto w-full max-w-[min(360px,calc(100vw-3rem))] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)] sm:max-w-[360px]`}>
                   <div className="relative h-64 overflow-hidden">

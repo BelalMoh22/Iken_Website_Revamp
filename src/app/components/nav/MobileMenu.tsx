@@ -30,14 +30,13 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const gridLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/#about" },
-    { label: "Why IKEN", href: "/#why-iken" },
     { label: "Services", href: "/#services" },
     { label: "Clients", href: "/#clients" },
     { label: "Sectors", href: "/sectors" },
     { label: "Work", href: "/#work" },
     { label: "Testimonials", href: "/#testimonials" },
     { label: "FAQ", href: "/faq" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Contact", href: "/contact" },
   ];
 
   return (

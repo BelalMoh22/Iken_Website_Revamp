@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+import { revisitInternalLink } from "../../utils/revisitInternalLink";
 
 interface NavLinkProps {
   href: string;
@@ -31,10 +32,8 @@ export function NavLink({ href, children, className = "", onClick }: NavLinkProp
     <Link
       href={finalHref}
       onClick={(event) => {
-        if (isCurrentPage && typeof window !== "undefined") {
+        if (revisitInternalLink(finalHref)) {
           event.preventDefault();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          window.history.pushState(null, "", "/");
         }
         onClick?.();
       }}
