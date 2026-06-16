@@ -773,7 +773,6 @@ export default function ElAbdCaseStudy() {
                   borderHover: "rgba(97,218,251,0.5)",
                   logo: "/clients/react-logo.svg",
                   logoAlt: "React logo",
-                  logoBg: false,
                 },
                 {
                   title: ".NET",
@@ -783,7 +782,6 @@ export default function ElAbdCaseStudy() {
                   borderHover: "rgba(95,90,220,0.5)",
                   logo: "/clients/net-logo.svg",
                   logoAlt: ".NET 8 logo",
-                  logoBg: false,
                 },
                 {
                   title: "Microsoft SQL Server",
@@ -793,7 +791,6 @@ export default function ElAbdCaseStudy() {
                   borderHover: "rgba(204,52,52,0.5)",
                   logo: "/clients/sql-logo.svg",
                   logoAlt: "Microsoft SQL Server logo",
-                  logoBg: false,
                 },
                 {
                   title: "Azure DevOps",
@@ -803,7 +800,6 @@ export default function ElAbdCaseStudy() {
                   borderHover: "rgba(0,120,212,0.5)",
                   logo: "/clients/azure-logo.svg",
                   logoAlt: "Azure DevOps logo",
-                  logoBg: false,
                 },
                 {
                   title: "Docker",
@@ -813,7 +809,6 @@ export default function ElAbdCaseStudy() {
                   borderHover: "rgba(13,183,237,0.5)",
                   logo: "/clients/docker-logo.svg",
                   logoAlt: "Docker logo",
-                  logoBg: false,
                 },
                 {
                   title: "MyFatoorah",
@@ -823,7 +818,6 @@ export default function ElAbdCaseStudy() {
                   borderHover: "rgba(0,168,107,0.5)",
                   logo: "/clients/myFatoorah-logo.jpeg",
                   logoAlt: "MyFatoorah logo",
-                  logoBg: true,
                 },
               ].map((item, i) => (
                 <motion.div
@@ -847,17 +841,14 @@ export default function ElAbdCaseStudy() {
                   />
                   <div className="relative z-10 flex flex-col h-full">
                     {/* Logo */}
-                    <div
-                      className={`mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] transition-all duration-300 ${item.logoBg ? "bg-white p-1" : "bg-[var(--color-bg-glass-strong)]"}`}
-                      style={{ boxShadow: `0 2px 16px ${item.glowColor}` }}
-                    >
+                    <div className="mb-4 flex h-16 w-16 shrink-0 items-center justify-center">
                       <Image
                         src={item.logo}
                         alt={item.logoAlt}
-                        width={40}
-                        height={40}
+                        width={48}
+                        height={48}
                         loading="lazy"
-                        className="h-10 w-10 object-contain select-none"
+                        className="h-12 w-12 object-contain select-none"
                       />
                     </div>
                     {/* Title & Subtitle */}

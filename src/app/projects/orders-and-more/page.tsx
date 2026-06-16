@@ -25,13 +25,13 @@ const fadeUp = (delay = 0) => ({
 });
 
 function TechBrandIcon({ name }: { name: string }) {
-  const logoMap: Record<string, { src: string; whiteBg?: boolean }> = {
+  const logoMap: Record<string, { src: string }> = {
     React: { src: "/clients/react-logo.svg" },
     ".NET": { src: "/clients/net-logo.svg" },
     "Microsoft SQL Server": { src: "/clients/sql-logo.svg" },
     "Azure DevOps": { src: "/clients/azure-logo.svg" },
     Docker: { src: "/clients/docker-logo.svg" },
-    MyFatoorah: { src: "/clients/myFatoorah-logo.jpeg", whiteBg: true },
+    MyFatoorah: { src: "/clients/myFatoorah-logo.jpeg" },
   };
 
   const entry = logoMap[name];
@@ -46,19 +46,15 @@ function TechBrandIcon({ name }: { name: string }) {
     );
 
   return (
-    <div
-      className={`flex h-10 w-10 items-center justify-center${entry.whiteBg ? " rounded-md bg-white p-0.5" : ""}`}
-    >
-      <Image
-        src={entry.src}
-        alt={`${name} logo`}
-        width={40}
-        height={40}
-        loading="lazy"
-        className="h-10 w-10 object-contain select-none"
-        aria-hidden="true"
-      />
-    </div>
+    <Image
+      src={entry.src}
+      alt={`${name} logo`}
+      width={48}
+      height={48}
+      loading="lazy"
+      className="h-12 w-12 object-contain select-none"
+      aria-hidden="true"
+    />
   );
 }
 
@@ -390,10 +386,7 @@ function TechStackCarousel() {
                 }}
               />
               <div className="relative z-10">
-                <div
-                  className="mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-[var(--color-border-light)] bg-[var(--color-bg-glass-strong)] transition-all duration-300"
-                  style={{ boxShadow: `0 2px 14px ${item.glowColor}` }}
-                >
+                <div className="mb-4 flex h-16 w-16 shrink-0 items-center justify-center">
                   <TechBrandIcon name={item.name} />
                 </div>
                 <p className="text-base font-bold leading-tight text-[var(--color-text-primary)]">

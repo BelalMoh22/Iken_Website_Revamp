@@ -319,61 +319,60 @@ export function ProjectsSection() {
                 const isNext = idx === currentDisplayIndex + 1;
 
                 return (
-              <div
-                key={`${project.title}-${idx}`}
-                ref={(node) => {
-                  slideRefs.current[idx] = node;
-                }}
-                className={`${styles.slide} ${
-                  isActive ? styles.activeSlide : ""
-                } ${isPrev ? styles.prevSlide : ""} ${isNext ? styles.nextSlide : ""}`}
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`Slide ${productIndex + 1} of ${products.length}: ${project.title}`}
-              >
-                <article className={`${styles.card} relative mx-auto w-full max-w-[min(360px,calc(100vw-3rem))] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)] sm:max-w-[360px]`}>
-                  <div className="relative h-64 overflow-hidden">
-                    {project.logo ? (
-                      <div className="relative h-full w-full bg-white">
-                        <Image
-                          src={project.logo}
-                          alt={project.title}
-                          fill
-                          sizes="(max-width: 767px) min(360px, calc(100vw - 3rem)), 360px"
-                          loading="lazy"
-                          className="object-contain p-8"
-                        />
-                        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(248,250,252,0.08)_100%)]" />
+                  <div
+                    key={`${project.title}-${idx}`}
+                    ref={(node) => {
+                      slideRefs.current[idx] = node;
+                    }}
+                    className={`${styles.slide} ${isActive ? styles.activeSlide : ""
+                      } ${isPrev ? styles.prevSlide : ""} ${isNext ? styles.nextSlide : ""}`}
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`Slide ${productIndex + 1} of ${products.length}: ${project.title}`}
+                  >
+                    <article className={`${styles.card} relative mx-auto w-full max-w-[min(360px,calc(100vw-3rem))] overflow-hidden rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-bg-card)] shadow-[0_6px_22px_rgba(0,0,0,0.1)] backdrop-blur-sm dark:shadow-[0_8px_28px_rgba(0,0,0,0.28)] sm:max-w-[360px]`}>
+                      <div className="relative h-64 overflow-hidden">
+                        {project.logo ? (
+                          <div className="relative h-full w-full bg-white">
+                            <Image
+                              src={project.logo}
+                              alt={project.title}
+                              fill
+                              sizes="(max-width: 767px) min(360px, calc(100vw - 3rem)), 360px"
+                              loading="lazy"
+                              className="object-contain p-8"
+                            />
+                            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(248,250,252,0.08)_100%)]" />
+                          </div>
+                        ) : (
+                          <>
+                            <Image
+                              src={project.image}
+                              alt={project.title}
+                              fill
+                              sizes="(max-width: 767px) min(360px, calc(100vw - 3rem)), 360px"
+                              loading="lazy"
+                              className="object-cover scale-[1.08] origin-center"
+                            />
+                            <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.18)_100%)]" />
+                          </>
+                        )}
                       </div>
-                    ) : (
-                      <>
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          sizes="(max-width: 767px) min(360px, calc(100vw - 3rem)), 360px"
-                          loading="lazy"
-                          className="object-cover scale-[1.08] origin-center"
-                        />
-                        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(6,12,24,0.18)_100%)]" />
-                      </>
-                    )}
+                      <div className="flex items-center justify-between p-5">
+                        <h3 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">
+                          {project.title}
+                        </h3>
+                        {project.href && (
+                          <Link
+                            href={project.href}
+                            className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
+                          >
+                            View Case Study
+                          </Link>
+                        )}
+                      </div>
+                    </article>
                   </div>
-                  <div className="flex items-center justify-between p-5">
-                    <h3 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">
-                      {project.title}
-                    </h3>
-                    {project.href && (
-                      <Link
-                        href={project.href}
-                        className="relative z-20 inline-flex h-9 shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[var(--color-border-brand)] bg-[var(--color-brand-blue-glow)] px-4 text-xs font-semibold leading-none text-[var(--color-text-brand)] transition-all hover:bg-[var(--color-brand-blue-glow)]/20"
-                      >
-                        View Case Study
-                      </Link>
-                    )}
-                  </div>
-                </article>
-              </div>
                 );
               })}
             </div>
@@ -407,11 +406,10 @@ export function ProjectsSection() {
                 key={project.title}
                 type="button"
                 onClick={() => goToSlide(idx)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  idx === currentSlide
+                className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentSlide
                     ? "w-8 bg-[var(--color-brand-blue)]"
                     : "w-3 bg-[var(--color-bg-glass-strong)] hover:bg-[var(--color-text-muted)]"
-                }`}
+                  }`}
                 aria-label={`Go to project slide ${idx + 1}`}
                 aria-current={idx === currentSlide ? "true" : undefined}
               />
